@@ -1,0 +1,18 @@
+env
+
+# backend
+backend/__pycache__
+backend/api/__pycache__/
+backend/migrations
+
+# frontend
+frontend/node_modules
+
+# database
+db.sqlite3
+
+# uspy
+Uspy/__pycache__
+
+# others
+.DS_Store
