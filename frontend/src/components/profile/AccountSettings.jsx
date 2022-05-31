@@ -7,6 +7,9 @@ import TabContext from "@mui/lab/TabContext";
 import TabPanel from "@mui/lab/TabPanel";
 import TabList from "@mui/lab/TabList";
 import NavHeader from "../NavHeader";
+import ProfileInformation from "./ProfileInformation";
+import Address from "./Address";
+import ChangePassword from "./ChangePassword";
 
 class AccountSettings extends Component {
   state = {};
@@ -26,9 +29,15 @@ class AccountSettings extends Component {
             </TabList>
           </Box>
           <Card variant="outlined" sx={{ margin: 2 }}>
-            <TabPanel value="1">Item One</TabPanel>
-            <TabPanel value="2">Address</TabPanel>
-            <TabPanel value="3">Change password</TabPanel>
+            <TabPanel value="1">
+              <ProfileInformation />
+            </TabPanel>
+            <TabPanel value="2">
+              <Address />
+            </TabPanel>
+            <TabPanel value="3">
+              <ChangePassword />
+            </TabPanel>
           </Card>
         </TabContext>
       </Box>

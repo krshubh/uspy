@@ -8,6 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import NavHeader from "../NavHeader";
+import { Typography } from "@mui/material";
 import Drawer from "../Drawer";
 
 class HomeNavDrawer extends Component {
@@ -43,6 +44,7 @@ class HomeNavDrawer extends Component {
                   justifyContent: this.props.open ? "initial" : "center",
                   px: 2.5,
                 }}
+                selected={item.selected}
               >
                 <ListItemIcon
                   sx={{
@@ -52,13 +54,17 @@ class HomeNavDrawer extends Component {
                   }}
                 >
                   <IconButton>
-                    <SvgIcon>
+                    <SvgIcon color={item.selected ? "primary" : "disabled"}>
                       <path d={item.icon} />
                     </SvgIcon>
                   </IconButton>
                 </ListItemIcon>
                 <ListItemText
-                  primary={item.value}
+                  primary={
+                    <Typography color={item.selected ? "primary" : "disabled"}>
+                      {item.value}
+                    </Typography>
+                  }
                   sx={{ opacity: this.props.open ? 1 : 0 }}
                 />
               </ListItemButton>
