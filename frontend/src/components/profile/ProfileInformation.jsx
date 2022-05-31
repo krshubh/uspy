@@ -11,14 +11,29 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Button } from "@mui/material";
+import EditHeader from "../EditHeader";
 
 class ProfileInformation extends Component {
+  state = {
+    edit_mode: false,
+  };
+
+  clicked_editmode = () => {
+    this.setState({ edit_mode: true });
+  };
+
+  onSaveClicked = () => {
+    this.setState({ edit_mode: false });
+  };
+
   render() {
     return (
       <React.Fragment>
-        <Title pl={0} pt={0} mb={10} color="primary" variant="h7">
-          Profile Information
-        </Title>
+        <EditHeader
+          title="Profile Information"
+          edit_mode={this.state.edit_mode}
+          clicked_editmode={this.clicked_editmode}
+        />
         <Grid container spacing={3} sx={{ pt: 1 }}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -29,6 +44,7 @@ class ProfileInformation extends Component {
               fullWidth
               autoComplete="given-name"
               variant="standard"
+              disabled={this.state.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -39,6 +55,7 @@ class ProfileInformation extends Component {
               fullWidth
               autoComplete="family-name"
               variant="standard"
+              disabled={this.state.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12}>
@@ -49,6 +66,7 @@ class ProfileInformation extends Component {
               fullWidth
               autoComplete="Email address"
               variant="standard"
+              disabled={this.state.edit_mode ? false : true}
             />
           </Grid>
 
@@ -60,6 +78,7 @@ class ProfileInformation extends Component {
               fullWidth
               autoComplete="Mobile no"
               variant="standard"
+              disabled={this.state.edit_mode ? false : true}
             />
           </Grid>
 
@@ -76,11 +95,17 @@ class ProfileInformation extends Component {
                 value="female"
                 control={<Radio />}
                 label="Female"
+                disabled={this.state.edit_mode ? false : true}
               />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
+              <FormControlLabel
+                value="male"
+                control={<Radio />}
+                label="Male"
+                disabled={this.state.edit_mode ? false : true}
+              />
             </RadioGroup>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} display={this.state.edit_mode ? "block" : "none"}>
             <Button
               variant="contained"
               href="#"
@@ -91,6 +116,7 @@ class ProfileInformation extends Component {
                   color: "#bbdefb",
                 },
               }}
+              onClick={this.onSaveClicked}
             >
               Save
             </Button>

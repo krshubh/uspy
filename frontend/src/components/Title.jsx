@@ -13,6 +13,8 @@ class Title extends Component {
         pt={this.props.pt ? this.props.pt : 0}
         pl={this.props.pl ? this.props.pl : 0}
         variant={this.props.variant ? this.props.variant : "h6"}
+        display={this.props.display ? this.props.display : "block"}
+        onClick={this.props.clicked_editmode}
         gutterBottom
       >
         {this.props.children}
@@ -20,9 +22,5 @@ class Title extends Component {
     );
   }
 }
-
-Title.propTypes = {
-  children: PropTypes.node,
-};
 
 export default Title;
