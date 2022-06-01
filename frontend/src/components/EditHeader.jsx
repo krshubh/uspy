@@ -19,19 +19,25 @@ class EditHeader extends Component {
           width: "100%",
         }}
       >
-        <Title pl={0} pt={0} mb={10} variant="h6" color="primary">
+        <Title
+          color={this.props.color ? this.props.color : "primary"}
+          pl={this.props.pl ? this.props.pl : 0}
+          pt={this.props.pt ? this.props.pt : 0}
+          mb={this.props.mb ? this.props.mb : 10}
+          style={this.props.style}
+          ml={1}
+          variant="h6"
+        >
           {this.props.title ? this.props.title : "Title"}
         </Title>
         <Title
-          pl={0}
-          pt={0}
-          mb={10}
           variant="h7"
+          mr={2}
           color="secondary"
           display={this.props.edit_mode ? "none" : "block"}
           clicked_editmode={this.props.clicked_editmode}
         >
-          Edit
+          {this.props.menu_text ? this.props.menu_text : "Edit"}
         </Title>
       </Box>
     );

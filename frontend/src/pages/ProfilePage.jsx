@@ -8,6 +8,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import TabList from "@mui/lab/TabList";
 import NavHeader from "../components/NavHeader";
 import NavBar from "../components/NavBar";
+import AuthContext from "../context/AuthContext";
 import ProfileNavDrawer from "../components/nav_drawer/ProfileNavDrawer";
 import { useNavigate } from "react-router-dom";
 import AccountSettings from "../components/profile/AccountSettings";
@@ -100,6 +101,16 @@ class ProfilePage extends Component {
     });
   };
 
+  onMenuItemClick = (item) => {
+    console.log("menu item clicked", item);
+    if (item.value == "Profile") {
+      this.props.navigation("/profile");
+    }
+    if (item.value == "Logout") {
+      this.props.logoutUser();
+    }
+  };
+
   render() {
     return (
       <Box sx={{ display: "flex" }}>
@@ -121,13 +132,13 @@ class ProfilePage extends Component {
           onItemClick={(item) => this.onDrawerItemClick(item)}
         />
         {this.state.selected == 1 && (
-          <AccountSettings
+          <PersonalInformation
             selected_tab={this.state.selected_tab}
             handleChange={this.handleChange}
           />
         )}
         {this.state.selected == 2 && (
-          <PersonalInformation
+          <AccountSettings
             selected_tab={this.state.selected_tab}
             handleChange={this.handleChange}
           />
@@ -139,6 +150,9 @@ class ProfilePage extends Component {
 
 export default function(props) {
   const navigation = useNavigate();
+  const { logoutUser, user } = useContext(AuthContext);
 
-  return <ProfilePage {...props} navigation={navigation} />;
+  return (
+    <ProfilePage {...props} navigation={navigation} logoutUser={logoutUser} />
+  );
 }

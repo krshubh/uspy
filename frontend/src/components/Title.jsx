@@ -15,6 +15,10 @@ class Title extends Component {
         variant={this.props.variant ? this.props.variant : "h6"}
         display={this.props.display ? this.props.display : "block"}
         onClick={this.props.clicked_editmode}
+        style={this.props.style}
+        ml={this.props.ml ? this.props.ml : 0}
+        mr={this.props.mr ? this.props.mr : 0}
+        sx={this.props.sx}
         gutterBottom
       >
         {this.props.children}

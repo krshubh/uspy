@@ -7,6 +7,9 @@ import TabContext from "@mui/lab/TabContext";
 import TabPanel from "@mui/lab/TabPanel";
 import TabList from "@mui/lab/TabList";
 import NavHeader from "../NavHeader";
+import ProfileInformation from "./ProfileInformation";
+import Address from "./Address";
+import ChangePassword from "./ChangePassword";
 
 class PersonalInformation extends Component {
   state = {};
@@ -20,13 +23,21 @@ class PersonalInformation extends Component {
               onChange={this.props.handleChange}
               aria-label="lab API tabs example"
             >
-              <Tab label="Parents" value="1" />
-              <Tab label="Childrens" value="2" />
+              <Tab label="Profile" value="1" />
+              <Tab label="Address" value="2" />
+              <Tab label="Change Password" value="3" />
             </TabList>
           </Box>
           <Card variant="outlined" sx={{ margin: 2 }}>
-            <TabPanel value="1">Parents Setting</TabPanel>
-            <TabPanel value="2">Children Setting</TabPanel>
+            <TabPanel value="1">
+              <ProfileInformation />
+            </TabPanel>
+            <TabPanel value="2">
+              <Address />
+            </TabPanel>
+            <TabPanel value="3">
+              <ChangePassword />
+            </TabPanel>
           </Card>
         </TabContext>
       </Box>
