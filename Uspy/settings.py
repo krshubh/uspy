@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--5ryahpp(7#n3w2)gl=^1sn6lf9bfxg$(ua32vb0s!cjs3ahr^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','192.168.1.78','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','192.168.1.78','127.0.0.1','0.0.0.0','uspy.in']
 
 
 # Application definition
@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ['localhost','192.168.1.78','127.0.0.1']
 CUSTOM_APPS = [
     'corsheaders',
     'rest_framework',
-    'backend.apps.BackendConfig',
+    'backend',
     'rest_framework_simplejwt.token_blacklist',
 ]
 
@@ -184,4 +184,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # constants
 HOST_NAME = 'localhost'
+
+AUTH_USER_MODEL = 'backend.User'
 

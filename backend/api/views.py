@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth.models import User
+from backend.models import User
 import logging
 import json
 
@@ -12,7 +12,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
         # Add custom claims
-        token['username'] = user.username
+        token['email'] = user.email
         return token
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -30,14 +30,13 @@ def getRoutes(request):
 def signUp(request):
   body_unicode = request.body.decode('utf-8')
   body = json.loads(body_unicode)
-  user = User.objects.create_user(username=body["username"],
-                                  email=body["email"],
+  user = User.objects.create_user(email=body["email"],
                                   password=body["password"],
                                   first_name=body["first_name"],
                                   last_name=body["last_name"])
   user.save()
   response = JsonResponse({
-                          'message': str(body["username"]) + " created successfully"},
+                          'message': str(body["email"]) + " created successfully"},
                           status=200)
   return response
 

@@ -36,100 +36,10 @@ const SignupPage = (props) => {
 
   function validateForm() {
     // console.log("terms and privacy" + termsPrivacy.value);
-    return (
-      username.length > 0 &&
-      email.length > 0 &&
-      password.length > 0 &&
-      termsPrivacy
-    );
+    return email.length > 0 && password.length > 0 && termsPrivacy;
   }
 
   return (
-    // <div>
-    //   <div className="w-50 m-auto card mt-5">
-    //     <h1 className="m-3 center-block">Sign Up</h1>
-    //     <p className="mx-3 text-muted">
-    //       Please fill up the form to create an account
-    //     </p>
-    //     <hr className="mt-1 mb-2" />
-    //     <Form onSubmit={signUpUser}>
-    //       <Row className="m-1">
-    //         <Form.Group as={Col} controlId="firstname" className="w-50">
-    //           <Form.Control
-    //             type="text"
-    //             autoComplete="firstname"
-    //             placeholder="FirstName"
-    //           />
-    //         </Form.Group>
-    //         <Form.Group as={Col} controlId="lastname" className="w-50">
-    //           <Form.Control
-    //             type="text"
-    //             autoComplete="lastname"
-    //             placeholder="LastName"
-    //           />
-    //         </Form.Group>
-    //       </Row>
-    //       <Form.Group controlId="username" className="m-3">
-    //         <Form.Control
-    //           type="text"
-    //           value={username}
-    //           autoComplete="username"
-    //           onChange={(e) => setUserName(e.target.value)}
-    //           placeholder="UserName"
-    //         />
-    //       </Form.Group>
-    //       <Form.Group controlId="email" className="m-3">
-    //         <Form.Control
-    //           type="text"
-    //           value={email}
-    //           onChange={(e) => setEmail(e.target.value)}
-    //           autoComplete="email"
-    //           placeholder="Email"
-    //         />
-    //         <Form.Text className="text-muted">
-    //           We'll never share your email with anyone else.
-    //         </Form.Text>
-    //       </Form.Group>
-    //       <Form.Group controlId="password" className="m-3">
-    //         <Form.Control
-    //           type="password"
-    //           value={password}
-    //           onChange={(e) => setPassword(e.target.value)}
-    //           autoComplete="password"
-    //           placeholder="Password"
-    //         />
-    //         <Form.Text id="passwordHelpBlock" muted>
-    //           Your password must be 8-20 characters long, contain letters and
-    //           numbers, and must not contain spaces, special characters, or
-    //           emoji.
-    //         </Form.Text>
-    //       </Form.Group>
-    //       <div className="m-3">
-    //         <Form.Check
-    //           type="checkbox"
-    //           defaultChecked={termsPrivacy}
-    //           onChange={() => setTermsPrivacy(!termsPrivacy)}
-    //           label={
-    //             <p>
-    //               I agree the <b>Terms of Use & Privacy Policy</b>
-    //             </p>
-    //           }
-    //         />
-    //       </div>
-    //       <div className="d-grid gap-2 m-3">
-    //         <Button type="submit" disabled={!validateForm()}>
-    //           Sign Up
-    //         </Button>
-    //       </div>
-    //     </Form>
-    //     <p className="m-3 d-flex justify-content-center">
-    //       Already have an account?{" "}
-    //       <a href="/login" className="text-primary ms-2">
-    //         Login
-    //       </a>
-    //     </p>
-    //   </div>
-    // </div>
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
       <Grid
@@ -189,18 +99,6 @@ const SignupPage = (props) => {
                   value={lastname}
                   onChange={(e) => setLastName(e.target.value)}
                   autoComplete="last-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  value={username}
-                  onChange={(e) => setUserName(e.target.value)}
-                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>
