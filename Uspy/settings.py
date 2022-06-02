@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
 from pathlib import Path
 from datetime import timedelta
 
@@ -21,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--5ryahpp(7#n3w2)gl=^1sn6lf9bfxg$(ua32vb0s!cjs3ahr^'
+SECRET_KEY = 'django-insecure-oge1d!z&38^p-a@n1-43bv1yzqa*^-y3q5r7myq&41y7txmi_8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,7 +33,7 @@ ALLOWED_HOSTS = ['localhost','192.168.1.78','127.0.0.1','0.0.0.0','uspy.in']
 CUSTOM_APPS = [
     'corsheaders',
     'rest_framework',
-    'backend',
+    'backend.apps.BackendConfig',
     'rest_framework_simplejwt.token_blacklist',
 ]
 
@@ -58,7 +57,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 REST_FRAMEWORK = {
@@ -66,6 +64,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
@@ -150,7 +149,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -177,7 +175,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://uspy.in:3000",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://192.168.1.78",
+    "http://192.168.1.78:3000",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -186,4 +184,3 @@ CORS_ALLOW_ALL_ORIGINS = True
 HOST_NAME = 'localhost'
 
 AUTH_USER_MODEL = 'backend.User'
-

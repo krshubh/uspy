@@ -5,7 +5,8 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 
 class UserManager(BaseUserManager):
-
+    use_in_migrations = False
+    auto_created = False
     def create_superuser(self, email, password, **other_fields):
 
         other_fields.setdefault('is_staff', True)
@@ -50,3 +51,36 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Address(models.Model):
+    address1 = models.CharField(max_length=20, default='')
+    address2 = models.CharField(max_length=20, default='')
+    city = models.CharField(max_length=20, default='')
+    state = models.CharField(max_length=20, default='')
+    country = models.CharField(max_length=20, default='')
+    pincode = models.CharField(max_length=20, default='')
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.address1
+
+class Family(models.Model):
+    requests = models.ManyToManyField(User, related_name='requests', blank=True)
+    requested = models.ManyToManyField(User, related_name='requested', blank=True)
+    confirmed = models.ManyToManyField(User, related_name='confirmed', blank=True)
+
+class Profile(models.Model):
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    mobile = models.CharField(max_length=20, blank=True, default='', null=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, default='M', null=True)
+    address = models.OneToOneField(Address, on_delete=models.CASCADE, blank=True, null=True)
+    parents = models.OneToOneField(Family, on_delete=models.CASCADE, related_name='parents', blank=True, null=True)
+    children = models.OneToOneField(Family, on_delete=models.CASCADE, related_name='children', blank=True, null=True)
+
+    def __str__(self):
+        return self.mobile

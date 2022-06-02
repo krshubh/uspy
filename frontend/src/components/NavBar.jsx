@@ -14,6 +14,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import ProfilePage from "../pages/ProfilePage";
+import AuthContext from "../context/AuthContext";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 class NavBar extends Component {
   state = { menuAnchor: null };
@@ -79,15 +82,27 @@ class NavBar extends Component {
               {this.props.title}
             </Typography>
             <Box sx={{ flexGrow: 1 }}></Box>
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton
-                  onClick={(event) => this.handleMenuAnchor(event)}
-                  sx={{ p: 0 }}
-                >
-                  <Avatar alt="Remy Sharp" src="url(./images/logo.png)" />
-                </IconButton>
-              </Tooltip>
+            <Box
+              sx={{
+                flexGrow: 0,
+                display: "inline-flex",
+                alignItems: "center",
+              }}
+              onMouseEnter={(event) => this.handleMenuAnchor(event)}
+            >
+              <Typography
+                sx={{
+                  ml: 1,
+                }}
+              >
+                {this.props.user.first_name}
+              </Typography>
+              {Boolean(this.state.menuAnchor) ? (
+                <ArrowDropUpIcon />
+              ) : (
+                <ArrowDropDownIcon />
+              )}
+
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
@@ -123,6 +138,7 @@ class NavBar extends Component {
 
 export default function (props) {
   const navigation = useNavigate();
+  const { user } = useContext(AuthContext);
 
-  return <NavBar {...props} navigation={navigation} />;
+  return <NavBar {...props} navigation={navigation} user={user} />;
 }
