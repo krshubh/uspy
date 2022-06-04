@@ -3,6 +3,10 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
+GENDER_CHOICES = (
+    ('M', 'Male'),
+    ('F', 'Female'),
+)
 
 class UserManager(BaseUserManager):
     use_in_migrations = False
@@ -12,6 +16,7 @@ class UserManager(BaseUserManager):
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
+        other_fields.setdefault('is_admin', True)
 
         if other_fields.get('is_staff') is not True:
             raise ValueError(
@@ -40,7 +45,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now=True)
-    last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
@@ -67,22 +71,29 @@ class Address(models.Model):
     def __str__(self):
         return self.address1
 
-class Family(models.Model):
-    requests = models.ManyToManyField(User, related_name='requests', blank=True)
-    requested = models.ManyToManyField(User, related_name='requested', blank=True)
-    confirmed = models.ManyToManyField(User, related_name='confirmed', blank=True)
+class Parent(models.Model):
+    user_id = models.IntegerField(default = 0, blank=True)
+    requests = models.ManyToManyField(User, related_name='parents_requests', blank=True)
+    requested = models.ManyToManyField(User, related_name='parents_requested', blank=True)
+    confirmed = models.ManyToManyField(User, related_name='parents_confirmed', blank=True)
+    
+    def __str__(self):
+        return str(self.user_id)
+    
+class Children(models.Model):
+    user_id = models.IntegerField(default = 0, blank=True)
+    requests = models.ManyToManyField(User, related_name='children_requests', blank=True)
+    requested = models.ManyToManyField(User, related_name='children_requested', blank=True)
+    confirmed = models.ManyToManyField(User, related_name='children_confirmed', blank=True)
+    
+    def __str__(self):
+        return str(self.user_id)
 
 class Profile(models.Model):
-    GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-    )
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     mobile = models.CharField(max_length=20, blank=True, default='', null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, default='M', null=True)
     address = models.OneToOneField(Address, on_delete=models.CASCADE, blank=True, null=True)
-    parents = models.OneToOneField(Family, on_delete=models.CASCADE, related_name='parents', blank=True, null=True)
-    children = models.OneToOneField(Family, on_delete=models.CASCADE, related_name='children', blank=True, null=True)
 
     def __str__(self):
         return self.user.email
