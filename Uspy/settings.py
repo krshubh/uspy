@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-oge1d!z&38^p-a@n1-43bv1yzqa*^-y3q5r7myq&41y7txmi_8
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+DEFAULT_FROM_EMAIL = 'support@upy.in'
 ALLOWED_HOSTS = ['localhost','192.168.1.78','127.0.0.1','0.0.0.0','uspy.in']
 
 
@@ -35,6 +35,7 @@ CUSTOM_APPS = [
     'rest_framework',
     'backend.apps.BackendConfig',
     'rest_framework_simplejwt.token_blacklist',
+    "debug_toolbar",
 ]
 
 SYSTEM_APPS = [
@@ -57,12 +58,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 
@@ -184,3 +188,12 @@ CORS_ALLOW_ALL_ORIGINS = True
 HOST_NAME = 'localhost'
 
 AUTH_USER_MODEL = 'backend.User'
+
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.AllowAllUsersModelBackend'
+# )
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+    "localhost",
+]

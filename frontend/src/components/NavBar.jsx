@@ -104,7 +104,7 @@ class NavBar extends Component {
               )}
 
               <Menu
-                sx={{ mt: "45px" }}
+                sx={{ mt: "40px" }}
                 id="menu-appbar"
                 anchorEl={this.state.menuAnchor}
                 anchorOrigin={{
@@ -116,6 +116,7 @@ class NavBar extends Component {
                   vertical: "top",
                   horizontal: "right",
                 }}
+                autoFocus={false}
                 open={Boolean(this.state.menuAnchor)}
                 onClose={() => this.handleMenuAnchor(null)}
               >

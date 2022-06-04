@@ -13,6 +13,7 @@ import ProfileNavDrawer from "../components/nav_drawer/ProfileNavDrawer";
 import { useNavigate } from "react-router-dom";
 import AccountSettings from "../components/profile/AccountSettings";
 import PersonalInformation from "../components/profile/PersonalInformation";
+import AdminSettings from "../components/admin_settings/AdminSettings";
 
 class ProfilePage extends Component {
   state = {
@@ -31,22 +32,19 @@ class ProfilePage extends Component {
             id: 1,
             sub_id: 1,
             value: "Profile",
-            icon:
-              "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
           },
           {
             id: 1,
             sub_id: 2,
             value: "Address",
-            icon:
-              "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
           },
           {
             id: 1,
             sub_id: 3,
             value: "Change Password",
-            icon:
-              "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
           },
         ],
       },
@@ -61,15 +59,46 @@ class ProfilePage extends Component {
             id: 2,
             sub_id: 1,
             value: "Parents",
-            icon:
-              "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
           },
           {
             id: 2,
             sub_id: 2,
             value: "Childrens",
-            icon:
-              "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+          },
+        ],
+      },
+      {
+        id: 3,
+        value: "Admin Settings",
+        icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+        open: true,
+        selected: false,
+        sub_items: [
+          {
+            id: 3,
+            sub_id: 1,
+            value: "Users",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+          },
+          {
+            id: 3,
+            sub_id: 2,
+            value: "Staff",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+          },
+          {
+            id: 3,
+            sub_id: 3,
+            value: "Admin",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+          },
+          {
+            id: 3,
+            sub_id: 4,
+            value: "Address",
+            icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
           },
         ],
       },
@@ -143,12 +172,18 @@ class ProfilePage extends Component {
             handleChange={this.handleChange}
           />
         )}
+        {this.state.selected == 3 && (
+          <AdminSettings
+            selected_tab={this.state.selected_tab}
+            handleChange={this.handleChange}
+          />
+        )}
       </Box>
     );
   }
 }
 
-export default function(props) {
+export default function (props) {
   const navigation = useNavigate();
   const { logoutUser, user } = useContext(AuthContext);
 
