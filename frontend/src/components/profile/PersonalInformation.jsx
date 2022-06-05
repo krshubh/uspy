@@ -13,6 +13,11 @@ import ChangePassword from "./ChangePassword";
 
 class PersonalInformation extends Component {
   state = {};
+
+  componentDidMount = () => {
+    console.log("PersonalInformation", this.props);
+  };
+
   render() {
     return (
       <Box sx={{ width: "100%" }}>
@@ -30,10 +35,10 @@ class PersonalInformation extends Component {
           </Box>
           <Card variant="outlined" sx={{ margin: 2 }}>
             <TabPanel value="1">
-              <ProfileInformation />
+              <ProfileInformation profile={this.props.profile} />
             </TabPanel>
             <TabPanel value="2">
-              <Address />
+              <Address profile={this.props.profile} />
             </TabPanel>
             <TabPanel value="3">
               <ChangePassword />

@@ -25,16 +25,16 @@ class UserManager(BaseUserManager):
             raise ValueError(
                 'Superuser must be assigned to is_superuser=True.')
 
-        return self.create_user(email, first_name = "",last_name = "", password = password, **other_fields)
+        return self.create_user(email, firstname = "",lastname = "", password = password, **other_fields)
 
-    def create_user(self, email, first_name,last_name, password, **other_fields):
+    def create_user(self, email, firstname,lastname, password, **other_fields):
         other_fields.setdefault('is_active', True)
         if not email:
             raise ValueError(_('You must provide an email address'))
 
         email = self.normalize_email(email)
         user = self.model(email=email,
-                          first_name=first_name,last_name=last_name, **other_fields)
+                          firstname=firstname,lastname=lastname, **other_fields)
         user.set_password(password)
         user.save()
         return user
@@ -42,8 +42,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
+    firstname = models.CharField(max_length=150, blank=True)
+    lastname = models.CharField(max_length=150, blank=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

@@ -37,7 +37,11 @@ class Address extends Component {
               required
               id="address1"
               name="address1"
-              label="Address line 1"
+              label={
+                this.props.profile.address
+                  ? this.props.profile.address.address1
+                  : ""
+              }
               fullWidth
               autoComplete="shipping address-line1"
               variant="standard"
@@ -48,7 +52,11 @@ class Address extends Component {
             <TextField
               id="address2"
               name="address2"
-              label="Address line 2"
+              label={
+                this.props.profile.address
+                  ? this.props.profile.address.address2
+                  : ""
+              }
               fullWidth
               autoComplete="shipping address-line2"
               variant="standard"
@@ -60,7 +68,11 @@ class Address extends Component {
               required
               id="city"
               name="city"
-              label="City"
+              label={
+                this.props.profile.address
+                  ? this.props.profile.address.city
+                  : ""
+              }
               fullWidth
               autoComplete="shipping address-level2"
               variant="standard"
@@ -71,7 +83,11 @@ class Address extends Component {
             <TextField
               id="state"
               name="state"
-              label="State/Province/Region"
+              label={
+                this.props.profile.address
+                  ? this.props.profile.address.state
+                  : ""
+              }
               fullWidth
               variant="standard"
               disabled={this.state.edit_mode ? false : true}
@@ -82,7 +98,11 @@ class Address extends Component {
               required
               id="zip"
               name="zip"
-              label="Zip / Postal code"
+              label={
+                this.props.profile.address
+                  ? this.props.profile.address.pincode
+                  : ""
+              }
               fullWidth
               autoComplete="shipping postal-code"
               variant="standard"
@@ -94,7 +114,11 @@ class Address extends Component {
               required
               id="country"
               name="country"
-              label="Country"
+              label={
+                this.props.profile.address
+                  ? this.props.profile.address.country
+                  : ""
+              }
               fullWidth
               autoComplete="shipping country"
               variant="standard"

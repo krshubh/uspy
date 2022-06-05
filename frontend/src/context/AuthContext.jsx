@@ -32,8 +32,8 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify({
         email: e.target.email.value,
         password: e.target.password.value,
-        first_name: e.target.firstname.value,
-        last_name: e.target.lastname.value,
+        firstname: e.target.firstname.value,
+        lastname: e.target.lastname.value,
       }),
     });
     let data = await response.json();

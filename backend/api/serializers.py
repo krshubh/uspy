@@ -2,6 +2,9 @@ import imp
 from rest_framework import serializers
 from backend.models import Address, User, Profile, Parent, Children
 from backend.models import GENDER_CHOICES
+import logging
+
+logger = logging.getLogger(__name__)
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,15 +12,24 @@ class AddressSerializer(serializers.ModelSerializer):
         fields = ['address1', 'address2', 'city', 'state', 'country', 'pincode', 'created_date']
         
 class UserSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    email = serializers.EmailField(max_length=150,required=False,allow_blank=True)
+    
     class Meta:
         model = User
-        fields = ['id','email', 'first_name', 'last_name', 'date_joined']
+        fields = ['id','email', 'firstname', 'lastname', 'date_joined']
+        extra_kwargs = {
+            'email': {'validators': []},
+        }
         
 class UserAccessSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','email', 'first_name', 'last_name', 'date_joined',\
+        fields = ['id','email', 'firstname', 'lastname', 'date_joined',\
             'last_login', 'is_admin', 'is_staff', 'is_active', 'is_superuser']
+        extra_kwargs = {
+            'email': {'validators': []},
+        }
         
 class ParentSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
@@ -64,32 +76,21 @@ class ChildrenSerializer(serializers.Serializer):
         instance.confirmed = data.get('confirmed', instance.confirmed)
         instance.save()
         return instance
-        
+    
 class ProfileSerializer(serializers.Serializer):
-    user = UserSerializer(read_only=True)
-    mobile = serializers.CharField(required=False, allow_blank=True, max_length=100)
-    gender = serializers.ChoiceField(choices=GENDER_CHOICES, default='M')
-    address = AddressSerializer(read_only=True)
+    user = UserSerializer(read_only=False, many=False)
+    address = AddressSerializer(read_only=False, many=False)
+    mobile = serializers.CharField(max_length=20)
+    gender = serializers.CharField(max_length=1)
     
-    def create(self, data):
-        """
-        Create and return a new `Snippet` instance, given the validated data.
-        """
-        return Profile.objects.create(**data)
+    class Meta:
+        model = Profile
+        fields = ['user', 'mobile', 'gender', 'address']
+        depth = 3
 
-    def update(self, instance, data):
-        """
-        Update and return an existing `Snippet` instance, given the validated data.
-        """
-        instance.mobile = data.get('mobile', instance.mobile)
-        instance.mobile = data.get('mobile', instance.mobile)
-        instance.gender = data.get('gender', instance.gender)
-        instance.address = data.get('address', instance.address)
-        instance.save()
-        return instance
-    
+
 
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name', 'password', 'is_active', 'is_staff', 'is_superuser']
+        fields = ['email', 'firstname', 'lastname', 'password', 'is_active', 'is_staff', 'is_superuser']

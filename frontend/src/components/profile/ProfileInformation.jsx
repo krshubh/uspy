@@ -26,6 +26,10 @@ class ProfileInformation extends Component {
     this.setState({ edit_mode: false });
   };
 
+  componentDidMount = () => {
+    console.log("ProfileInformation", this.props.profile);
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -40,7 +44,9 @@ class ProfileInformation extends Component {
               required
               id="firstName"
               name="firstName"
-              label="First name"
+              label={
+                this.props.profile.user ? this.props.profile.user.firstname : ""
+              }
               fullWidth
               autoComplete="given-name"
               variant="standard"
@@ -51,7 +57,9 @@ class ProfileInformation extends Component {
             <TextField
               id="lastName"
               name="lastName"
-              label="Last name"
+              label={
+                this.props.profile.user ? this.props.profile.user.lastname : ""
+              }
               fullWidth
               autoComplete="family-name"
               variant="standard"
@@ -62,7 +70,9 @@ class ProfileInformation extends Component {
             <TextField
               id="email_address"
               name="Email Address"
-              label="Email Address"
+              label={
+                this.props.profile.user ? this.props.profile.user.email : ""
+              }
               fullWidth
               autoComplete="Email address"
               variant="standard"
@@ -74,7 +84,7 @@ class ProfileInformation extends Component {
             <TextField
               id="mobile"
               name="Mobile No"
-              label="Mobile No"
+              label={this.props.profile ? this.props.profile.mobile : ""}
               fullWidth
               autoComplete="Mobile no"
               variant="standard"
@@ -88,17 +98,19 @@ class ProfileInformation extends Component {
             </FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
+              value={
+                this.props.profile.gender ? this.props.profile.gender : "M"
+              }
               name="radio-buttons-group"
             >
               <FormControlLabel
-                value="female"
+                value="F"
                 control={<Radio />}
                 label="Female"
                 disabled={this.state.edit_mode ? false : true}
               />
               <FormControlLabel
-                value="male"
+                value="M"
                 control={<Radio />}
                 label="Male"
                 disabled={this.state.edit_mode ? false : true}

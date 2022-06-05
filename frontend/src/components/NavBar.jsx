@@ -93,7 +93,7 @@ class NavBar extends Component {
                   ml: 1,
                 }}
               >
-                {this.props.user.first_name}
+                {this.props.user.firstname}
               </Typography>
               {Boolean(this.state.menuAnchor) ? (
                 <ArrowDropUpIcon />

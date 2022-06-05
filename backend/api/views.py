@@ -19,13 +19,15 @@ import json
 from rest_framework import status
 from django.core import serializers
 
+logger = logging.getLogger(__name__)
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
         # Add custom claims
         token['email'] = user.email
-        token['first_name'] = user.first_name
+        token['firstname'] = user.firstname
         return token
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -55,12 +57,43 @@ class AddressView(APIView):
   def get(self, request, format=None):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    id = request.user.id
-    data = Address.objects.get(id = id)
-    serializer = AddressSerializer(data=data)
+    data = Profile.objects.get(id = request.user.id)
+    serializer = AddressSerializer(data.address)
+    response = JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+    return response
+  
+  def put(self, request, format=None):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    data = JSONParser().parse(request)
+    profile_data = Profile.objects.get(id = request.user.id)
+    serializer = AddressSerializer(instance = profile_data.address, data = data)
     if serializer.is_valid():
-      return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+      serializer.save()
+      return JsonResponse(serializer.data, status=status.HTTP_204_NO_CONTENT)
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserView(APIView):
+  
+  def get(self, request, format=None):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    data = Profile.objects.get(id = request.user.id)
+    serializer = UserSerializer(data.user)
+    response = JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+    return response
+  
+  def put(self, request, format=None):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    data = JSONParser().parse(request)
+    profile_data = Profile.objects.get(id = request.user.id)
+    serializer = UserSerializer(instance = profile_data.user, data = data)
+    if serializer.is_valid():
+      serializer.save()
+      return JsonResponse(serializer.data, status=status.HTTP_204_NO_CONTENT)
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ProfileView(APIView):
   
@@ -75,6 +108,29 @@ class ProfileView(APIView):
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     return response
+  
+  def put(self, request, format=None):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    data = JSONParser().parse(request)
+    profile = Profile.objects.get(id = request.user.id)
+    user_serializer = UserSerializer(instance = profile.user, data = data.get("user"))
+    if user_serializer.is_valid():
+      user_serializer.save()
+    else :
+      return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    address_serializer = AddressSerializer(instance = profile.address, data = data.get("address"))
+    if address_serializer.is_valid():
+      address_serializer.save()
+    else :
+      return JsonResponse(address_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    profile_serializer = ProfileSerializer(instance = profile, data = data)
+    if profile_serializer.is_valid():
+      profile_serializer.save()
+      return JsonResponse(profile_serializer.data, status=status.HTTP_201_CREATED)
+    return JsonResponse(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
 class ParentView(APIView):
   def get(self, request, format=None):

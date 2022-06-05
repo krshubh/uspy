@@ -121,12 +121,13 @@ class ProfilePage extends Component {
     is_profile_loaded: false,
     is_parents_loaded: false,
     is_children_loaded: false,
+    profile: {},
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     console.log("ProfilePage", "componentDidMount");
     var bearer = "Bearer " + this.props.authTokens.access;
-    fetch(PROFILE_API, {
+    await fetch(PROFILE_API, {
       method: "GET",
       headers: {
         Authorization: bearer,
@@ -136,11 +137,15 @@ class ProfilePage extends Component {
       .then((res) => res.json())
       .then(
         (json) => {
-          console.log(json);
+          console.log("json", json);
+          this.setState({
+            is_profile_loaded: true,
+            profile: json,
+          });
+          console.log("this.state", this.state);
         },
         (error) => {
-          console.log(error);
-          console.log(json);
+          console.log("error", error.message);
         }
       );
   }
@@ -190,18 +195,21 @@ class ProfilePage extends Component {
         {this.state.selected == 1 && (
           <PersonalInformation
             selected_tab={this.state.selected_tab}
+            profile={this.state.profile}
             handleChange={this.handleChange}
           />
         )}
         {this.state.selected == 2 && (
           <AccountSettings
             selected_tab={this.state.selected_tab}
+            profile={this.state.profile}
             handleChange={this.handleChange}
           />
         )}
         {this.state.selected == 3 && (
           <AdminSettings
             selected_tab={this.state.selected_tab}
+            profile={this.state.profile}
             handleChange={this.handleChange}
           />
         )}
