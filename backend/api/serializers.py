@@ -87,6 +87,22 @@ class ProfileSerializer(serializers.Serializer):
         model = Profile
         fields = ['user', 'mobile', 'gender', 'address']
         depth = 3
+        
+    def update(self, instance, data):
+        user_serializer = UserSerializer(instance = instance.user, data = data.get("user"))
+        if user_serializer.is_valid():
+            user_serializer.save()
+        
+        address_serializer = AddressSerializer(instance = instance.address, data = data.get("address"))
+        if address_serializer.is_valid():
+            address_serializer.save()
+    
+        instance.mobile = data.get('mobile', instance.mobile)
+        instance.gender = data.get('gender', instance.gender)
+        # instance.requested = data.get('requested', instance.requested)
+        # instance.confirmed = data.get('confirmed', instance.confirmed)
+        instance.save()
+        return instance
 
 
 

@@ -94,7 +94,6 @@ class UserView(APIView):
       return JsonResponse(serializer.data, status=status.HTTP_204_NO_CONTENT)
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class ProfileView(APIView):
   
   def get(self, request, format=None):
@@ -114,17 +113,17 @@ class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
     data = JSONParser().parse(request)
     profile = Profile.objects.get(id = request.user.id)
-    user_serializer = UserSerializer(instance = profile.user, data = data.get("user"))
-    if user_serializer.is_valid():
-      user_serializer.save()
-    else :
-      return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # user_serializer = UserSerializer(instance = profile.user, data = data.get("user"))
+    # if user_serializer.is_valid():
+    #   user_serializer.save()
+    # else :
+    #   return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    address_serializer = AddressSerializer(instance = profile.address, data = data.get("address"))
-    if address_serializer.is_valid():
-      address_serializer.save()
-    else :
-      return JsonResponse(address_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # address_serializer = AddressSerializer(instance = profile.address, data = data.get("address"))
+    # if address_serializer.is_valid():
+    #   address_serializer.save()
+    # else :
+    #   return JsonResponse(address_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     profile_serializer = ProfileSerializer(instance = profile, data = data)
     if profile_serializer.is_valid():
