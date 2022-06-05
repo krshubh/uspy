@@ -69,7 +69,12 @@ class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
     data = Profile.objects.get(id = request.user.id)
     serializer = ProfileSerializer(data)
-    return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+    response = JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    return response
   
 class ParentView(APIView):
   def get(self, request, format=None):

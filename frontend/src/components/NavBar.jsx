@@ -53,9 +53,7 @@ class NavBar extends Component {
     this.handleMenuAnchor(null);
   };
 
-  componentDidMount() {
-    console.log("componentDidMount", this.props.is_nav_icon);
-  }
+  componentDidMount() {}
 
   render() {
     return (

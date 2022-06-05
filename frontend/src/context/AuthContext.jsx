@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
       }),
     });
     let data = await response.json();
-    console.log(data);
+    console.log("AuthContext", data);
     if (response.status === 200) {
       loginUser(e);
     } else {
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   let logoutUser = () => {
-    console.log("logout called");
+    console.log("AuthContext", "logout called");
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
@@ -99,6 +99,7 @@ export const AuthProvider = ({ children }) => {
 
   let contexData = {
     user: user,
+    authTokens: authTokens,
     loginUser: loginUser,
     logoutUser: logoutUser,
     signUpUser: signUpUser,

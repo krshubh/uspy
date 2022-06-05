@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import AccountSettings from "../components/profile/AccountSettings";
 import PersonalInformation from "../components/profile/PersonalInformation";
 import AdminSettings from "../components/admin_settings/AdminSettings";
+import { PROFILE_API } from "../constants";
+import { Typography } from "@material-ui/core";
 
 class ProfilePage extends Component {
   state = {
@@ -116,14 +118,39 @@ class ProfilePage extends Component {
     selected_tab: "1",
     is_nav_icon: false,
     title: "Profile",
+    is_profile_loaded: false,
+    is_parents_loaded: false,
+    is_children_loaded: false,
   };
+
+  componentDidMount() {
+    console.log("ProfilePage", "componentDidMount");
+    var bearer = "Bearer " + this.props.authTokens.access;
+    fetch(PROFILE_API, {
+      method: "GET",
+      headers: {
+        Authorization: bearer,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then(
+        (json) => {
+          console.log(json);
+        },
+        (error) => {
+          console.log(error);
+          console.log(json);
+        }
+      );
+  }
 
   handleChange = (event, newValue) => {
     this.setState({ selected_tab: newValue });
   };
 
   onDrawerItemClick = (sub_item) => {
-    console.log("item", sub_item);
+    console.log("ProfilePage", "item", sub_item);
     this.setState({
       selected: sub_item.id,
       selected_tab: sub_item.sub_id + "",
@@ -131,7 +158,7 @@ class ProfilePage extends Component {
   };
 
   onMenuItemClick = (item) => {
-    console.log("menu item clicked", item);
+    console.log("ProfilePage", "menu item clicked", item);
     if (item.value == "Profile") {
       this.props.navigation("/profile");
     }
@@ -185,9 +212,14 @@ class ProfilePage extends Component {
 
 export default function (props) {
   const navigation = useNavigate();
-  const { logoutUser, user } = useContext(AuthContext);
+  const { logoutUser, authTokens } = useContext(AuthContext);
 
   return (
-    <ProfilePage {...props} navigation={navigation} logoutUser={logoutUser} />
+    <ProfilePage
+      {...props}
+      navigation={navigation}
+      logoutUser={logoutUser}
+      authTokens={authTokens}
+    />
   );
 }

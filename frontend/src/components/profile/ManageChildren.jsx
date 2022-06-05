@@ -36,7 +36,7 @@ class ManageChildren extends Component {
   };
 
   itemSelected = (event, value) => {
-    console.log("selected", value);
+    console.log("ManageChildren", "selected", value);
   };
 
   handleCollapse = (enent, value) => {
@@ -49,7 +49,7 @@ class ManageChildren extends Component {
     if (value == CHILDREN_CONFIRMED) {
       this.setState({ CHILDREN_CONFIRMED: !this.state.CHILDREN_CONFIRMED });
     }
-    console.log("hangle_collapse", value);
+    console.log("ManageChildren", "hangle_collapse", value);
   };
 
   render() {

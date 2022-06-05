@@ -6,9 +6,7 @@ import Title from "./Title";
 import { Box } from "@mui/material";
 
 class EditHeader extends Component {
-  componentDidMount() {
-    console.log("EditHeader", this.props);
-  }
+  componentDidMount() {}
 
   render() {
     return (

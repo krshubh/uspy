@@ -38,7 +38,7 @@ class ManageParents extends Component {
   };
 
   itemSelected = (event, value) => {
-    console.log("selected", value);
+    console.log("ManageParents", "selected", value);
   };
 
   handleCollapse = (enent, value) => {
@@ -51,7 +51,7 @@ class ManageParents extends Component {
     if (value == PARENT_CONFIRMED) {
       this.setState({ PARENT_CONFIRMED: !this.state.PARENT_CONFIRMED });
     }
-    console.log("hangle_collapse", value);
+    console.log("ManageParents", "hangle_collapse", value);
   };
 
   render() {

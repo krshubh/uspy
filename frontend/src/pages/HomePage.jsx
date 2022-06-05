@@ -54,7 +54,7 @@ class HomePage extends Component {
   selectDrawerItem = (selected_item) => {
     const nav_items = [];
     for (const item of this.state.nav_items) {
-      console.log(item);
+      console.log("HomePage", item);
       if (item.id == selected_item.id) {
         item.selected = true;
       } else {
@@ -71,7 +71,7 @@ class HomePage extends Component {
   };
 
   onMenuItemClick = (item) => {
-    console.log("menu item clicked", item);
+    console.log("HomePage", "menu item clicked", item);
     if (item.value == "Profile") {
       this.props.navigation("/profile");
     }
