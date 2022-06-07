@@ -14,10 +14,6 @@ import { Button } from "@mui/material";
 import EditHeader from "../EditHeader";
 
 class ProfileInformation extends Component {
-  state = {
-    edit_mode: false,
-  };
-
   clicked_editmode = () => {
     this.setState({ edit_mode: true });
   };
@@ -35,8 +31,8 @@ class ProfileInformation extends Component {
       <React.Fragment>
         <EditHeader
           title="Profile Information"
-          edit_mode={this.state.edit_mode}
-          clicked_editmode={this.clicked_editmode}
+          edit_mode={this.props.edit_mode}
+          clicked_editmode={() => this.props.onEditClicked("profile")}
         />
         <Grid container spacing={3} sx={{ pt: 1 }}>
           <Grid item xs={12} sm={6}>
@@ -44,39 +40,52 @@ class ProfileInformation extends Component {
               required
               id="firstName"
               name="firstName"
-              label={
+              label="First Name"
+              value={
                 this.props.profile.user ? this.props.profile.user.firstname : ""
               }
               fullWidth
               autoComplete="given-name"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  user: { firstname: e.target.value },
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               id="lastName"
               name="lastName"
-              label={
+              label="Last Name"
+              value={
                 this.props.profile.user ? this.props.profile.user.lastname : ""
               }
               fullWidth
               autoComplete="family-name"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  user: { lastname: e.target.value },
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               id="email_address"
               name="Email Address"
-              label={
+              label="Email"
+              value={
                 this.props.profile.user ? this.props.profile.user.email : ""
               }
               fullWidth
               autoComplete="Email address"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              disabled={true}
             />
           </Grid>
 
@@ -84,11 +93,17 @@ class ProfileInformation extends Component {
             <TextField
               id="mobile"
               name="Mobile No"
-              label={this.props.profile ? this.props.profile.mobile : ""}
+              label="Mobile"
+              value={this.props.profile.mobile ? this.props.profile.mobile : ""}
               fullWidth
               autoComplete="Mobile no"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  mobile: e.target.value,
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
 
@@ -101,26 +116,38 @@ class ProfileInformation extends Component {
               value={
                 this.props.profile.gender ? this.props.profile.gender : "M"
               }
+              onChange={(e) => {
+                this.props.updateProfile({
+                  gender: e.target.value,
+                });
+              }}
               name="radio-buttons-group"
             >
               <FormControlLabel
                 value="F"
                 control={<Radio />}
                 label="Female"
-                disabled={this.state.edit_mode ? false : true}
+                disabled={this.props.edit_mode ? false : true}
               />
               <FormControlLabel
                 value="M"
                 control={<Radio />}
                 label="Male"
-                disabled={this.state.edit_mode ? false : true}
+                disabled={this.props.edit_mode ? false : true}
               />
             </RadioGroup>
           </Grid>
-          <Grid item xs={12} display={this.state.edit_mode ? "block" : "none"}>
+          <Grid item xs={12} display={this.props.edit_mode ? "block" : "none"}>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => this.props.onSaveClicked("cancel")}
+              sx={{ mr: 3 }}
+            >
+              Cancel
+            </Button>
             <Button
               variant="contained"
-              href="#"
               color="primary"
               sx={{
                 "&:hover": {
@@ -128,7 +155,7 @@ class ProfileInformation extends Component {
                   color: "#bbdefb",
                 },
               }}
-              onClick={this.onSaveClicked}
+              onClick={() => this.props.onSaveClicked("profile")}
             >
               Save
             </Button>

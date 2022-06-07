@@ -11,25 +11,13 @@ import EditHeader from "../EditHeader";
 import { Component } from "react";
 
 class Address extends Component {
-  state = {
-    edit_mode: false,
-  };
-
-  clicked_editmode = () => {
-    this.setState({ edit_mode: true });
-  };
-
-  onSaveClicked = () => {
-    this.setState({ edit_mode: false });
-  };
-
   render() {
     return (
       <React.Fragment>
         <EditHeader
           title="Address"
-          edit_mode={this.state.edit_mode}
-          clicked_editmode={this.clicked_editmode}
+          edit_mode={this.props.edit_mode}
+          clicked_editmode={() => this.props.onEditClicked("address")}
         />
         <Grid container spacing={3} sx={{ pt: 1 }}>
           <Grid item xs={12}>
@@ -37,7 +25,8 @@ class Address extends Component {
               required
               id="address1"
               name="address1"
-              label={
+              label="Address1"
+              value={
                 this.props.profile.address
                   ? this.props.profile.address.address1
                   : ""
@@ -45,14 +34,20 @@ class Address extends Component {
               fullWidth
               autoComplete="shipping address-line1"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  address: { address1: e.target.value },
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               id="address2"
               name="address2"
-              label={
+              label="Address2"
+              value={
                 this.props.profile.address
                   ? this.props.profile.address.address2
                   : ""
@@ -60,7 +55,12 @@ class Address extends Component {
               fullWidth
               autoComplete="shipping address-line2"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  address: { address2: e.target.value },
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -68,7 +68,8 @@ class Address extends Component {
               required
               id="city"
               name="city"
-              label={
+              label="City"
+              value={
                 this.props.profile.address
                   ? this.props.profile.address.city
                   : ""
@@ -76,21 +77,32 @@ class Address extends Component {
               fullWidth
               autoComplete="shipping address-level2"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  address: { city: e.target.value },
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               id="state"
               name="state"
-              label={
+              label="State"
+              value={
                 this.props.profile.address
-                  ? this.props.profile.address.state
+                  ? this.props.profile.address.props
                   : ""
               }
               fullWidth
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  address: { state: e.target.value },
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -98,7 +110,8 @@ class Address extends Component {
               required
               id="zip"
               name="zip"
-              label={
+              label="Pincode"
+              value={
                 this.props.profile.address
                   ? this.props.profile.address.pincode
                   : ""
@@ -106,7 +119,12 @@ class Address extends Component {
               fullWidth
               autoComplete="shipping postal-code"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  address: { pincode: e.target.value },
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -114,7 +132,8 @@ class Address extends Component {
               required
               id="country"
               name="country"
-              label={
+              label="Country"
+              value={
                 this.props.profile.address
                   ? this.props.profile.address.country
                   : ""
@@ -122,10 +141,23 @@ class Address extends Component {
               fullWidth
               autoComplete="shipping country"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              onChange={(e) => {
+                this.props.updateProfile({
+                  address: { country: e.target.value },
+                });
+              }}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
-          <Grid item xs={12} display={this.state.edit_mode ? "block" : "none"}>
+          <Grid item xs={12} display={this.props.edit_mode ? "block" : "none"}>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => this.props.onSaveClicked("cancel")}
+              sx={{ mr: 3 }}
+            >
+              Cancel
+            </Button>
             <Button
               variant="contained"
               href="#"
@@ -136,7 +168,7 @@ class Address extends Component {
                   color: "#bbdefb",
                 },
               }}
-              onClick={this.onSaveClicked}
+              onClick={() => this.props.onSaveClicked("address")}
             >
               Save
             </Button>

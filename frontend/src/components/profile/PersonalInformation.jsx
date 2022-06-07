@@ -35,13 +35,36 @@ class PersonalInformation extends Component {
           </Box>
           <Card variant="outlined" sx={{ margin: 2 }}>
             <TabPanel value="1">
-              <ProfileInformation profile={this.props.profile} />
+              <ProfileInformation
+                profile={this.props.profile}
+                updateProfile={this.props.updateProfile}
+                onSaveClicked={this.props.onSaveClicked}
+                edit_mode={
+                  this.props.personal_information_edit_mode.profile_edit_mode
+                }
+                onEditClicked={this.props.onEditClicked}
+              />
             </TabPanel>
             <TabPanel value="2">
-              <Address profile={this.props.profile} />
+              <Address
+                profile={this.props.profile}
+                updateProfile={this.props.updateProfile}
+                onSaveClicked={this.props.onSaveClicked}
+                edit_mode={
+                  this.props.personal_information_edit_mode.address_edit_mode
+                }
+                onEditClicked={this.props.onEditClicked}
+              />
             </TabPanel>
             <TabPanel value="3">
-              <ChangePassword />
+              <ChangePassword
+                onEditClicked={this.props.onEditClicked}
+                onSaveClicked={this.props.onSaveClicked}
+                edit_mode={
+                  this.props.personal_information_edit_mode
+                    .change_password_edit_mode
+                }
+              />
             </TabPanel>
           </Card>
         </TabContext>

@@ -1,5 +1,5 @@
-// export const HOST_NAME = "192.168.1.78";
-export const HOST_NAME = "localhost";
+export const HOST_NAME = "192.168.1.78";
+// export const HOST_NAME = "localhost";
 
 // Api
 export const TOKEN_API = "http://" + HOST_NAME + ":8000/api/token/";

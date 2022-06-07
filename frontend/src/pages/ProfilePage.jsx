@@ -16,6 +16,7 @@ import PersonalInformation from "../components/profile/PersonalInformation";
 import AdminSettings from "../components/admin_settings/AdminSettings";
 import { PROFILE_API } from "../constants";
 import { Typography } from "@material-ui/core";
+import { callAPI } from "../callApi";
 
 class ProfilePage extends Component {
   state = {
@@ -121,33 +122,59 @@ class ProfilePage extends Component {
     is_profile_loaded: false,
     is_parents_loaded: false,
     is_children_loaded: false,
+    personal_information_edit_mode: {
+      profile_edit_mode: false,
+      address_edit_mode: false,
+      change_password_edit_mode: false,
+    },
+    account_edit_mode: { parents_edit_mode: false, children_edit_mode: false },
     profile: {},
   };
 
+  // async getProfile() {
+  //   var bearer = "Bearer " + this.props.authTokens.access;
+  //   await fetch(PROFILE_API, {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: bearer,
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then(
+  //       (json) => {
+  //         console.log("json", json);
+  //         this.setState({
+  //           is_profile_loaded: true,
+  //           profile: json,
+  //         });
+  //         console.log("this.state", this.state);
+  //       },
+  //       (error) => {
+  //         console.log("error", error.message);
+  //       }
+  //     );
+  // }
+
   async componentDidMount() {
     console.log("ProfilePage", "componentDidMount");
-    var bearer = "Bearer " + this.props.authTokens.access;
-    await fetch(PROFILE_API, {
+    callAPI({
+      url: PROFILE_API,
+      access_token: this.props.authTokens.access,
       method: "GET",
-      headers: {
-        Authorization: bearer,
-        "Content-Type": "application/json",
+    }).then(
+      (json) => {
+        console.log("json", json);
+        this.setState({
+          is_profile_loaded: true,
+          profile: json,
+          body: null,
+        });
       },
-    })
-      .then((res) => res.json())
-      .then(
-        (json) => {
-          console.log("json", json);
-          this.setState({
-            is_profile_loaded: true,
-            profile: json,
-          });
-          console.log("this.state", this.state);
-        },
-        (error) => {
-          console.log("error", error.message);
-        }
-      );
+      (error) => {
+        console.log("error", error.message);
+      }
+    );
   }
 
   handleChange = (event, newValue) => {
@@ -169,6 +196,139 @@ class ProfilePage extends Component {
     }
     if (item.value == "Logout") {
       this.props.logoutUser();
+    }
+  };
+
+  updateProfile = (item) => {
+    console.log("updateProfile", item);
+    var profile = this.state.profile;
+    if (item.user != undefined && item.user != null) {
+      if (item.user.firstname != undefined && item.user.firstname != null) {
+        profile.user.firstname = item.user.firstname;
+      }
+      if (item.user.lastname != undefined && item.user.lastname != null) {
+        profile.user.lastname = item.user.lastname;
+      }
+    }
+    if (item.mobile != undefined && item.mobile != null) {
+      profile.mobile = item.mobile;
+    }
+    if (item.gender != undefined && item.gender != null) {
+      profile.gender = item.gender;
+    }
+    if (item.address != undefined && item.address != null) {
+      if (item.address.address1 != undefined && item.address.address1 != null) {
+        profile.address.address1 = item.address.address1;
+      }
+      if (item.address.address2 != undefined && item.address.address2 != null) {
+        profile.address.address2 = item.address.address2;
+      }
+      if (item.address.city != undefined && item.address.city != null) {
+        profile.address.city = item.address.city;
+      }
+      if (item.address.state != undefined && item.address.state != null) {
+        profile.address.state = item.address.state;
+      }
+      if (item.address.pincode != undefined && item.address.pincode != null) {
+        profile.address.pincode = item.address.pincode;
+      }
+      if (item.address.country != undefined && item.address.country != null) {
+        profile.address.country = item.address.country;
+      }
+    }
+    this.setState({ profile: profile });
+  };
+
+  // async updateProfile() {
+  //   var bearer = "Bearer " + this.props.authTokens.access;
+  //   await fetch(PROFILE_API, {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: bearer,
+  //       "Content-Type": "application/json",
+  //       body: JSON.stringify(this.state.profile)
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then(
+  //       (json) => {
+  //         console.log("json", json);
+  //         this.setState({
+  //           is_profile_loaded: true,
+  //           profile: json,
+  //         });
+  //         console.log("this.state", this.state);
+  //       },
+  //       (error) => {
+  //         console.log("error", error.message);
+  //       }
+  //     );
+  // }
+
+  onSaveClicked = (section) => {
+    console.log("onSaveClicked", section);
+    if (section === "profile" || section === "address") {
+      callAPI({
+        url: PROFILE_API,
+        access_token: this.props.authTokens.access,
+        method: "PUT",
+        body: this.state.profile,
+      }).then(
+        (json) => {
+          console.log("json", json);
+          this.setState({
+            is_profile_loaded: true,
+            profile: json,
+            personal_information_edit_mode: {
+              profile_edit_mode: false,
+              address_edit_mode: false,
+              change_password_edit_mode: false,
+            },
+          });
+        },
+        (error) => {
+          console.log("error", error.message);
+        }
+      );
+    } else if (section === "cancel") {
+      this.setState({
+        personal_information_edit_mode: {
+          profile_edit_mode: false,
+          address_edit_mode: false,
+          change_password_edit_mode: false,
+        },
+      });
+    }
+  };
+
+  onEditClicked = (section) => {
+    console.log("onEditClicked", section);
+    if (section == "profile") {
+      this.setState({
+        personal_information_edit_mode: {
+          profile_edit_mode: true,
+          address_edit_mode: false,
+          change_password_edit_mode: false,
+        },
+      });
+    }
+    if (section == "address") {
+      this.setState({
+        personal_information_edit_mode: {
+          profile_edit_mode: false,
+          address_edit_mode: true,
+          change_password_edit_mode: false,
+        },
+      });
+    }
+    if (section == "change_password") {
+      this.setState({
+        personal_information_edit_mode: {
+          profile_edit_mode: false,
+          address_edit_mode: false,
+          change_password_edit_mode: true,
+        },
+      });
     }
   };
 
@@ -196,7 +356,13 @@ class ProfilePage extends Component {
           <PersonalInformation
             selected_tab={this.state.selected_tab}
             profile={this.state.profile}
+            updateProfile={this.updateProfile}
             handleChange={this.handleChange}
+            onSaveClicked={this.onSaveClicked}
+            onEditClicked={this.onEditClicked}
+            personal_information_edit_mode={
+              this.state.personal_information_edit_mode
+            }
           />
         )}
         {this.state.selected == 2 && (

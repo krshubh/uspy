@@ -11,10 +11,6 @@ import EditHeader from "../EditHeader";
 import { Component } from "react";
 
 class ChangePassword extends Component {
-  state = {
-    edit_mode: false,
-  };
-
   clicked_editmode = () => {
     this.setState({ edit_mode: true });
   };
@@ -28,8 +24,8 @@ class ChangePassword extends Component {
       <React.Fragment>
         <EditHeader
           title="Change Password"
-          edit_mode={this.state.edit_mode}
-          clicked_editmode={this.clicked_editmode}
+          edit_mode={this.props.edit_mode}
+          clicked_editmode={() => this.props.onEditClicked("change_password")}
         />
         <Grid container spacing={3} sx={{ pt: 1 }}>
           <Grid item xs={12}>
@@ -41,7 +37,7 @@ class ChangePassword extends Component {
               fullWidth
               autoComplete="Type Current Password"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12}>
@@ -52,7 +48,7 @@ class ChangePassword extends Component {
               fullWidth
               autoComplete="Type New Password"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
           <Grid item xs={12}>
@@ -64,10 +60,10 @@ class ChangePassword extends Component {
               fullWidth
               autoComplete="Retype New Password"
               variant="standard"
-              disabled={this.state.edit_mode ? false : true}
+              disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
-          <Grid item xs={12} display={this.state.edit_mode ? "block" : "none"}>
+          <Grid item xs={12} display={this.props.edit_mode ? "block" : "none"}>
             <Button
               variant="contained"
               href="#"
@@ -78,7 +74,7 @@ class ChangePassword extends Component {
                   color: "#bbdefb",
                 },
               }}
-              onClick={this.onSaveClicked}
+              onClick={() => this.props.onSaveClicked("change_password")}
             >
               Save
             </Button>
