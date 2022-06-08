@@ -41,10 +41,11 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=150, unique=True)
+    email = models.EmailField(verbose_name = 'email_address',max_length=150, unique=True)
     firstname = models.CharField(max_length=150, blank=True)
     lastname = models.CharField(max_length=150, blank=True)
-    date_joined = models.DateTimeField(verbose_name='date joined', auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -57,6 +58,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    def has_perm(self, perm, obj = None):
+        "Does the user have a specific permission?"
+        return self.is_admin
+    
+    def has_module_perms(self, app_label):
+        "Does the user have permission to view the app `app_label`"
+        return self.is_active
 
 
 class Address(models.Model):

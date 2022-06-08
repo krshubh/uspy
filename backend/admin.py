@@ -7,13 +7,14 @@ from django.forms import TextInput, Textarea
 class UserAdminConfig(UserAdmin):
     model = User
     search_fields = ('email', 'firstname', 'lastname')
-    list_filter = ('email', 'firstname', 'lastname','is_admin','is_active', 'is_staff', 'is_superuser')
-    ordering = ('-date_joined',)
-    list_display = ('email', 'firstname','lastname','is_admin',
-                    'is_active', 'is_staff', 'is_superuser')
+    list_filter = ('email', 'firstname', 'lastname', 'is_admin','is_active','is_staff','is_superuser')
+    ordering = ('-updated_at',)
+    list_display = ('email', 'password','firstname','lastname',
+                    'is_admin', 'is_active','is_staff', 'is_superuser')
     fieldsets = (
-        (None, {'fields': ('email', 'firstname','lastname')}),
-        ('Permissions', {'fields': ('is_admin','is_staff', 'is_active', 'is_superuser')}),
+        ('User Credentials',{'fields' :("email","password")}),
+        ('Personal info', {'fields': ('firstname','lastname')}),
+        ('Permissions', {'fields': ('is_admin', 'is_active','is_staff', 'is_superuser')}),
     )
     add_fieldsets = (
         (None, {

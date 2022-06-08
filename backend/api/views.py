@@ -1,6 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.views.decorators.csrf import csrf_exempt
@@ -9,7 +10,8 @@ from rest_framework.parsers import JSONParser
 from backend.api.serializers import AddressSerializer, SignupSerializer,\
                                     ProfileSerializer, ParentSerializer,\
                                     ChildrenSerializer, UserSerializer,\
-                                    UserAccessSerializer
+                                    UserAccessSerializer, LoginSerializer,\
+                                    ChangePasswordSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -18,8 +20,15 @@ import logging
 import json
 from rest_framework import status
 from django.core import serializers
+from django.contrib.auth import authenticate
+from backend.api.renderers import UserRenderer
 
 logger = logging.getLogger(__name__)
+
+# Generate Token Manually
+def get_tokens_for_user(user) :
+  refresh = RefreshToken.for_user(user)
+  return {'refresh': str(refresh), 'access': str(refresh.access_token) }
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -42,14 +51,28 @@ def getRoutes(request):
   return Response(routes)
 
 class SignupView(APIView):
+  renderer_classes = [UserRenderer]
   def post(self, request, format=None):
-    # authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-    data = JSONParser().parse(request)
-    serializer = SignupSerializer(data=data)
-    if serializer.is_valid():
-      serializer.save()
-      return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    serializer = SignupSerializer(data=request.data)
+    if serializer.is_valid(raise_exception = True):
+      user = serializer.save()
+      token = get_tokens_for_user(user)
+      return JsonResponse({"token": token, "message" : "Registration Successful"}, status=status.HTTP_201_CREATED)
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+class LoginView(APIView):
+  renderer_classes = [UserRenderer]
+  def post(self, request, format=None):
+    serializer = LoginSerializer(data = request.data)
+    if serializer.is_valid(raise_exception = True):
+      email = serializer.data.get('email')
+      password = serializer.data.get('password')
+      user = authenticate(email=email, password=password)
+      if user is not None:
+        token = get_tokens_for_user(user)
+        return JsonResponse({'token': token,'message':'Login Success'}, status=status.HTTP_200_OK)
+      else :
+        return JsonResponse({'errors':{'non_field_errors' : ['Email or password is not valid']}}, status=status.HTTP_404_NOT_FOUND)
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AddressView(APIView):
@@ -113,22 +136,19 @@ class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
     data = JSONParser().parse(request)
     profile = Profile.objects.get(id = request.user.id)
-    # user_serializer = UserSerializer(instance = profile.user, data = data.get("user"))
-    # if user_serializer.is_valid():
-    #   user_serializer.save()
-    # else :
-    #   return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    # address_serializer = AddressSerializer(instance = profile.address, data = data.get("address"))
-    # if address_serializer.is_valid():
-    #   address_serializer.save()
-    # else :
-    #   return JsonResponse(address_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
     profile_serializer = ProfileSerializer(instance = profile, data = data)
     if profile_serializer.is_valid():
       profile_serializer.save()
       return JsonResponse(profile_serializer.data, status=status.HTTP_201_CREATED)
+    return JsonResponse(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+class ChangePasswordView(APIView):
+  authentication_classes = [JWTAuthentication]
+  permission_classes = [IsAuthenticated]
+  def post(self, request, format=None):
+    serializer = ChangePasswordSerializer(data = request.data, context={'user': request.user})
+    if serializer.is_valid(raise_exception = True):
+      return JsonResponse({"message" : "Password Changed Successfully"}, status=status.HTTP_201_CREATED)
     return JsonResponse(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
 class ParentView(APIView):
