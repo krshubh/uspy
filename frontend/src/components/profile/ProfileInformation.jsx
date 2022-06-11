@@ -88,7 +88,6 @@ class ProfileInformation extends Component {
               disabled={true}
             />
           </Grid>
-
           <Grid item xs={12}>
             <TextField
               id="mobile"

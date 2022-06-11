@@ -38,8 +38,11 @@ export const AuthProvider = ({ children }) => {
     });
     let data = await response.json();
     console.log("AuthContext", data);
-    if (response.status === 200) {
-      loginUser(e);
+    if (response.status === 201) {
+      setAuthTokens(data.token);
+      setUser(jwt_decode(data.token.access));
+      localStorage.setItem("authTokens", JSON.stringify(data.token));
+      navigate("/");
     } else {
       alert("Something went wrong");
     }
@@ -59,9 +62,9 @@ export const AuthProvider = ({ children }) => {
     });
     let data = await response.json();
     if (response.status === 200) {
-      setAuthTokens(data);
-      setUser(jwt_decode(data.access));
-      localStorage.setItem("authTokens", JSON.stringify(data));
+      setAuthTokens(data.token);
+      setUser(jwt_decode(data.token.access));
+      localStorage.setItem("authTokens", JSON.stringify(data.token));
       navigate("/");
     } else {
       alert("Something went wrong");

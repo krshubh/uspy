@@ -56,7 +56,7 @@ class SignupView(APIView):
     serializer = SignupSerializer(data=request.data)
     if serializer.is_valid(raise_exception = True):
       user = serializer.save()
-      token = get_tokens_for_user(user)
+      token = MyTokenObtainPairSerializer(request.data).validate(request.data)
       return JsonResponse({"token": token, "message" : "Registration Successful"}, status=status.HTTP_201_CREATED)
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
@@ -69,7 +69,8 @@ class LoginView(APIView):
       password = serializer.data.get('password')
       user = authenticate(email=email, password=password)
       if user is not None:
-        token = get_tokens_for_user(user)
+        token = MyTokenObtainPairSerializer(request.data).validate(request.data)
+        # token = get_tokens_for_user(user)
         return JsonResponse({'token': token,'message':'Login Success'}, status=status.HTTP_200_OK)
       else :
         return JsonResponse({'errors':{'non_field_errors' : ['Email or password is not valid']}}, status=status.HTTP_404_NOT_FOUND)
@@ -122,20 +123,29 @@ class ProfileView(APIView):
   def get(self, request, format=None):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    data = Profile.objects.get(id = request.user.id)
+    try:
+      user = User.objects.get(email = request.user.email)
+      data = Profile.objects.get(user = user)
+    except:
+      print(logger.error("Project object doesnot exist with given email"))
+    
     serializer = ProfileSerializer(data)
     response = JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-    response["Access-Control-Max-Age"] = "1000"
-    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    # response["Access-Control-Allow-Origin"] = "*"
+    # response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    # response["Access-Control-Max-Age"] = "1000"
+    # response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     return response
   
   def put(self, request, format=None):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     data = JSONParser().parse(request)
-    profile = Profile.objects.get(id = request.user.id)
+    try:
+      user = User.objects.get(email = request.user.email)
+      profile = Profile.objects.get(user = user)
+    except:
+      print(logger.error("Profile object doesnot exist with given email"))
     profile_serializer = ProfileSerializer(instance = profile, data = data)
     if profile_serializer.is_valid():
       profile_serializer.save()
@@ -145,7 +155,12 @@ class ProfileView(APIView):
 class ChangePasswordView(APIView):
   authentication_classes = [JWTAuthentication]
   permission_classes = [IsAuthenticated]
+  
   def post(self, request, format=None):
+    try:
+      user = User.objects.get(email = request.user.email)
+    except:
+      print(logger.error("User object does not exist with given email"))
     serializer = ChangePasswordSerializer(data = request.data, context={'user': request.user})
     if serializer.is_valid(raise_exception = True):
       return JsonResponse({"message" : "Password Changed Successfully"}, status=status.HTTP_201_CREATED)

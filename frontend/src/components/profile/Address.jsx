@@ -92,7 +92,7 @@ class Address extends Component {
               label="State"
               value={
                 this.props.profile.address
-                  ? this.props.profile.address.props
+                  ? this.props.profile.address.state
                   : ""
               }
               fullWidth

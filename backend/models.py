@@ -101,7 +101,7 @@ class Children(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     mobile = models.CharField(max_length=20, blank=True, default='', null=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, default='M', null=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     address = models.OneToOneField(Address, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):

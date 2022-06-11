@@ -131,7 +131,7 @@ const SignupPage = (props) => {
                   control={
                     <Checkbox
                       color="primary"
-                      defaultChecked={termsPrivacy}
+                      value={termsPrivacy ? true : false}
                       onChange={() => setTermsPrivacy(!termsPrivacy)}
                     />
                   }

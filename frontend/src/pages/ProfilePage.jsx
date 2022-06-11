@@ -17,6 +17,7 @@ import AdminSettings from "../components/admin_settings/AdminSettings";
 import { PROFILE_API } from "../constants";
 import { Typography } from "@material-ui/core";
 import { callAPI } from "../callApi";
+import _ from "lodash";
 
 class ProfilePage extends Component {
   state = {
@@ -202,41 +203,12 @@ class ProfilePage extends Component {
   updateProfile = (item) => {
     console.log("updateProfile", item);
     var profile = this.state.profile;
-    if (item.user != undefined && item.user != null) {
-      if (item.user.firstname != undefined && item.user.firstname != null) {
-        profile.user.firstname = item.user.firstname;
-      }
-      if (item.user.lastname != undefined && item.user.lastname != null) {
-        profile.user.lastname = item.user.lastname;
-      }
-    }
-    if (item.mobile != undefined && item.mobile != null) {
-      profile.mobile = item.mobile;
-    }
-    if (item.gender != undefined && item.gender != null) {
-      profile.gender = item.gender;
-    }
-    if (item.address != undefined && item.address != null) {
-      if (item.address.address1 != undefined && item.address.address1 != null) {
-        profile.address.address1 = item.address.address1;
-      }
-      if (item.address.address2 != undefined && item.address.address2 != null) {
-        profile.address.address2 = item.address.address2;
-      }
-      if (item.address.city != undefined && item.address.city != null) {
-        profile.address.city = item.address.city;
-      }
-      if (item.address.state != undefined && item.address.state != null) {
-        profile.address.state = item.address.state;
-      }
-      if (item.address.pincode != undefined && item.address.pincode != null) {
-        profile.address.pincode = item.address.pincode;
-      }
-      if (item.address.country != undefined && item.address.country != null) {
-        profile.address.country = item.address.country;
-      }
-    }
+    // profile.address = profile.address
+    //   ? { ...profile.address, ...item.address }
+    //   : { ...item.address };
+    profile = _.merge(profile, item);
     this.setState({ profile: profile });
+    console.log("profile", this.state.profile);
   };
 
   // async updateProfile() {
@@ -266,7 +238,7 @@ class ProfilePage extends Component {
   // }
 
   onSaveClicked = (section) => {
-    console.log("onSaveClicked", section);
+    console.log("onSaveClicked", section, this.state.profile);
     if (section === "profile" || section === "address") {
       callAPI({
         url: PROFILE_API,

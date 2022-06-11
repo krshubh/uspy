@@ -7,32 +7,38 @@ import logging
 logger = logging.getLogger(__name__)
 
 class AddressSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Address
-        fields = ['address1', 'address2', 'city', 'state', 'country', 'pincode', 'created_date']
+        fields = ['address1', 'address2', 'city', 'state', 'country', 'pincode']
         
 class UserSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(required=False)
     email = serializers.EmailField(max_length=150,required=False,allow_blank=True)
     
     class Meta:
         model = User
-        fields = ['id','email', 'firstname', 'lastname', 'created_at', 'updated_at']
+        fields = ['email', 'firstname', 'lastname']
         extra_kwargs = {
             'email': {'validators': []},
         }
         
 class ChangePasswordSerializer(serializers.Serializer):
+    current_password = serializers.CharField(max_length=100, style={'input_type':'password'}, write_only=True)
     new_password = serializers.CharField(max_length=100, style={'input_type':'password'}, write_only=True)
     confirm_password = serializers.CharField(max_length=100, style={'input_type':'password'}, write_only=True)
     
     class Meta:
-        fields = ["new_password", "confirm_password"]
+        fields = ["current_password", "new_password", "confirm_password"]
         
     def validate(self, attrs):
+        current_password = attrs.get('current_password')
         new_password = attrs.get('new_password')
         confirm_password = attrs.get('confirm_password')
         user = self.context.get('user')
+        if not user.check_password(current_password) :
+            raise serializers.ValidationError("Current Password is not correct")
+        if current_password == new_password :
+            raise serializers.ValidationError("Current Password and new Password Could not be same")
         if new_password != confirm_password :
             raise serializers.ValidationError("Password and Confirm Password doesn't match")
         user.set_password(new_password)
@@ -101,11 +107,11 @@ class ChildrenSerializer(serializers.Serializer):
         instance.save()
         return instance
     
-class ProfileSerializer(serializers.Serializer):
+class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=False, many=False)
-    address = AddressSerializer(read_only=False, many=False)
-    mobile = serializers.CharField(max_length=20)
-    gender = serializers.CharField(max_length=1)
+    address = AddressSerializer(read_only=False, many=False, required=False, allow_null=True)
+    mobile = serializers.CharField(max_length=20, required=False, allow_blank=True, allow_null=True)
+    gender = serializers.CharField(max_length=1, required=False, allow_blank=True, allow_null=True)
     
     class Meta:
         model = Profile
@@ -116,19 +122,19 @@ class ProfileSerializer(serializers.Serializer):
         user_serializer = UserSerializer(instance = instance.user, data = data.get("user"))
         if user_serializer.is_valid():
             user_serializer.save()
-        
-        address_serializer = AddressSerializer(instance = instance.address, data = data.get("address"))
-        if address_serializer.is_valid():
-            address_serializer.save()
-    
+        if instance.address == None :
+            address_serializer = AddressSerializer(data = data.get("address"))
+            if address_serializer.is_valid():
+                address = address_serializer.save()
+                instance.address = address
+        else :
+            address_serializer = AddressSerializer(instance = instance.address, data = data.get("address"))
+            if address_serializer.is_valid():
+                address_serializer.save()
         instance.mobile = data.get('mobile', instance.mobile)
         instance.gender = data.get('gender', instance.gender)
-        # instance.requested = data.get('requested', instance.requested)
-        # instance.confirmed = data.get('confirmed', instance.confirmed)
         instance.save()
         return instance
-
-
 
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
