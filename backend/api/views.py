@@ -70,7 +70,6 @@ class LoginView(APIView):
       user = authenticate(email=email, password=password)
       if user is not None:
         token = MyTokenObtainPairSerializer(request.data).validate(request.data)
-        # token = get_tokens_for_user(user)
         return JsonResponse({'token': token,'message':'Login Success'}, status=status.HTTP_200_OK)
       else :
         return JsonResponse({'errors':{'non_field_errors' : ['Email or password is not valid']}}, status=status.HTTP_404_NOT_FOUND)
@@ -163,7 +162,7 @@ class ChangePasswordView(APIView):
       print(logger.error("User object does not exist with given email"))
     serializer = ChangePasswordSerializer(data = request.data, context={'user': request.user})
     if serializer.is_valid(raise_exception = True):
-      return JsonResponse({"message" : "Password Changed Successfully"}, status=status.HTTP_201_CREATED)
+      return JsonResponse({"message" : "Password Changed Successfully"}, status=status.HTTP_200_OK)
     return JsonResponse(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
 class ParentView(APIView):

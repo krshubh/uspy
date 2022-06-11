@@ -23,7 +23,8 @@ urlpatterns = [
     path('user/<int:user_id>/children', get_children_using_user_id, name='get-children-using-userid'),
     path('user/address',AddressView.as_view()),
     path('user',UserView.as_view()),
-    path('change_password',ChangePasswordView.as_view(), name = "change password")
+    path('change_password',ChangePasswordView.as_view(), name = "change password"),
+    path('change_password/',ChangePasswordView.as_view(), name = "change password")
     
 ]
 

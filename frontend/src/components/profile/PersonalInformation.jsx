@@ -33,6 +33,7 @@ class PersonalInformation extends Component {
               <Tab label="Change Password" value="3" />
             </TabList>
           </Box>
+          {this.props.children}
           <Card variant="outlined" sx={{ margin: 2 }}>
             <TabPanel value="1">
               <ProfileInformation

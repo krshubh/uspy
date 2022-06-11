@@ -9,5 +9,5 @@ export const callAPI = async (props) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(props.body),
-  }).then((res) => res.json());
+  });
 };

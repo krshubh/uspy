@@ -14,9 +14,10 @@ import { useNavigate } from "react-router-dom";
 import AccountSettings from "../components/profile/AccountSettings";
 import PersonalInformation from "../components/profile/PersonalInformation";
 import AdminSettings from "../components/admin_settings/AdminSettings";
-import { PROFILE_API } from "../constants";
+import { PROFILE_API, CHANGE_PASSWORD_API } from "../constants";
 import { Typography } from "@material-ui/core";
 import { callAPI } from "../callApi";
+import CustomAlert from "../components/CustomAlert";
 import _ from "lodash";
 
 class ProfilePage extends Component {
@@ -130,32 +131,13 @@ class ProfilePage extends Component {
     },
     account_edit_mode: { parents_edit_mode: false, children_edit_mode: false },
     profile: {},
+    alert: {
+      is_visible: false,
+      title: "",
+      message: "",
+      severity: "success",
+    },
   };
-
-  // async getProfile() {
-  //   var bearer = "Bearer " + this.props.authTokens.access;
-  //   await fetch(PROFILE_API, {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: bearer,
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then(
-  //       (json) => {
-  //         console.log("json", json);
-  //         this.setState({
-  //           is_profile_loaded: true,
-  //           profile: json,
-  //         });
-  //         console.log("this.state", this.state);
-  //       },
-  //       (error) => {
-  //         console.log("error", error.message);
-  //       }
-  //     );
-  // }
 
   async componentDidMount() {
     console.log("ProfilePage", "componentDidMount");
@@ -163,19 +145,21 @@ class ProfilePage extends Component {
       url: PROFILE_API,
       access_token: this.props.authTokens.access,
       method: "GET",
-    }).then(
-      (json) => {
-        console.log("json", json);
-        this.setState({
-          is_profile_loaded: true,
-          profile: json,
-          body: null,
-        });
-      },
-      (error) => {
-        console.log("error", error.message);
-      }
-    );
+    })
+      .then((res) => res.json())
+      .then(
+        (json) => {
+          console.log("json", json);
+          this.setState({
+            is_profile_loaded: true,
+            profile: json,
+            body: null,
+          });
+        },
+        (error) => {
+          console.log("error", error.message);
+        }
+      );
   }
 
   handleChange = (event, newValue) => {
@@ -203,41 +187,12 @@ class ProfilePage extends Component {
   updateProfile = (item) => {
     console.log("updateProfile", item);
     var profile = this.state.profile;
-    // profile.address = profile.address
-    //   ? { ...profile.address, ...item.address }
-    //   : { ...item.address };
     profile = _.merge(profile, item);
     this.setState({ profile: profile });
     console.log("profile", this.state.profile);
   };
 
-  // async updateProfile() {
-  //   var bearer = "Bearer " + this.props.authTokens.access;
-  //   await fetch(PROFILE_API, {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: bearer,
-  //       "Content-Type": "application/json",
-  //       body: JSON.stringify(this.state.profile)
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then(
-  //       (json) => {
-  //         console.log("json", json);
-  //         this.setState({
-  //           is_profile_loaded: true,
-  //           profile: json,
-  //         });
-  //         console.log("this.state", this.state);
-  //       },
-  //       (error) => {
-  //         console.log("error", error.message);
-  //       }
-  //     );
-  // }
-
-  onSaveClicked = (section) => {
+  onSaveClicked = async (section, data) => {
     console.log("onSaveClicked", section, this.state.profile);
     if (section === "profile" || section === "address") {
       callAPI({
@@ -245,23 +200,85 @@ class ProfilePage extends Component {
         access_token: this.props.authTokens.access,
         method: "PUT",
         body: this.state.profile,
-      }).then(
-        (json) => {
-          console.log("json", json);
-          this.setState({
-            is_profile_loaded: true,
-            profile: json,
-            personal_information_edit_mode: {
-              profile_edit_mode: false,
-              address_edit_mode: false,
-              change_password_edit_mode: false,
-            },
-          });
-        },
-        (error) => {
-          console.log("error", error.message);
-        }
-      );
+      })
+        .then((res) => res.json())
+        .then(
+          (json) => {
+            console.log("json", json);
+            this.setState({
+              is_profile_loaded: true,
+              profile: json,
+              personal_information_edit_mode: {
+                profile_edit_mode: false,
+                address_edit_mode: false,
+                change_password_edit_mode: false,
+              },
+            });
+          },
+          (error) => {
+            console.log("error", error.message);
+          }
+        );
+    } else if (section === "change_password") {
+      let response = await callAPI({
+        url: CHANGE_PASSWORD_API,
+        access_token: this.props.authTokens.access,
+        method: "POST",
+        body: data,
+      });
+      let json = await response.json();
+      console.log("data", json);
+      if (response.status === 200) {
+        this.setState({
+          alert: {
+            is_visible: true,
+            title: json.message ? json.message : "Password updated",
+            message: "",
+            severity: "success",
+          },
+          personal_information_edit_mode: {
+            profile_edit_mode: false,
+            address_edit_mode: false,
+            change_password_edit_mode: false,
+          },
+        });
+      } else if (response.status === 400) {
+        this.setState({
+          alert: {
+            is_visible: true,
+            title: json.non_field_errors[0]
+              ? json.non_field_errors[0]
+              : "Some Error occured",
+            message: "",
+            severity: "error",
+          },
+          personal_information_edit_mode: {
+            profile_edit_mode: false,
+            address_edit_mode: false,
+            change_password_edit_mode: false,
+          },
+        });
+      } else {
+        console.log("error");
+      }
+      // .then((res) => res.json())
+      // .then(
+      //   (json) => {
+      //     console.log("json", json);
+      // this.setState({
+      //   is_profile_loaded: true,
+      //   profile: json,
+      //   personal_information_edit_mode: {
+      //     profile_edit_mode: false,
+      //     address_edit_mode: false,
+      //     change_password_edit_mode: false,
+      //   },
+      // });
+      //   },
+      //   (error) => {
+      //     console.log("error", error.message);
+      //   }
+      // );
     } else if (section === "cancel") {
       this.setState({
         personal_information_edit_mode: {
@@ -304,6 +321,11 @@ class ProfilePage extends Component {
     }
   };
 
+  hideAlert = (isVisible) => {
+    const alert = _.merge(this.state.alert, { is_visible: false });
+    this.setState({ alert: alert });
+  };
+
   render() {
     return (
       <Box sx={{ display: "flex" }}>
@@ -335,7 +357,15 @@ class ProfilePage extends Component {
             personal_information_edit_mode={
               this.state.personal_information_edit_mode
             }
-          />
+          >
+            <CustomAlert
+              title={this.state.alert.title}
+              is_visible={this.state.alert.is_visible}
+              message={this.state.alert.message}
+              severity={this.state.alert.severity}
+              hideAlert={this.hideAlert}
+            />
+          </PersonalInformation>
         )}
         {this.state.selected == 2 && (
           <AccountSettings

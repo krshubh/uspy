@@ -1,7 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { TOKEN_API, REFRESH_TOKEN_API, SIGN_UP_API } from "../constants";
+import {
+  TOKEN_API,
+  REFRESH_TOKEN_API,
+  SIGN_UP_API,
+  LOGIN_API,
+} from "../constants";
 
 const AuthContext = createContext();
 
@@ -50,7 +55,7 @@ export const AuthProvider = ({ children }) => {
 
   let loginUser = async (e) => {
     e.preventDefault();
-    let response = await fetch(TOKEN_API, {
+    let response = await fetch(LOGIN_API, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

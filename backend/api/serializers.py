@@ -7,6 +7,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 class AddressSerializer(serializers.ModelSerializer):
+    address1 = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
+    address2 = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
+    city = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
+    state = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
+    country = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
+    pincode = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
     
     class Meta:
         model = Address

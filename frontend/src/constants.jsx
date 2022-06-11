@@ -6,7 +6,10 @@ export const TOKEN_API = "http://" + HOST_NAME + ":8000/api/token/";
 export const REFRESH_TOKEN_API =
   "http://" + HOST_NAME + ":8000/api/token/refresh/";
 export const SIGN_UP_API = "http://" + HOST_NAME + ":8000/api/signup/";
+export const LOGIN_API = "http://" + HOST_NAME + ":8000/api/login/";
 export const PROFILE_API = "http://" + HOST_NAME + ":8000/api/profile/";
+export const CHANGE_PASSWORD_API =
+  "http://" + HOST_NAME + ":8000/api/change_password/";
 
 // Constants
 export const PARENT_REQUESTS = "requests";

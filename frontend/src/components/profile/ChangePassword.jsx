@@ -11,12 +11,31 @@ import EditHeader from "../EditHeader";
 import { Component } from "react";
 
 class ChangePassword extends Component {
+  state = {
+    current_password: "",
+    new_password: "",
+    confirm_password: "",
+  };
+
   clicked_editmode = () => {
     this.setState({ edit_mode: true });
   };
 
   onSaveClicked = () => {
     this.setState({ edit_mode: false });
+  };
+
+  onSaveClicked = () => {
+    this.props.onSaveClicked("change_password", {
+      current_password: this.state.current_password,
+      new_password: this.state.new_password,
+      confirm_password: this.state.confirm_password,
+    });
+    this.setState({
+      current_password: "",
+      new_password: "",
+      confirm_password: "",
+    });
   };
 
   render() {
@@ -36,7 +55,13 @@ class ChangePassword extends Component {
               label="Type Current Password"
               fullWidth
               autoComplete="Type Current Password"
+              value={this.state.current_password}
               variant="standard"
+              onChange={(e) => {
+                this.setState({
+                  current_password: e.target.value,
+                });
+              }}
               disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
@@ -47,7 +72,13 @@ class ChangePassword extends Component {
               label="Type New Password"
               fullWidth
               autoComplete="Type New Password"
+              value={this.state.new_password}
               variant="standard"
+              onChange={(e) => {
+                this.setState({
+                  new_password: e.target.value,
+                });
+              }}
               disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
@@ -59,7 +90,13 @@ class ChangePassword extends Component {
               label="Retype New Password"
               fullWidth
               autoComplete="Retype New Password"
+              value={this.state.confirm_password}
               variant="standard"
+              onChange={(e) => {
+                this.setState({
+                  confirm_password: e.target.value,
+                });
+              }}
               disabled={this.props.edit_mode ? false : true}
             />
           </Grid>
@@ -74,7 +111,7 @@ class ChangePassword extends Component {
                   color: "#bbdefb",
                 },
               }}
-              onClick={() => this.props.onSaveClicked("change_password")}
+              onClick={() => this.onSaveClicked()}
             >
               Save
             </Button>

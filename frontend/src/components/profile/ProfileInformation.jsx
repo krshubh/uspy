@@ -18,10 +18,6 @@ class ProfileInformation extends Component {
     this.setState({ edit_mode: true });
   };
 
-  onSaveClicked = () => {
-    this.setState({ edit_mode: false });
-  };
-
   componentDidMount = () => {
     console.log("ProfileInformation", this.props.profile);
   };
@@ -140,7 +136,7 @@ class ProfileInformation extends Component {
             <Button
               variant="outlined"
               color="primary"
-              onClick={() => this.props.onSaveClicked("cancel")}
+              onClick={() => this.props.onSaveClicked("cancel", {})}
               sx={{ mr: 3 }}
             >
               Cancel
@@ -154,7 +150,7 @@ class ProfileInformation extends Component {
                   color: "#bbdefb",
                 },
               }}
-              onClick={() => this.props.onSaveClicked("profile")}
+              onClick={() => this.props.onSaveClicked("profile", {})}
             >
               Save
             </Button>

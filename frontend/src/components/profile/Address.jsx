@@ -153,7 +153,7 @@ class Address extends Component {
             <Button
               variant="outlined"
               color="primary"
-              onClick={() => this.props.onSaveClicked("cancel")}
+              onClick={() => this.props.onSaveClicked("cancel", {})}
               sx={{ mr: 3 }}
             >
               Cancel
@@ -168,7 +168,7 @@ class Address extends Component {
                   color: "#bbdefb",
                 },
               }}
-              onClick={() => this.props.onSaveClicked("address")}
+              onClick={() => this.props.onSaveClicked("address", {})}
             >
               Save
             </Button>
