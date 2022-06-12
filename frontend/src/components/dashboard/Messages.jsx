@@ -17,6 +17,9 @@ import { MenuItem } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import InputGroup from "react-bootstrap/InputGroup";
 import Filter from "./Filter";
+import TextField from '@mui/material/TextField';
+import { IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 class Messages extends Component {
   state = {

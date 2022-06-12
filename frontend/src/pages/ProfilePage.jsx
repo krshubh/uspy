@@ -15,7 +15,6 @@ import AccountSettings from "../components/profile/AccountSettings";
 import PersonalInformation from "../components/profile/PersonalInformation";
 import AdminSettings from "../components/admin_settings/AdminSettings";
 import { PROFILE_API, CHANGE_PASSWORD_API } from "../constants";
-import { Typography } from "@material-ui/core";
 import { callAPI } from "../callApi";
 import CustomAlert from "../components/CustomAlert";
 import _ from "lodash";

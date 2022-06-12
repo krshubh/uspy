@@ -6,7 +6,6 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import { AuthProvider } from "./context/AuthContext";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import ProfilePage from "./pages/ProfilePage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
