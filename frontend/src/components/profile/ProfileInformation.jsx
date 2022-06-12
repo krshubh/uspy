@@ -108,9 +108,7 @@ class ProfileInformation extends Component {
             </FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              value={
-                this.props.profile.gender ? this.props.profile.gender : "M"
-              }
+              value={this.props.profile.gender ? this.props.profile.gender : ""}
               onChange={(e) => {
                 this.props.updateProfile({
                   gender: e.target.value,

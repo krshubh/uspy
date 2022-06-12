@@ -8,6 +8,17 @@ GENDER_CHOICES = (
     ('F', 'Female'),
 )
 
+CALL_TYPE_CHOICES = (
+    ('M','Missed Call'),
+    ('I','Incoming Call'),
+    ('O','Outgoing Call'),
+)
+
+MESSAGE_TYPE_CHOICES = (
+    ('S','SMS'),
+    ('M','MMS'),
+)
+
 class UserManager(BaseUserManager):
     use_in_migrations = False
     auto_created = False
@@ -106,3 +117,40 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.email
+    
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    mobile = models.CharField(max_length=20, blank=True, default='', null=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
+    address = models.OneToOneField(Address, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.email
+    
+class Contact(models.Model):
+    name = models.CharField(max_length=30, blank=True, default='', null=True)
+    number = models.CharField(max_length=20, blank=True, default='', null=True)
+    
+    def __str__(self):
+        return self.name
+    
+class CallLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    contact =  models.ForeignKey(Contact, on_delete=models.CASCADE, blank=True, null=True)
+    call_type = models.CharField(max_length=20, choices=CALL_TYPE_CHOICES, blank=True, null=True)
+    duration = models.DurationField()
+    date = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.user.email
+    
+class Message(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    contact =  models.ForeignKey(Contact, on_delete=models.CASCADE, blank=True, null=True)
+    message_type = models.CharField(max_length=20, choices=MESSAGE_TYPE_CHOICES, blank=True, null=True)
+    title = models.CharField(max_length=50, blank=True, default='', null=True)
+    message = models.CharField(max_length=500, blank=True, default='', null=True)
+    date = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.contact.name

@@ -15,65 +15,13 @@ import { Box } from "@mui/system";
 import { Container, Select } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import InputGroup from "react-bootstrap/InputGroup";
+import PaginationItem from "@mui/material/PaginationItem";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Filter from "./Filter";
 
-class Contacts extends Component {
-  state = {
-    call_logs: [
-      {
-        child_id: 1,
-        child_name: "priya",
-        calls: [
-          {
-            id: 1,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            type: "incoming",
-            duration: "12:23",
-          },
-          {
-            id: 2,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            type: "outgoing",
-            duration: "12:23",
-          },
-        ],
-      },
-      {
-        child_id: 2,
-        child_name: "divya",
-        messages: [
-          {
-            id: 1,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            type: "outgoing",
-            duration: "12:23",
-          },
-          {
-            id: 2,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            type: "incoming",
-            duration: "12:23",
-          },
-        ],
-      },
-    ],
-    child_id: 0,
-  };
-
-  componentDidMount() {
-    if (this.state.call_logs.calls > 0) {
-      this.setState({ child_id: 1 });
-    }
-  }
+class CallLogs extends Component {
+  componentDidMount() {}
 
   render() {
     return (
@@ -96,32 +44,40 @@ class Contacts extends Component {
                 >
                   <TableCell>Name</TableCell>
                   <TableCell>Phone Number</TableCell>
-                  <TableCell>Message</TableCell>
+                  <TableCell>Type</TableCell>
                   <TableCell>Duration</TableCell>
                   <TableCell align="right">Date</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.call_logs[this.state.child_id].calls.map((call) => (
+                {this.props.data.map((call) => (
                   <TableRow key={call.id}>
-                    <TableCell>{call.name}</TableCell>
-                    <TableCell>{call.mobile_no}</TableCell>
-                    <TableCell>{call.type}</TableCell>
+                    <TableCell>{call.contact.name}</TableCell>
+                    <TableCell>{call.contact.number}</TableCell>
+                    <TableCell>{call.call_type}</TableCell>
                     <TableCell>{call.duration}</TableCell>
-                    <TableCell align="right">{call.timestamp}</TableCell>
+                    <TableCell align="right">{call.date}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
           <Pagination
-            count={10}
+            count={this.props.page_count}
             color="primary"
             sx={{
               height: 80,
               display: "flex",
               justifyContent: "center",
             }}
+            defaultPage={1}
+            onChange={this.props.handlePageChange}
+            renderItem={(item) => (
+              <PaginationItem
+                components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                {...item}
+              />
+            )}
           />
         </Paper>
       </React.Fragment>
@@ -129,4 +85,4 @@ class Contacts extends Component {
   }
 }
 
-export default Contacts;
+export default CallLogs;

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Profile, Address
+from .models import User, Profile, Address, Contact, CallLog, Message
 from django.contrib.auth.admin import UserAdmin
 from django.forms import TextInput, Textarea
 
@@ -34,3 +34,18 @@ class AddressAdminConfig(admin.ModelAdmin):
     list_display = ('address1','address2','city','state','country','pincode')
 
 admin.site.register(Address, AddressAdminConfig)
+
+class ContactAdminConfig(admin.ModelAdmin):
+    list_display = ('name','number')
+    
+admin.site.register(Contact, ContactAdminConfig)
+
+class CallLogAdminConfig(admin.ModelAdmin):
+    list_display = ('user','contact','call_type','duration', 'date')
+
+admin.site.register(CallLog, CallLogAdminConfig)
+
+class MessageAdminConfig(admin.ModelAdmin):
+    list_display = ('user','contact','message_type','title','message','date')
+
+admin.site.register(Message, MessageAdminConfig)

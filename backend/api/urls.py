@@ -7,6 +7,7 @@ from rest_framework_simplejwt.views import (
 from .views import MyTokenObtainPairView
 from .views import AddressView,UserView, ProfileView, ParentView, ChildrenView
 from .views import SignupView, LoginView, ChangePasswordView
+from .views import CallLogView, MessageLogView
 from .views import get_parent_using_user_id, get_children_using_user_id
 
 urlpatterns = [
@@ -21,10 +22,11 @@ urlpatterns = [
     path('user/<int:user_id>/parent/', get_parent_using_user_id, name='get-parent-using-userid'),
     path('user/children', ChildrenView.as_view()),
     path('user/<int:user_id>/children', get_children_using_user_id, name='get-children-using-userid'),
-    path('user/address',AddressView.as_view()),
+    path('user/address/',AddressView.as_view()),
     path('user',UserView.as_view()),
     path('change_password',ChangePasswordView.as_view(), name = "change password"),
-    path('change_password/',ChangePasswordView.as_view(), name = "change password")
-    
+    path('change_password/',ChangePasswordView.as_view(), name = "change password"),
+    path('call_log/',CallLogView.as_view(), name = "call log"),
+    path('message/',MessageLogView.as_view(), name = "message")
 ]
 

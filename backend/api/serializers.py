@@ -1,6 +1,7 @@
 import imp
 from rest_framework import serializers
-from backend.models import Address, User, Profile, Parent, Children
+from backend.models import Address, User, Profile, Parent, Children, \
+    Contact, CallLog, Message
 from backend.models import GENDER_CHOICES
 import logging
 
@@ -156,3 +157,24 @@ class SignupSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+    
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ['name', 'number']
+
+class CallLogSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=False, many=False)
+    contact = ContactSerializer(read_only=False, many=False)
+    
+    class Meta:
+        model = CallLog
+        fields = ['id', 'user', 'contact', 'call_type', 'duration', 'date']
+        
+class MessageSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=False, many=False)
+    contact = ContactSerializer(read_only=False, many=False)
+    
+    class Meta:
+        model = CallLog
+        fields = ['user', 'contact', 'message_type', 'title', 'message', 'date']

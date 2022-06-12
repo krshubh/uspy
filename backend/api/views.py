@@ -5,13 +5,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.views.decorators.csrf import csrf_exempt
-from backend.models import User, Address, Profile, Parent, Children
+from backend.models import User, Address, Profile, Parent, Children, Contact, CallLog, Message
 from rest_framework.parsers import JSONParser
 from backend.api.serializers import AddressSerializer, SignupSerializer,\
                                     ProfileSerializer, ParentSerializer,\
                                     ChildrenSerializer, UserSerializer,\
                                     UserAccessSerializer, LoginSerializer,\
-                                    ChangePasswordSerializer
+                                    ChangePasswordSerializer,\
+                                    ContactSerializer, CallLogSerializer, \
+                                    MessageSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -22,6 +24,8 @@ from rest_framework import status
 from django.core import serializers
 from django.contrib.auth import authenticate
 from backend.api.renderers import UserRenderer
+from rest_framework.pagination import PageNumberPagination
+from backend.api.pagination import CustomNumberPagination
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +84,11 @@ class AddressView(APIView):
   def get(self, request, format=None):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    data = Profile.objects.get(id = request.user.id)
+    try:
+      user = User.objects.get(email = request.user.email)
+      data = Profile.objects.get(user = user)
+    except:
+      print(logger.error("Project object doesnot exist with given email"))
     serializer = AddressSerializer(data.address)
     response = JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
     return response
@@ -89,7 +97,11 @@ class AddressView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     data = JSONParser().parse(request)
-    profile_data = Profile.objects.get(id = request.user.id)
+    try:
+      user = User.objects.get(email = request.user.email)
+      profile_data = Profile.objects.get(user = user)
+    except:
+      print(logger.error("Project object doesnot exist with given email"))
     serializer = AddressSerializer(instance = profile_data.address, data = data)
     if serializer.is_valid():
       serializer.save()
@@ -101,8 +113,8 @@ class UserView(APIView):
   def get(self, request, format=None):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    data = Profile.objects.get(id = request.user.id)
-    serializer = UserSerializer(data.user)
+    user = User.objects.get(email = request.user.email)
+    serializer = UserSerializer(user)
     response = JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
     return response
   
@@ -110,8 +122,8 @@ class UserView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     data = JSONParser().parse(request)
-    profile_data = Profile.objects.get(id = request.user.id)
-    serializer = UserSerializer(instance = profile_data.user, data = data)
+    user = User.objects.get(email = request.user.email)
+    serializer = UserSerializer(instance = user, data = data)
     if serializer.is_valid():
       serializer.save()
       return JsonResponse(serializer.data, status=status.HTTP_204_NO_CONTENT)
@@ -163,7 +175,32 @@ class ChangePasswordView(APIView):
     serializer = ChangePasswordSerializer(data = request.data, context={'user': request.user})
     if serializer.is_valid(raise_exception = True):
       return JsonResponse({"message" : "Password Changed Successfully"}, status=status.HTTP_200_OK)
-    return JsonResponse(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+class CallLogView(generics.ListAPIView):
+  authentication_classes = [JWTAuthentication]
+  permission_classes = [IsAuthenticated]
+  serializer_class = CallLogSerializer
+  
+  def get(self, request, format=None):
+    try:
+      user = User.objects.get(email = request.user.email)
+    except:
+      print(logger.error("User object does not exist with given email"))
+    queryset = CallLog.objects.filter(user = user)
+    self.pagination_class = CustomNumberPagination
+    page = self.paginate_queryset(queryset)
+    if page is not None:
+      serializer = self.get_serializer(page, many=True)
+      return self.get_paginated_response(serializer.data)
+    serializer = self.get_serializer(self.queryset, many=True)
+    return Response(serializer.data) 
+
+class MessageLogView(APIView):
+  def get(self, request, format=None):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    return JsonResponse({"message": "Message"}, status=status.HTTP_200_OK, safe=False)
   
 class ParentView(APIView):
   def get(self, request, format=None):

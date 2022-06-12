@@ -8,31 +8,34 @@ import NavHeader from "../components/NavHeader";
 import HomeNavDrawer from "../components/nav_drawer/HomeNavDrawer";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import Contacts from "../components/dashboard/Contacts";
+import CallLogs from "../components/dashboard/CallLogs";
 import Dashboard from "../components/dashboard/Dashboard";
 import Messages from "../components/dashboard/Messages";
 import { fabClasses } from "@mui/material";
+import { CALL_LOG_API } from "../constants";
+import { callAPI } from "../callApi";
 
 class HomePage extends Component {
   state = {
     drawerWidth: 240,
     open: false,
     nav_items: [
-      // {
-      //   id: 1,
-      //   value: "Dashboard",
-      //   icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
-      // },
+      {
+        id: 1,
+        value: "Dashboard",
+        selected: false,
+        icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+      },
       {
         id: 2,
-        value: "Contacts",
-        selected: false,
+        value: "Call Logs",
+        selected: true,
         icon: "M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z",
       },
       {
         id: 3,
         value: "Messages",
-        selected: true,
+        selected: false,
         icon: "M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z",
       },
     ],
@@ -48,7 +51,26 @@ class HomePage extends Component {
     ],
     is_nav_icon: true,
     title: "Home",
-    selected: 1,
+    selected: 2,
+    call_logs: [
+      {
+        id: 3,
+        user: {
+          email: "divya@gmail.com",
+          firstname: "Divya",
+          lastname: "Bharti",
+        },
+        contact: {
+          name: "Priya",
+          number: "7543021269",
+        },
+        call_type: "M",
+        duration: "00:00:00",
+        date: "2022-06-12T11:12:47.854130Z",
+      },
+    ],
+    call_page_count: 1,
+    message_page_count: 1,
   };
 
   selectDrawerItem = (selected_item) => {
@@ -80,6 +102,10 @@ class HomePage extends Component {
     }
   };
 
+  handleCallPageChange = (event, value) => {
+    this.callLogApi(value);
+  };
+
   handleOpen = (is_open) => {
     this.setState({
       open: is_open,
@@ -87,8 +113,30 @@ class HomePage extends Component {
     });
   };
 
+  callLogApi(page) {
+    callAPI({
+      url: CALL_LOG_API + "?page=" + page + "&limit=1&offset=1",
+      access_token: this.props.authTokens.access,
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then(
+        (json) => {
+          console.log("json", json);
+          this.setState({
+            call_logs: json.results,
+            call_page_count: Math.ceil(json.count / json.page_size),
+          });
+        },
+        (error) => {
+          console.log("error", error.message);
+        }
+      );
+  }
+
   componentDidMount() {
-    this.setState({ selected: 3, title: "Messages" });
+    this.setState({ selected: 2, title: "CallLogs" });
+    this.callLogApi(1);
   }
 
   render() {
@@ -114,8 +162,16 @@ class HomePage extends Component {
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <NavHeader />
           {this.state.selected == 1 && <Dashboard />}
-          {this.state.selected == 2 && <Contacts />}
-          {this.state.selected == 3 && <Messages />}
+          {this.state.selected == 2 && (
+            <CallLogs
+              data={this.state.call_logs}
+              page_count={this.state.call_page_count}
+              handlePageChange={this.handleCallPageChange}
+            />
+          )}
+          {this.state.selected == 3 && (
+            <Messages page={this.state.message_page} />
+          )}
         </Box>
       </Box>
     );
@@ -124,9 +180,14 @@ class HomePage extends Component {
 
 export default function (props) {
   const navigation = useNavigate();
-  const { logoutUser, user } = useContext(AuthContext);
+  const { logoutUser, authTokens } = useContext(AuthContext);
 
   return (
-    <HomePage {...props} navigation={navigation} logoutUser={logoutUser} />
+    <HomePage
+      {...props}
+      navigation={navigation}
+      logoutUser={logoutUser}
+      authTokens={authTokens}
+    />
   );
 }

@@ -1,6 +1,6 @@
 // export const HOST_NAME = "192.168.1.78";
-// export const HOST_NAME = "localhost";
-export const HOST_NAME = "34.93.100.128";
+export const HOST_NAME = "localhost";
+// export const HOST_NAME = "34.93.100.128";
 
 // Api
 export const TOKEN_API = "http://" + HOST_NAME + ":8000/api/token/";
@@ -9,6 +9,7 @@ export const REFRESH_TOKEN_API =
 export const SIGN_UP_API = "http://" + HOST_NAME + ":8000/api/signup/";
 export const LOGIN_API = "http://" + HOST_NAME + ":8000/api/login/";
 export const PROFILE_API = "http://" + HOST_NAME + ":8000/api/profile/";
+export const CALL_LOG_API = "http://" + HOST_NAME + ":8000/api/call_log/";
 export const CHANGE_PASSWORD_API =
   "http://" + HOST_NAME + ":8000/api/change_password/";
 
