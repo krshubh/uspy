@@ -169,6 +169,7 @@ class CallLogSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CallLog
+        ordering = ['-id']
         fields = ['id', 'user', 'contact', 'call_type', 'duration', 'date']
         
 class MessageSerializer(serializers.ModelSerializer):
@@ -176,5 +177,6 @@ class MessageSerializer(serializers.ModelSerializer):
     contact = ContactSerializer(read_only=False, many=False)
     
     class Meta:
-        model = CallLog
-        fields = ['user', 'contact', 'message_type', 'title', 'message', 'date']
+        model = Message
+        ordering = ['-id']
+        fields = ['id', 'user', 'contact', 'message_type', 'message', 'date']

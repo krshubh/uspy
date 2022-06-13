@@ -196,11 +196,24 @@ class CallLogView(generics.ListAPIView):
     serializer = self.get_serializer(self.queryset, many=True)
     return Response(serializer.data) 
 
-class MessageLogView(APIView):
+class MessageLogView(generics.ListAPIView):
+  authentication_classes = [JWTAuthentication]
+  permission_classes = [IsAuthenticated]
+  serializer_class = MessageSerializer
+  
   def get(self, request, format=None):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-    return JsonResponse({"message": "Message"}, status=status.HTTP_200_OK, safe=False)
+    try:
+      user = User.objects.get(email = request.user.email)
+    except:
+      print(logger.error("User object does not exist with given email"))
+    queryset = Message.objects.filter(user = user)
+    self.pagination_class = CustomNumberPagination
+    page = self.paginate_queryset(queryset)
+    if page is not None:
+      serializer = self.get_serializer(page, many=True)
+      return self.get_paginated_response(serializer.data)
+    serializer = self.get_serializer(self.queryset, many=True)
+    return Response(serializer.data) 
   
 class ParentView(APIView):
   def get(self, request, format=None):

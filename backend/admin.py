@@ -46,6 +46,6 @@ class CallLogAdminConfig(admin.ModelAdmin):
 admin.site.register(CallLog, CallLogAdminConfig)
 
 class MessageAdminConfig(admin.ModelAdmin):
-    list_display = ('user','contact','message_type','title','message','date')
+    list_display = ('user','contact','message_type','message','date')
 
 admin.site.register(Message, MessageAdminConfig)

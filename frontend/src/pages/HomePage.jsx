@@ -12,7 +12,7 @@ import CallLogs from "../components/dashboard/CallLogs";
 import Dashboard from "../components/dashboard/Dashboard";
 import Messages from "../components/dashboard/Messages";
 import { fabClasses } from "@mui/material";
-import { CALL_LOG_API } from "../constants";
+import { CALL_LOG_API, MESSAGE_API } from "../constants";
 import { callAPI } from "../callApi";
 
 class HomePage extends Component {
@@ -20,12 +20,12 @@ class HomePage extends Component {
     drawerWidth: 240,
     open: false,
     nav_items: [
-      {
-        id: 1,
-        value: "Dashboard",
-        selected: false,
-        icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
-      },
+      // {
+      //   id: 1,
+      //   value: "Dashboard",
+      //   selected: false,
+      //   icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+      // },
       {
         id: 2,
         value: "Call Logs",
@@ -69,6 +69,7 @@ class HomePage extends Component {
         date: "2022-06-12T11:12:47.854130Z",
       },
     ],
+    messages: [],
     call_page_count: 1,
     message_page_count: 1,
   };
@@ -106,6 +107,10 @@ class HomePage extends Component {
     this.callLogApi(value);
   };
 
+  handleMessagePageChange = (event, value) => {
+    this.messageApi(value);
+  };
+
   handleOpen = (is_open) => {
     this.setState({
       open: is_open,
@@ -115,7 +120,7 @@ class HomePage extends Component {
 
   callLogApi(page) {
     callAPI({
-      url: CALL_LOG_API + "?page=" + page + "&limit=1&offset=1",
+      url: CALL_LOG_API + "?page=" + page,
       access_token: this.props.authTokens.access,
       method: "GET",
     })
@@ -134,9 +139,31 @@ class HomePage extends Component {
       );
   }
 
+  messageApi(page) {
+    callAPI({
+      url: MESSAGE_API + "?page=" + page,
+      access_token: this.props.authTokens.access,
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then(
+        (json) => {
+          console.log("json", json);
+          this.setState({
+            messages: json.results,
+            message_page_count: Math.ceil(json.count / json.page_size),
+          });
+        },
+        (error) => {
+          console.log("error", error.message);
+        }
+      );
+  }
+
   componentDidMount() {
     this.setState({ selected: 2, title: "CallLogs" });
     this.callLogApi(1);
+    this.messageApi(1);
   }
 
   render() {
@@ -170,7 +197,11 @@ class HomePage extends Component {
             />
           )}
           {this.state.selected == 3 && (
-            <Messages page={this.state.message_page} />
+            <Messages
+              data={this.state.messages}
+              handlePageChange={this.handleMessagePageChange}
+              page_count={this.state.message_page_count}
+            />
           )}
         </Box>
       </Box>

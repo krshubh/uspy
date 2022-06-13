@@ -17,118 +17,15 @@ import { MenuItem } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import InputGroup from "react-bootstrap/InputGroup";
 import Filter from "./Filter";
-import TextField from '@mui/material/TextField';
-import { IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import TextField from "@mui/material/TextField";
+import { IconButton } from "@mui/material";
+import PaginationItem from "@mui/material/PaginationItem";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import SearchIcon from "@mui/icons-material/Search";
 
 class Messages extends Component {
-  state = {
-    message_logs: [
-      {
-        child_id: 0,
-        child_name: "priya",
-        messages: [
-          {
-            id: 1,
-            timestamp: "24234123",
-            name: "something",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 2,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 3,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 4,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 5,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 6,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 7,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 8,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 9,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 10,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-        ],
-      },
-      {
-        child_id: 2,
-        child_name: "divya",
-        messages: [
-          {
-            id: 1,
-            timestamp: "24234123",
-            name: "new name",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-          {
-            id: 2,
-            timestamp: "24234123",
-            name: "shubham",
-            mobile_no: "8953455228",
-            text: "some description",
-          },
-        ],
-      },
-    ],
-    child_id: 0,
-  };
-
-  componentDidMount() {
-    if (this.state.message_logs.length > 0) {
-      this.setState({ child_id: 0 });
-    }
-  }
+  componentDidMount() {}
 
   handleChangePage() {}
 
@@ -179,27 +76,33 @@ class Messages extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.message_logs[this.state.child_id].messages.map(
-                  (message) => (
-                    <TableRow key={message.id}>
-                      <TableCell>{message.name}</TableCell>
-                      <TableCell>{message.mobile_no}</TableCell>
-                      <TableCell>{message.text}</TableCell>
-                      <TableCell align="right">{message.timestamp}</TableCell>
-                    </TableRow>
-                  )
-                )}
+                {this.props.data.map((message) => (
+                  <TableRow key={message.id}>
+                    <TableCell>{message.contact.name}</TableCell>
+                    <TableCell>{message.contact.number}</TableCell>
+                    <TableCell>{message.message}</TableCell>
+                    <TableCell align="right">{message.date}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
           <Pagination
-            count={10}
+            count={this.props.page_count}
             color="primary"
             sx={{
               height: 80,
               display: "flex",
               justifyContent: "center",
             }}
+            defaultPage={1}
+            onChange={this.props.handlePageChange}
+            renderItem={(item) => (
+              <PaginationItem
+                components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                {...item}
+              />
+            )}
           />
         </Paper>
       </React.Fragment>
