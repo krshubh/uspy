@@ -92,22 +92,22 @@ class Address(models.Model):
         return self.address1
 
 class Parent(models.Model):
-    user_id = models.IntegerField(default = 0, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     requests = models.ManyToManyField(User, related_name='parents_requests', blank=True)
     requested = models.ManyToManyField(User, related_name='parents_requested', blank=True)
     confirmed = models.ManyToManyField(User, related_name='parents_confirmed', blank=True)
     
     def __str__(self):
-        return str(self.user_id)
+        return str(self.user.email)
     
 class Children(models.Model):
-    user_id = models.IntegerField(default = 0, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     requests = models.ManyToManyField(User, related_name='children_requests', blank=True)
     requested = models.ManyToManyField(User, related_name='children_requested', blank=True)
     confirmed = models.ManyToManyField(User, related_name='children_confirmed', blank=True)
     
     def __str__(self):
-        return str(self.user_id)
+        return str(self.user.email)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)

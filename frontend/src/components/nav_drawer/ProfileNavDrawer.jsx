@@ -14,6 +14,9 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import StarBorder from "@mui/icons-material/StarBorder";
+import PersonIcon from "@mui/icons-material/Person";
+import { Divider } from "@mui/material";
+import { Typography } from "@mui/material";
 
 class ProfileNavDrawer extends Component {
   state = {
@@ -39,16 +42,7 @@ class ProfileNavDrawer extends Component {
         drawerWidth={this.props.drawerWidth}
         onClose={() => this.props.handleOpen(false)}
       >
-        <NavHeader>
-          <IconButton onClick={() => this.props.handleOpen(false)}>
-            <SvgIcon viewBox="0 0 50 32">
-              <path d="M49,4H19c-0.6,0-1-0.4-1-1s0.4-1,1-1h30c0.6,0,1,0.4,1,1S49.6,4,49,4z"></path>
-              <path d="M49,16H19c-0.6,0-1-0.4-1-1s0.4-1,1-1h30c0.6,0,1,0.4,1,1S49.6,16,49,16z"></path>
-              <path d="M49,28H19c-0.6,0-1-0.4-1-1s0.4-1,1-1h30c0.6,0,1,0.4,1,1S49.6,28,49,28z"></path>
-              <path d="M8.1,22.8c-0.3,0-0.5-0.1-0.7-0.3L0.7,15l6.7-7.8c0.4-0.4,1-0.5,1.4-0.1c0.4,0.4,0.5,1,0.1,1.4L3.3,15l5.5,6.2   c0.4,0.4,0.3,1-0.1,1.4C8.6,22.7,8.4,22.8,8.1,22.8z"></path>
-            </SvgIcon>
-          </IconButton>
-        </NavHeader>
+        <NavHeader />
         <List>
           {this.state.nav_items.map((item) => (
             <ListItem
@@ -68,11 +62,36 @@ class ProfileNavDrawer extends Component {
                       key={sub_item.sub_id}
                       onClick={() => this.props.onItemClick(sub_item)}
                     >
-                      <ListItemText primary={sub_item.value} />
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: this.props.open ? 1 : "auto",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <IconButton>
+                          <SvgIcon
+                            color={sub_item.selected ? "primary" : "disabled"}
+                          >
+                            <path d={sub_item.icon} />
+                          </SvgIcon>
+                        </IconButton>
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          <Typography
+                            color={sub_item.selected ? "primary" : "disabled"}
+                          >
+                            {sub_item.value}
+                          </Typography>
+                        }
+                        sx={{ opacity: this.props.open ? 1 : 0 }}
+                      />
                     </ListItemButton>
                   ))}
                 </List>
               </Collapse>
+              <Divider />
             </ListItem>
           ))}
         </List>

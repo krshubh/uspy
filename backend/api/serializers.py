@@ -69,7 +69,7 @@ class UserAccessSerializer(serializers.ModelSerializer):
         }
         
 class ParentSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
+    user = UserSerializer(read_only=False, many=False)
     requests = UserSerializer(read_only=True, many=True)
     requested = UserSerializer(read_only=True, many=True)
     confirmed = UserSerializer(read_only=True, many=True)
@@ -84,7 +84,7 @@ class ParentSerializer(serializers.Serializer):
         """
         Update and return an existing `Snippet` instance, given the validated data.
         """
-        instance.user_id = data.get('user_id', instance.user_id)
+        instance.user = data.get('user', instance.user)
         instance.requests = data.get('requests', instance.requests)
         instance.requested = data.get('requested', instance.requested)
         instance.confirmed = data.get('confirmed', instance.confirmed)
@@ -92,7 +92,7 @@ class ParentSerializer(serializers.Serializer):
         return instance
     
 class ChildrenSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
+    user = UserSerializer(read_only=False, many=False)
     requests = UserSerializer(read_only=True, many=True)
     requested = UserSerializer(read_only=True, many=True)
     confirmed = UserSerializer(read_only=True, many=True)
@@ -101,13 +101,13 @@ class ChildrenSerializer(serializers.Serializer):
         """
         Create and return a new `Snippet` instance, given the validated data.
         """
-        return Children.objects.create(**data)
+        return Parent.objects.create(**data)
 
     def update(self, instance, data):
         """
         Update and return an existing `Snippet` instance, given the validated data.
         """
-        instance.user_id = data.get('user_id', instance.user_id)
+        instance.user = data.get('user', instance.user)
         instance.requests = data.get('requests', instance.requests)
         instance.requested = data.get('requested', instance.requested)
         instance.confirmed = data.get('confirmed', instance.confirmed)

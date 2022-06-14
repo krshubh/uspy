@@ -28,7 +28,7 @@ class PersonalInformation extends Component {
               onChange={this.props.handleChange}
               aria-label="lab API tabs example"
             >
-              <Tab label="Profile" value="1" />
+              <Tab label="Personal Information" value="1" />
               <Tab label="Address" value="2" />
               <Tab label="Change Password" value="3" />
             </TabList>

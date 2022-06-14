@@ -21,6 +21,7 @@ from rest_framework.views import APIView
 import logging
 import json
 from rest_framework import status
+from rest_framework import filters
 from django.core import serializers
 from django.contrib.auth import authenticate
 from backend.api.renderers import UserRenderer
@@ -108,26 +109,13 @@ class AddressView(APIView):
       return JsonResponse(serializer.data, status=status.HTTP_204_NO_CONTENT)
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserView(APIView):
-  
-  def get(self, request, format=None):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-    user = User.objects.get(email = request.user.email)
-    serializer = UserSerializer(user)
-    response = JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
-    return response
-  
-  def put(self, request, format=None):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-    data = JSONParser().parse(request)
-    user = User.objects.get(email = request.user.email)
-    serializer = UserSerializer(instance = user, data = data)
-    if serializer.is_valid():
-      serializer.save()
-      return JsonResponse(serializer.data, status=status.HTTP_204_NO_CONTENT)
-    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserView(generics.ListCreateAPIView):
+  authentication_classes = [JWTAuthentication]
+  permission_classes = [IsAuthenticated]
+  filter_backends = (filters.SearchFilter,)
+  search_fields = ['firstname','lastname']
+  queryset = User.objects.all()
+  serializer_class = UserSerializer
 
 class ProfileView(APIView):
   
@@ -220,9 +208,9 @@ class ParentView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     try:
-      data = Parent.objects.get(user_id = request.user.id)
+      data = Parent.objects.get(user = request.user)
     except Parent.DoesNotExist:
-      data = Parent.objects.create(user_id = request.user.id)
+      data = Parent.objects.create(user = request.user)
     serializer = ParentSerializer(data)
     return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
   
@@ -232,39 +220,39 @@ class ChildrenView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     try:
-      data = Children.objects.get(user_id = request.user.id)
+      data = Children.objects.get(user = request.user)
     except Children.DoesNotExist:
-      data = Children.objects.create(user_id = request.user.id)
+      data = Children.objects.create(user = request.user)
     serializer = ChildrenSerializer(data)
     return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
-@api_view(['GET'])
-def get_parent_using_user_id(request, user_id):
-  authentication_classes = [JWTAuthentication]
-  permission_classes = [IsAuthenticated]
-  if request.user.is_admin :
-    try:
-      data = Parent.objects.get(user_id = request.user.id)
-    except Parent.DoesNotExist:
-      data = Parent.objects.create(user_id = request.user.id)
-    serializer = ParentSerializer(data)
-    return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
-  else :
-    response_data = {"message" : "user don't have admin access"}
-    return JsonResponse(response_data, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION, safe=False)
+# @api_view(['GET'])
+# def get_parent_using_user_id(request, user_id):
+#   authentication_classes = [JWTAuthentication]
+#   permission_classes = [IsAuthenticated]
+#   if request.user.is_admin :
+#     try:
+#       data = Parent.objects.get(user_id = request.user.id)
+#     except Parent.DoesNotExist:
+#       data = Parent.objects.create(user_id = request.user.id)
+#     serializer = ParentSerializer(data)
+#     return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+#   else :
+#     response_data = {"message" : "user don't have admin access"}
+#     return JsonResponse(response_data, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION, safe=False)
     
-@api_view(['GET'])
-def get_children_using_user_id(request, user_id):
-  authentication_classes = [JWTAuthentication]
-  permission_classes = [IsAuthenticated]
-  if request.user.is_admin :
-    try:
-      data = Children.objects.get(user_id = request.user.id)
-    except Children.DoesNotExist:
-      data = Children.objects.create(user_id = request.user.id)
-    serializer = ChildrenSerializer(data)
-    return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
-  else :
-    response_data = {"message" : "user don't have admin access"}
-    return JsonResponse(response_data, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION, safe=False)
+# @api_view(['GET'])
+# def get_children_using_user_id(request, user_id):
+#   authentication_classes = [JWTAuthentication]
+#   permission_classes = [IsAuthenticated]
+#   if request.user.is_admin :
+#     try:
+#       data = Children.objects.get(user_id = request.user.id)
+#     except Children.DoesNotExist:
+#       data = Children.objects.create(user_id = request.user.id)
+#     serializer = ChildrenSerializer(data)
+#     return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+#   else :
+#     response_data = {"message" : "user don't have admin access"}
+#     return JsonResponse(response_data, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION, safe=False)
