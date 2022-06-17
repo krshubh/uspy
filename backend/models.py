@@ -119,6 +119,7 @@ class Profile(models.Model):
         return self.user.email
     
 class Contact(models.Model):
+    user_id = models.IntegerField(default = -1)
     name = models.CharField(max_length=30, blank=True, default='', null=True)
     number = models.CharField(max_length=20, blank=True, default='', null=True)
     
@@ -129,11 +130,14 @@ class CallLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     contact =  models.ForeignKey(Contact, on_delete=models.CASCADE, blank=True, null=True)
     call_type = models.CharField(max_length=20, choices=CALL_TYPE_CHOICES, blank=True, null=True)
-    duration = models.DurationField()
+    duration = models.DurationField(blank=True, null=True)
     date = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.contact.name
+        if self.contact != None and self.contact.name != None :
+            return self.contact.name
+        else :
+            return "Id of this call log is : " + str(self.id)
     
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -143,4 +147,7 @@ class Message(models.Model):
     date = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.contact.name
+        if self.contact != None and self.contact.name != None :
+            return self.contact.name
+        else :
+            return "Id of this call log is : " + str(self.id)

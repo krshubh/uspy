@@ -161,7 +161,7 @@ class SignupSerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ['name', 'number']
+        fields = ['user_id', 'name', 'number']
 
 class CallLogSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=False, many=False)
@@ -171,6 +171,23 @@ class CallLogSerializer(serializers.ModelSerializer):
         model = CallLog
         ordering = ['-id']
         fields = ['id', 'user', 'contact', 'call_type', 'duration', 'date']
+    
+    def create(self, data):
+        user_data = data['user']
+        user = User.objects.get(email=user_data['email'])
+        
+        contact_data = data['contact']
+        if Contact.objects.filter(number=contact_data['number'], user_id = user.id).exists() :
+            contact = Contact.objects.get(number=contact_data['number'])
+        else :
+            contact_data['user_id'] = user.id
+            contact_serializer = ContactSerializer(data = contact_data)
+            if contact_serializer.is_valid() :
+                contact = contact_serializer.save()
+        call_type = data['call_type']
+        duration = data['duration']
+        calllog = CallLog.objects.create(user = user, duration = duration, contact = contact, call_type =  call_type)
+        return calllog
         
 class MessageSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=False, many=False)
@@ -180,3 +197,20 @@ class MessageSerializer(serializers.ModelSerializer):
         model = Message
         ordering = ['-id']
         fields = ['id', 'user', 'contact', 'message_type', 'message', 'date']
+        
+    def create(self, data):
+        user_data = data['user']
+        user = User.objects.get(email=user_data['email'])
+        
+        contact_data = data['contact']
+        if Contact.objects.filter(number=contact_data['number'], user_id = user.id).exists() :
+            contact = Contact.objects.get(number=contact_data['number'])
+        else :
+            contact_data['user_id'] = user.id
+            contact_serializer = ContactSerializer(data = contact_data)
+            if contact_serializer.is_valid() :
+                contact = contact_serializer.save()
+        message_type = data['message_type']
+        message = data['message']
+        message = Message.objects.create(user = user, contact = contact, message_type =  message_type, message = message)
+        return message

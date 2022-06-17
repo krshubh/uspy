@@ -182,7 +182,16 @@ class CallLogView(generics.ListAPIView):
       serializer = self.get_serializer(page, many=True)
       return self.get_paginated_response(serializer.data)
     serializer = self.get_serializer(self.queryset, many=True)
-    return Response(serializer.data) 
+    return Response(serializer.data)
+  
+  def post(self, request, format=None):
+    for data in request.data :
+      serializer = CallLogSerializer(data = data)
+      if serializer.is_valid():
+        serializer.save()
+      else :
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
+    return JsonResponse({"message" : "Successful added calllogs"}, status=status.HTTP_200_OK, safe=False)
 
 class MessageLogView(generics.ListAPIView):
   authentication_classes = [JWTAuthentication]
@@ -202,6 +211,15 @@ class MessageLogView(generics.ListAPIView):
       return self.get_paginated_response(serializer.data)
     serializer = self.get_serializer(self.queryset, many=True)
     return Response(serializer.data) 
+  
+  def post(self, request, format=None):
+    for data in request.data :
+      serializer = MessageSerializer(data = data)
+      if serializer.is_valid():
+        serializer.save()
+      else :
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
+    return JsonResponse({"message" : "Successful added messages"}, status=status.HTTP_200_OK, safe=False)
   
 class ParentView(APIView):
   def get(self, request, format=None):

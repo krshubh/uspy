@@ -10,8 +10,8 @@ import ListItemText from "@mui/material/ListItemText";
 import NavHeader from "../NavHeader";
 import Drawer from "../Drawer";
 import Collapse from "@mui/material/Collapse";
-import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import StarBorder from "@mui/icons-material/StarBorder";
 import PersonIcon from "@mui/icons-material/Person";
@@ -53,7 +53,7 @@ class ProfileNavDrawer extends Component {
             >
               <ListItemButton onClick={() => this.handleClick(item)}>
                 <ListItemText primary={item.value} />
-                {item.open ? <ExpandLess /> : <ExpandMore />}
+                {item.open ? <ExpandMore /> : <ChevronRightIcon />}
               </ListItemButton>
               <Collapse in={item.open} timeout="auto" unmountOnExit>
                 <List disablePadding sx={{ display: "block" }}>
