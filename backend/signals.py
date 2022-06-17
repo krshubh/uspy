@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
-from .models import Profile
+from .models import Profile, Parent, Children
 from .models import User
 import logging
 
@@ -27,3 +27,15 @@ def delete_profile(sender, instance, **kwargs):
     Profile.objects.get(user = user).delete()
   except:
     print(logger.error("Project object doesnot exist with given email"))
+    
+@receiver(post_save, sender=User)
+def create_parent(sender, instance, created, **kwargs):
+  if created :
+    Parent.objects.create(user = instance)
+    print("Parent Created!")
+    
+@receiver(post_save, sender=User)
+def create_children(sender, instance, created, **kwargs):
+  if created :
+    Children.objects.create(user = instance)
+    print("Children Created!")

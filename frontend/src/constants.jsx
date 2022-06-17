@@ -13,6 +13,7 @@ export const CALL_LOG_API = "http://" + HOST_NAME + ":8000/api/call_log/";
 export const MESSAGE_API = "http://" + HOST_NAME + ":8000/api/message/";
 export const CHANGE_PASSWORD_API =
   "http://" + HOST_NAME + ":8000/api/change_password/";
+export const USER_SEARCH = "http://" + HOST_NAME + ":8000/api/user?search=";
 
 // Constants
 export const PARENT_REQUESTS = "requests";

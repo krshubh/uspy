@@ -1,5 +1,5 @@
 import { Card, Typography } from "@mui/material";
-import { Component } from "react";
+import { Component, useContext, useState, useEffect } from "react";
 import Title from "../Title";
 import FamiltyListItem from "./FamiltyListItem";
 import { Box } from "@mui/material";
@@ -9,36 +9,57 @@ import EditHeader from "../EditHeader";
 import AddFamilyListItem from "./AddFamilyListItem";
 import { ListItemButton } from "@mui/material";
 import { ListItemText } from "@mui/material";
+import AuthContext from "../../context/AuthContext";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Collapse } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import {
   PARENT_REQUESTS,
   PARENT_REQUESTED,
   PARENT_CONFIRMED,
 } from "../../constants";
+import { callAPI } from "../../callApi";
+import { USER_SEARCH } from "../../constants";
 
 class ManageParents extends Component {
   state = {
-    add_parent: [
-      { id: 5, name: "Shubham" },
-      { id: 6, name: "Vivek" },
-      { id: 7, name: "Roshni" },
-      { id: 8, name: "Noriya" },
-      { id: 9, name: "Khusbu" },
-    ],
+    parents: [],
     addMode: false,
     PARENT_REQUESTS: false,
     PARENT_REQUESTED: false,
     PARENT_CONFIRMED: false,
+    selected_users: [],
   };
 
-  addMode = (bool) => {
-    this.setState({ addMode: bool });
+  onDoneClicked = (bool) => {
+    console.log("user", this.state.selected_users);
+    this.setState({ addMode: bool, selected_users: [] });
   };
 
-  itemSelected = (event, value) => {
+  onTextChange = (value) => {
     console.log("ManageParents", "selected", value);
+    callAPI({
+      url: USER_SEARCH + value,
+      access_token: this.props.authTokens.access,
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then(
+        (json) => {
+          console.log("json", json);
+          this.setState({
+            parents: json.results,
+          });
+        },
+        (error) => {
+          console.log("error", error.message);
+        }
+      );
+  };
+
+  onSelect = (value) => {
+    this.setState({ selected_users: value });
   };
 
   handleCollapse = (enent, value) => {
@@ -60,37 +81,6 @@ class ManageParents extends Component {
         <Title color="none" style={{ fontWeight: "bold" }} ml={1} variant="h6">
           Manage Parents
         </Title>
-        {/* Requests List */}
-        <Card>
-          <ListItemButton
-            divider={true}
-            onClick={(event, value) =>
-              this.handleCollapse(event, PARENT_REQUESTS)
-            }
-          >
-            <ListItemText primary="Requests" />
-            {this.state.PARENT_REQUESTS ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-        </Card>
-        <Collapse in={this.state.PARENT_REQUESTS} timeout="auto" unmountOnExit>
-          <AddFamilyListItem
-            text="+ Add Parent"
-            search_label="Search Parent"
-            addMode={this.state.addMode}
-            items={this.state.add_children}
-            onDoneClicked={this.addMode}
-            itemSelected={this.itemSelected}
-          />
-          {this.props.parents.requests.map((item) => (
-            <List key={item.id} sx={{ display: "block" }} disablePadding>
-              <FamiltyListItem
-                item={item}
-                remove={this.props.removeChildren}
-                type={PARENT_REQUESTS}
-              />
-            </List>
-          ))}
-        </Collapse>
 
         {/* Requested List */}
         <Card>
@@ -105,6 +95,39 @@ class ManageParents extends Component {
           </ListItemButton>
         </Card>
         <Collapse in={this.state.PARENT_REQUESTED} timeout="auto" unmountOnExit>
+          <AddFamilyListItem
+            text="+ Add Parent"
+            search_label="Search Parent"
+            addMode={this.state.addMode}
+            items={this.state.parents}
+            onDoneClicked={this.onDoneClicked}
+            onTextChange={this.onTextChange}
+            onSelect={this.onSelect}
+          />
+          {this.props.parents.requests.map((item) => (
+            <List key={item.id} sx={{ display: "block" }} disablePadding>
+              <FamiltyListItem
+                item={item}
+                remove={this.props.removeChildren}
+                type={PARENT_REQUESTS}
+              />
+            </List>
+          ))}
+        </Collapse>
+
+        {/* Requests List */}
+        <Card>
+          <ListItemButton
+            divider={true}
+            onClick={(event, value) =>
+              this.handleCollapse(event, PARENT_REQUESTS)
+            }
+          >
+            <ListItemText primary="Requests" />
+            {this.state.PARENT_REQUESTS ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+        </Card>
+        <Collapse in={this.state.PARENT_REQUESTS} timeout="auto" unmountOnExit>
           {this.props.parents.requested.map((item) => (
             <List key={item.id} sx={{ display: "block" }} disablePadding>
               <FamiltyListItem
@@ -144,4 +167,11 @@ class ManageParents extends Component {
   }
 }
 
-export default ManageParents;
+export default function (props) {
+  const navigation = useNavigate();
+  const { authTokens } = useContext(AuthContext);
+
+  return (
+    <ManageParents {...props} navigation={navigation} authTokens={authTokens} />
+  );
+}

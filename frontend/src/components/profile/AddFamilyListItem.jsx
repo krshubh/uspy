@@ -9,6 +9,8 @@ import { InputAdornment } from "@mui/material";
 import Search from "@mui/icons-material/Search";
 import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
+import parse from "autosuggest-highlight/parse";
+import match from "autosuggest-highlight/match";
 
 class AddFamilyListItem extends Component {
   state = {};
@@ -24,18 +26,44 @@ class AddFamilyListItem extends Component {
             }}
           >
             <Autocomplete
+              multiple
+              filterSelectedOptions
               label={
                 this.props.search_label ? this.props.search_label : "Search"
               }
+              isOptionEqualToValue={(option, value) => option.id === value.id}
               sx={{ width: 1, p: 2, m: 0 }}
               options={this.props.items}
-              onChange={(event, value) => this.props.itemSelected(event, value)}
-              renderOption={(props, item) => (
-                <Box component="li" {...props}>
-                  {item.name}
-                </Box>
-              )}
-              getOptionLabel={(option) => option.name}
+              onChange={(event, value) => this.props.onSelect(value)}
+              renderOption={(props, option, { inputValue }) => {
+                const matches = match(option.firstname, inputValue);
+                const parts = parse(option.firstname, matches);
+
+                return (
+                  <li {...props}>
+                    <div>
+                      {parts.map((part, index) => (
+                        <span
+                          key={index}
+                          style={{
+                            fontWeight: part.highlight ? 700 : 400,
+                          }}
+                        >
+                          {part.text}
+                        </span>
+                      ))}
+                    </div>
+                  </li>
+                );
+              }}
+              onInputChange={(event, value) => {
+                this.props.onTextChange(value);
+              }}
+              getOptionLabel={(item) =>
+                (item.firstname ? item.firstname : "") +
+                " " +
+                (item.lastname ? item.lastname : "")
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
