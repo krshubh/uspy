@@ -24,10 +24,10 @@ class FamiltyListItem extends Component {
         }}
       >
         <ListItemButton divider={true} dense={true}>
-          <ListItemText>{this.props.item.name}</ListItemText>
-          {(this.props.type == PARENT_REQUESTED ||
-            this.props.type == CHILDREN_REQUESTED) && (
-            <IconButton>
+          <ListItemText>{this.props.item.firstname}</ListItemText>
+          {(this.props.type == PARENT_REQUESTS ||
+            this.props.type == CHILDREN_REQUESTS) && (
+            <IconButton onClick={() => this.props.accept(this.props.item)}>
               <SvgIcon color="primary">
                 <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
               </SvgIcon>

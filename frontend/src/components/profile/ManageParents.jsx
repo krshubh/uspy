@@ -33,8 +33,8 @@ class ManageParents extends Component {
   };
 
   onDoneClicked = (bool) => {
-    console.log("user", this.state.selected_users);
     this.setState({ addMode: bool, selected_users: [] });
+    this.props.addParentRequest(this.state.selected_users);
   };
 
   onTextChange = (value) => {
@@ -104,12 +104,12 @@ class ManageParents extends Component {
             onTextChange={this.onTextChange}
             onSelect={this.onSelect}
           />
-          {this.props.parents.requests.map((item) => (
+          {this.props.parents.requested.map((item) => (
             <List key={item.id} sx={{ display: "block" }} disablePadding>
               <FamiltyListItem
                 item={item}
-                remove={this.props.removeChildren}
-                type={PARENT_REQUESTS}
+                remove={this.props.removeRequestedParent}
+                type={PARENT_REQUESTED}
               />
             </List>
           ))}
@@ -128,12 +128,13 @@ class ManageParents extends Component {
           </ListItemButton>
         </Card>
         <Collapse in={this.state.PARENT_REQUESTS} timeout="auto" unmountOnExit>
-          {this.props.parents.requested.map((item) => (
+          {this.props.parents.requests.map((item) => (
             <List key={item.id} sx={{ display: "block" }} disablePadding>
               <FamiltyListItem
                 item={item}
-                remove={this.props.removeChildren}
-                type={PARENT_REQUESTED}
+                remove={this.props.removeParentRequest}
+                accept={this.props.acceptParentRequest}
+                type={PARENT_REQUESTS}
               />
             </List>
           ))}
@@ -156,7 +157,7 @@ class ManageParents extends Component {
             <List key={item.id} sx={{ display: "block" }} disablePadding>
               <FamiltyListItem
                 item={item}
-                remove={this.props.removeChildren}
+                remove={this.props.removeConfirmedParent}
                 type={PARENT_CONFIRMED}
               />
             </List>
