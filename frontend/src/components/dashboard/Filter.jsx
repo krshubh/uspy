@@ -39,7 +39,7 @@ class Filter extends Component {
   render() {
     return (
       <Box>
-        <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
+        <FormControl size="small" sx={{ m: 1, minWidth: 130 }}>
           <InputLabel id="demo-simple-select-label">Select Child</InputLabel>
           <Select
             value={

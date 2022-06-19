@@ -1,5 +1,6 @@
-export const HOST_NAME = "192.168.1.78";
+// export const HOST_NAME = "192.168.1.78";
 // export const HOST_NAME = "localhost";
+export const HOST_NAME = "uspy.in";
 // export const HOST_NAME = "34.93.100.128";
 
 // Api
