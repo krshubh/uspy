@@ -54,7 +54,10 @@ class Messages extends Component {
     return (
       <React.Fragment>
         <Paper sx={{ width: "100%" }}>
-          <Filter />
+          <Filter
+            children={this.props.children}
+            selectChild={this.props.selectChild}
+          />
           <TableContainer sx={{ maxHeight: 520 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead

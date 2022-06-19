@@ -12,7 +12,13 @@ import CallLogs from "../components/dashboard/CallLogs";
 import Dashboard from "../components/dashboard/Dashboard";
 import Messages from "../components/dashboard/Messages";
 import { fabClasses } from "@mui/material";
-import { CALL_LOG_API, MESSAGE_API } from "../constants";
+import {
+  CALL_LOG_API,
+  MESSAGE_API,
+  GET_CHILDREN,
+  CALL_LOG_CHILD_API,
+  MESSAGE_CHILD_API,
+} from "../constants";
 import { callAPI } from "../callApi";
 
 class HomePage extends Component {
@@ -52,26 +58,14 @@ class HomePage extends Component {
     is_nav_icon: true,
     title: "Home",
     selected: 2,
-    call_logs: [
-      {
-        id: 3,
-        user: {
-          email: "divya@gmail.com",
-          firstname: "Divya",
-          lastname: "Bharti",
-        },
-        contact: {
-          name: "Priya",
-          number: "7543021269",
-        },
-        call_type: "M",
-        duration: "00:00:00",
-        date: "2022-06-12T11:12:47.854130Z",
-      },
-    ],
+    call_logs: [],
     messages: [],
     call_page_count: 1,
     message_page_count: 1,
+    children: [],
+    selected_child: {},
+    call_log_page: 1,
+    message_page: 1,
   };
 
   selectDrawerItem = (selected_item) => {
@@ -104,11 +98,13 @@ class HomePage extends Component {
   };
 
   handleCallPageChange = (event, value) => {
-    this.callLogApi(value);
+    this.setState({ call_log_page: value });
+    this.callLogChildApi();
   };
 
   handleMessagePageChange = (event, value) => {
-    this.messageApi(value);
+    this.setState({ message_page: value });
+    this.messageChildApi();
   };
 
   handleOpen = (is_open) => {
@@ -118,30 +114,70 @@ class HomePage extends Component {
     });
   };
 
-  callLogApi(page) {
-    callAPI({
-      url: CALL_LOG_API + "?page=" + page,
-      access_token: this.props.authTokens.access,
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then(
-        (json) => {
-          console.log("json", json);
-          this.setState({
-            call_logs: json.results,
-            call_page_count: Math.ceil(json.count / json.page_size),
-          });
-        },
-        (error) => {
-          console.log("error", error.message);
-        }
-      );
+  callLogChildApi() {
+    if (this.state.selected_child.id) {
+      callAPI({
+        url:
+          CALL_LOG_CHILD_API +
+          this.state.selected_child.id +
+          "/" +
+          "?page=" +
+          this.state.call_log_page,
+        access_token: this.props.authTokens.access,
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .then(
+          (json) => {
+            console.log("json", json);
+            this.setState({
+              call_logs: json.results,
+              call_page_count: Math.ceil(json.count / json.page_size),
+            });
+          },
+          (error) => {
+            console.log("error", error.message);
+          }
+        );
+    }
   }
 
-  messageApi(page) {
+  messageChildApi() {
+    if (this.state.selected_child.id) {
+      callAPI({
+        url:
+          MESSAGE_CHILD_API +
+          this.state.selected_child.id +
+          "/" +
+          "?page=" +
+          this.state.message_page,
+        access_token: this.props.authTokens.access,
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .then(
+          (json) => {
+            console.log("json", json);
+            this.setState({
+              messages: json.results,
+              message_page_count: Math.ceil(json.count / json.page_size),
+            });
+          },
+          (error) => {
+            console.log("error", error.message);
+          }
+        );
+    }
+  }
+
+  getCallMessages() {
+    this.callLogChildApi();
+    this.messageChildApi();
+  }
+
+  getChildren() {
     callAPI({
-      url: MESSAGE_API + "?page=" + page,
+      url: GET_CHILDREN,
       access_token: this.props.authTokens.access,
       method: "GET",
     })
@@ -150,9 +186,10 @@ class HomePage extends Component {
         (json) => {
           console.log("json", json);
           this.setState({
-            messages: json.results,
-            message_page_count: Math.ceil(json.count / json.page_size),
+            children: json.confirmed,
+            selected_child: json.confirmed.length > 0 ? json.confirmed[0] : {},
           });
+          this.getCallMessages();
         },
         (error) => {
           console.log("error", error.message);
@@ -162,9 +199,14 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.setState({ selected: 2, title: "CallLogs" });
-    this.callLogApi(1);
-    this.messageApi(1);
+    this.getChildren();
   }
+
+  selectChild = (child) => {
+    this.state.selected_child = child;
+    this.setState({ call_log_page: 1, message_page: 1, selected_child: child });
+    this.getCallMessages();
+  };
 
   render() {
     return (
@@ -194,13 +236,17 @@ class HomePage extends Component {
               data={this.state.call_logs}
               page_count={this.state.call_page_count}
               handlePageChange={this.handleCallPageChange}
+              children={this.state.children}
+              selectChild={this.selectChild}
             />
           )}
           {this.state.selected == 3 && (
             <Messages
               data={this.state.messages}
-              handlePageChange={this.handleMessagePageChange}
               page_count={this.state.message_page_count}
+              handlePageChange={this.handleMessagePageChange}
+              children={this.state.children}
+              selectChild={this.selectChild}
             />
           )}
         </Box>

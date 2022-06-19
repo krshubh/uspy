@@ -7,7 +7,6 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Title from "../Title";
-import Form from "react-bootstrap/Form";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
@@ -27,7 +26,10 @@ class CallLogs extends Component {
     return (
       <React.Fragment>
         <Paper sx={{ width: "100%" }}>
-          <Filter />
+          <Filter
+            children={this.props.children}
+            selectChild={this.props.selectChild}
+          />
           <TableContainer sx={{ maxHeight: 520 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead

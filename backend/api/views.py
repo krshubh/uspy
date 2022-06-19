@@ -182,7 +182,7 @@ class CallLogView(generics.ListAPIView):
       serializer = self.get_serializer(page, many=True)
       return self.get_paginated_response(serializer.data)
     serializer = self.get_serializer(self.queryset, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   
   def post(self, request, format=None):
     for data in request.data :
@@ -192,6 +192,30 @@ class CallLogView(generics.ListAPIView):
       else :
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
     return JsonResponse({"message" : "Successful added calllogs"}, status=status.HTTP_200_OK, safe=False)
+  
+class CallLogChildView(generics.ListAPIView):
+  authentication_classes = [JWTAuthentication]
+  permission_classes = [IsAuthenticated]
+  serializer_class = CallLogSerializer
+  
+  def get(self, request, id, format=None):
+    try:
+      child_user = User.objects.get(id = id)
+    except:
+      print(logger.error("User object does not exist with given email"))
+    user = User.objects.get(email = request.user.email)
+    user_children = Children.objects.get(user = user).confirmed.all()
+    if child_user in user_children:
+      queryset = CallLog.objects.filter(user = child_user)
+      self.pagination_class = CustomNumberPagination
+      page = self.paginate_queryset(queryset)
+      if page is not None:
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+      serializer = self.get_serializer(self.queryset, many=True)
+      return Response(serializer.data, status=status.HTTP_200_OK)
+    else :
+      return JsonResponse({"message": "child user not found"}, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
 class MessageLogView(generics.ListAPIView):
   authentication_classes = [JWTAuthentication]
@@ -220,6 +244,30 @@ class MessageLogView(generics.ListAPIView):
       else :
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
     return JsonResponse({"message" : "Successful added messages"}, status=status.HTTP_200_OK, safe=False)
+  
+class MessageLogChildView(generics.ListAPIView):
+  authentication_classes = [JWTAuthentication]
+  permission_classes = [IsAuthenticated]
+  serializer_class = MessageSerializer
+  
+  def get(self, request, id, format=None):
+    try:
+      child_user = User.objects.get(id = id)
+    except:
+      print(logger.error("User object does not exist with given email"))
+    user = User.objects.get(email = request.user.email)
+    user_children = Children.objects.get(user = user).confirmed.all()
+    if child_user in user_children:
+      queryset = Message.objects.filter(user = child_user)
+      self.pagination_class = CustomNumberPagination
+      page = self.paginate_queryset(queryset)
+      if page is not None:
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+      serializer = self.get_serializer(self.queryset, many=True)
+      return Response(serializer.data, status=status.HTTP_200_OK)
+    else :
+      return JsonResponse({"message": "child user not found"}, status=status.HTTP_400_BAD_REQUEST, safe=False)
   
 class ParentView(APIView):
   def get(self, request, format=None):
@@ -482,33 +530,3 @@ class DeleteChildrenConfirmed(APIView):
     children.save()
     children_serializer = ChildrenSerializer(children)
     return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
-
-# @api_view(['GET'])
-# def get_parent_using_user_id(request, user_id):
-#   authentication_classes = [JWTAuthentication]
-#   permission_classes = [IsAuthenticated]
-#   if request.user.is_admin :
-#     try:
-#       data = Parent.objects.get(user_id = request.user.id)
-#     except Parent.DoesNotExist:
-#       data = Parent.objects.create(user_id = request.user.id)
-#     serializer = ParentSerializer(data)
-#     return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
-#   else :
-#     response_data = {"message" : "user don't have admin access"}
-#     return JsonResponse(response_data, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION, safe=False)
-    
-# @api_view(['GET'])
-# def get_children_using_user_id(request, user_id):
-#   authentication_classes = [JWTAuthentication]
-#   permission_classes = [IsAuthenticated]
-#   if request.user.is_admin :
-#     try:
-#       data = Children.objects.get(user_id = request.user.id)
-#     except Children.DoesNotExist:
-#       data = Children.objects.create(user_id = request.user.id)
-#     serializer = ChildrenSerializer(data)
-#     return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
-#   else :
-#     response_data = {"message" : "user don't have admin access"}
-#     return JsonResponse(response_data, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION, safe=False)

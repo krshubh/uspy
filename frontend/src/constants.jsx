@@ -9,8 +9,7 @@ export const REFRESH_TOKEN_API =
 export const SIGN_UP_API = "http://" + HOST_NAME + ":8000/api/signup/";
 export const LOGIN_API = "http://" + HOST_NAME + ":8000/api/login/";
 export const PROFILE_API = "http://" + HOST_NAME + ":8000/api/profile/";
-export const CALL_LOG_API = "http://" + HOST_NAME + ":8000/api/call_log/";
-export const MESSAGE_API = "http://" + HOST_NAME + ":8000/api/message/";
+
 export const CHANGE_PASSWORD_API =
   "http://" + HOST_NAME + ":8000/api/change_password/";
 export const USER_SEARCH = "http://" + HOST_NAME + ":8000/api/user?search=";
@@ -40,6 +39,14 @@ export const REMOVE_CONFIRMED_CHILDREN =
   "http://" + HOST_NAME + ":8000/api/user/children/delete_confirmed/";
 export const ACCEPT_CHILDREN_REQUEST =
   "http://" + HOST_NAME + ":8000/api/user/children/confirm_request/";
+
+export const CALL_LOG_API = "http://" + HOST_NAME + ":8000/api/call_log/";
+export const CALL_LOG_CHILD_API =
+  "http://" + HOST_NAME + ":8000/api/call_log/children/";
+
+export const MESSAGE_API = "http://" + HOST_NAME + ":8000/api/message/";
+export const MESSAGE_CHILD_API =
+  "http://" + HOST_NAME + ":8000/api/message/children/";
 
 // Constants
 export const PARENT_REQUESTS = "requests";

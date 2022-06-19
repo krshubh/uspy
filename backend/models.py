@@ -119,7 +119,7 @@ class Profile(models.Model):
         return self.user.email
     
 class Contact(models.Model):
-    user_id = models.IntegerField(default = -1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=30, blank=True, default='', null=True)
     number = models.CharField(max_length=20, blank=True, default='', null=True)
     

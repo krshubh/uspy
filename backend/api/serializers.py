@@ -159,9 +159,11 @@ class SignupSerializer(serializers.ModelSerializer):
         return user
     
 class ContactSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=False, many=False)
+    
     class Meta:
         model = Contact
-        fields = ['user_id', 'name', 'number']
+        fields = ['user', 'name', 'number']
 
 class CallLogSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=False, many=False)

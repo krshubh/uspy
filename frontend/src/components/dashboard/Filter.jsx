@@ -1,26 +1,62 @@
 import * as React from "react";
 import { Component, useContext, useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 
 class Filter extends Component {
-  state = {};
+  state = {
+    children: [
+      {
+        id: 1,
+        firstname: "Rajat",
+        lastname: "Verma",
+      },
+      {
+        id: 2,
+        firstname: "Manish",
+        lastname: "Kumar",
+      },
+      {
+        id: 3,
+        firstname: "Himanshu",
+        lastname: "Kumar",
+      },
+    ],
+    selected_child: "",
+  };
+
+  handleChange = (event) => {
+    console.log("value", event.target.value);
+    this.setState({ selected_child: event.target.value });
+    this.props.selectChild(event.target.value);
+  };
+
+  componentDidMount() {}
+
   render() {
     return (
-      <Box className="d-flex justify-content-between">
-        <Form.Select aria-label="Select Child" className="w-25 m-3">
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </Form.Select>
-        <InputGroup className="w-25 m-3">
-          <Form.Control
-            type="text"
-            placeholder="Search here.."
-            className="rounded-pill"
-          />
-        </InputGroup>
+      <Box>
+        <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-label">Select Child</InputLabel>
+          <Select
+            value={
+              this.props.children.length > 0 && this.state.selected_child === ""
+                ? this.props.children[0]
+                : this.state.selected_child
+            }
+            label="Select Child"
+            onChange={this.handleChange}
+          >
+            {this.props.children.map((child) => (
+              <MenuItem value={child} key={child.id}>
+                {child.firstname}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
     );
   }

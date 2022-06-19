@@ -36,7 +36,7 @@ class AddressAdminConfig(admin.ModelAdmin):
 admin.site.register(Address, AddressAdminConfig)
 
 class ContactAdminConfig(admin.ModelAdmin):
-    list_display = ('user_id', 'name','number')
+    list_display = ('user', 'name','number')
     
 admin.site.register(Contact, ContactAdminConfig)
 
