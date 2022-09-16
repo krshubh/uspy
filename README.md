@@ -50,4 +50,6 @@ cd frontend
 
 npm install
 
+npm start
+
 ctrl + a + d
