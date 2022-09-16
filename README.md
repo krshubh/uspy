@@ -16,7 +16,7 @@ echo "alias python=python3" > .bash_aliases
 
 source ~/.bash_aliases
 
-git clone git@github.com:krshubh/uspy.git
+git clone https://github.com/krshubh/uspy.git
 
 cd uspy
 
