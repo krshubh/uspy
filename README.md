@@ -40,7 +40,7 @@ python manage.py migrate --run-syncdb
 
 python manage.py runserver 0.0.0.0:8000
 
-Ctrl + a + d
+ctrl + a + d
 
 screen -S frontend
 
@@ -50,4 +50,4 @@ cd frontend
 
 npm install
 
-Ctrl + a + d
+ctrl + a + d
