@@ -12,7 +12,7 @@ curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 
 sudo apt -y install nodejs
 
-vim ~/.bash_aliases | echo "alias python=python3"
+echo "alias python=python3" > .bash_aliases
 
 source ~/.bash_aliases
 
