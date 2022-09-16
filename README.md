@@ -42,6 +42,12 @@ python manage.py runserver 0.0.0.0:8000
 
 Ctrl + a + d
 
+screen -S backend
+
+source venv/bin/activate
+
 cd frontend
 
 npm install
+
+Ctrl + a + d
