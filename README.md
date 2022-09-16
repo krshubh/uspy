@@ -42,7 +42,7 @@ python manage.py runserver 0.0.0.0:8000
 
 Ctrl + a + d
 
-screen -S backend
+screen -S frontend
 
 source venv/bin/activate
 
