@@ -30,15 +30,7 @@ pip install -r requirements.txt
 
 screen -d -m -S backend
 
-screen -S backend -X -p 0 stuff $'source venv/bin/activate'
-
-screen -S backend -X -p 0 stuff $'python manage.py makemigrations'
-
-screen -S backend -X -p 0 stuff $'python manage.py migrate'
-
-screen -S backend -X -p 0 stuff $'python manage.py migrate --run-syncdb'
-
-screen -S backend -X -p 0 stuff $'python manage.py runserver 0.0.0.0:8000'
+screen -S backend -X -p 0 stuff $'source venv/bin/activate;python manage.py makemigrations;python manage.py migrate;python manage.py migrate --run-syncdb;python manage.py runserver 0.0.0.0:8000;'
 
 screen -d -m -S frontend
 
