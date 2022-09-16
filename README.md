@@ -8,9 +8,9 @@ sudo apt -y install screen
 
 sudo apt -y install python3-pip
 
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt -y install npm
 
-sudo apt -y install nodejs
+npm install -g npm@8.19.2
 
 echo "alias python=python3" > .bash_aliases
 
