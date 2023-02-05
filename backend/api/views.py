@@ -20,6 +20,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.views import APIView
 import logging
 import json
+from json import JSONEncoder
 from rest_framework import status
 from rest_framework import filters
 from django.core import serializers
@@ -62,7 +63,7 @@ class SignupView(APIView):
     if serializer.is_valid(raise_exception = True):
       user = serializer.save()
       token = MyTokenObtainPairSerializer(request.data).validate(request.data)
-      return JsonResponse({"token": token, "message" : "Registration Successful"}, status=status.HTTP_201_CREATED)
+      return JsonResponse({"user": UserSerializer(user).data, "token": token, "message" : "Registration Successful"}, status=status.HTTP_201_CREATED)
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
 class LoginView(APIView):
@@ -75,7 +76,7 @@ class LoginView(APIView):
       user = authenticate(email=email, password=password)
       if user is not None:
         token = MyTokenObtainPairSerializer(request.data).validate(request.data)
-        return JsonResponse({'token': token,'message':'Login Success'}, status=status.HTTP_200_OK)
+        return JsonResponse({'user': UserSerializer(user).data,'token': token,'message':'Login Success'}, status=status.HTTP_200_OK)
       else :
         return JsonResponse({'errors':{'non_field_errors' : ['Email or password is not valid']}}, status=status.HTTP_404_NOT_FOUND)
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

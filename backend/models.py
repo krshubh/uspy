@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -77,7 +78,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label):
         "Does the user have permission to view the app `app_label`"
         return self.is_active
-
+    
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
 
 class Address(models.Model):
     address1 = models.CharField(max_length=20, default='')

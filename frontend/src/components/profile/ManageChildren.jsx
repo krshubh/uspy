@@ -39,7 +39,7 @@ class ManageChildren extends Component {
   };
 
   onTextChange = (value) => {
-    console.log("ManageParents", "selected", value);
+    console.log("Manage Children", "selected", value);
     callAPI({
       url: USER_SEARCH + value,
       access_token: this.props.authTokens.access,

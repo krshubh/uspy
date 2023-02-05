@@ -36,8 +36,8 @@ class AddFamilyListItem extends Component {
               options={this.props.items}
               onChange={(event, value) => this.props.onSelect(value)}
               renderOption={(props, option, { inputValue }) => {
-                const matches = match(option.firstname, inputValue);
-                const parts = parse(option.firstname, matches);
+                const matches = match(option.email, inputValue);
+                const parts = parse(option.email, matches);
 
                 return (
                   <li {...props}>
