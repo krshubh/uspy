@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-oge1d!z&38^p-a@n1-43bv1yzqa*^-y3q5r7myq&41y7txmi_8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 DEFAULT_FROM_EMAIL = 'support@upy.in'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1',
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
                  '0.0.0.0', 'uspy.in', '192.168.1.78']
 
 
@@ -181,8 +181,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://192.168.1.78:3000",
-    "http://34.93.100.128:3000",
-    "https://34.93.100.128:3000",
+    "http://34.131.95.131:3000",
+    "https://34.131.95.131:3000"
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
