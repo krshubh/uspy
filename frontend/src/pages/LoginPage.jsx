@@ -40,7 +40,7 @@ const LoginPage = (props) => {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: "url(./images/login_background.jpeg)",
+          backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
           backgroundRepeat: "no-repeat",
           backgroundColor: (t) =>
             t.palette.mode === "light"
