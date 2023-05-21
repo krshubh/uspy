@@ -45,7 +45,7 @@ export const CALL_LOG_CHILD_API = "http://" + HOST_NAME + "/call_log/children/";
 export const MESSAGE_API = "http://" + HOST_NAME + "/message/";
 export const MESSAGE_CHILD_API = "http://" + HOST_NAME + "/message/children/";
 
-export const CONTACT_US_API = "http://" + HOST_NAME + "/api/contact-us/";
+export const CONTACT_US_API = "http://" + HOST_NAME + "/contact-us/";
 
 // Constants
 export const PARENT_REQUESTS = "requests";
