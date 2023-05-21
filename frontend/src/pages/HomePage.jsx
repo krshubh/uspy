@@ -18,6 +18,13 @@ import {
   GET_CHILDREN,
   CALL_LOG_CHILD_API,
   MESSAGE_CHILD_API,
+  PROFILE_MENU,
+  LOGOUT_MENU,
+  CONTACT_US_MENU,
+  PROFILE_URL,
+  CONTACT_US_URL,
+  PRIVACY_POLICY_MENU,
+  PRIVACY_POLICY_URL,
 } from "../constants";
 import { callAPI } from "../callApi";
 
@@ -48,11 +55,16 @@ class HomePage extends Component {
     menu_items: [
       {
         id: 1,
-        value: "Profile",
+        value: PROFILE_MENU,
       },
       {
+        id: 3,
+        value: CONTACT_US_MENU,
+      },
+      { id: 4, value: PRIVACY_POLICY_MENU },
+      {
         id: 2,
-        value: "Logout",
+        value: LOGOUT_MENU,
       },
     ],
     is_nav_icon: true,
@@ -89,11 +101,23 @@ class HomePage extends Component {
 
   onMenuItemClick = (item) => {
     console.log("HomePage", "menu item clicked", item);
-    if (item.value == "Profile") {
-      this.props.navigation("/profile");
-    }
-    if (item.value == "Logout") {
-      this.props.logoutUser();
+    switch (item.value) {
+      case PROFILE_MENU: {
+        this.props.navigation(PROFILE_URL);
+        break;
+      }
+      case CONTACT_US_MENU: {
+        this.props.navigation(CONTACT_US_URL);
+        break;
+      }
+      case LOGOUT_MENU: {
+        this.props.logoutUser();
+        break;
+      }
+      case PRIVACY_POLICY_MENU: {
+        this.props.navigation(PRIVACY_POLICY_URL);
+        break;
+      }
     }
   };
 

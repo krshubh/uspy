@@ -17,6 +17,11 @@ import ProfilePage from "../pages/ProfilePage";
 import AuthContext from "../context/AuthContext";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import {
+  CONTACT_US_PAGE,
+  PRIVACY_POLICY_PAGE,
+  PROFILE_PAGE,
+} from "../constants";
 
 class NavBar extends Component {
   state = { menuAnchor: null };
@@ -44,10 +49,6 @@ class NavBar extends Component {
     }),
   }));
 
-  homeClicked = () => {
-    this.props.navigation("/");
-  };
-
   handleMenuItemClicked = (menu) => {
     this.props.onMenuItemClick(menu);
     this.handleMenuAnchor(null);
@@ -63,22 +64,29 @@ class NavBar extends Component {
         <Container maxWidth="xl">
           <Toolbar>
             <IconButton
-              onClick={() => this.props.handleOpen(true)}
+              onClick={() => {
+                this.props.title == PROFILE_PAGE ||
+                this.props.title == CONTACT_US_PAGE ||
+                this.props.title == PRIVACY_POLICY_PAGE
+                  ? this.props.navigation(-1)
+                  : this.props.handleOpen(true);
+              }}
               sx={{
                 marginRight: 2,
                 display: this.props.is_nav_icon ? "visible" : "none",
               }}
             >
               <SvgIcon htmlColor="#e3f2fd">
-                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                {this.props.title == PROFILE_PAGE ||
+                this.props.title == CONTACT_US_PAGE ||
+                this.props.title == PRIVACY_POLICY_PAGE ? (
+                  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+                ) : (
+                  <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                )}
               </SvgIcon>
             </IconButton>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              onClick={this.homeClicked}
-            >
+            <Typography variant="h6" noWrap component="div">
               {this.props.title}
             </Typography>
             <Box sx={{ flexGrow: 1 }}></Box>
