@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-oge1d!z&38^p-a@n1-43bv1yzqa*^-y3q5r7myq&41y7txmi_8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-DEFAULT_FROM_EMAIL = 'support@upy.in'
+DEBUG = False
+DEFAULT_FROM_EMAIL = 'admin@uspy.in'
 ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
 #                 '0.0.0.0', 'uspy.in', '192.168.1.78']
@@ -213,7 +213,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # constants
-HOST_NAME = 'localhost'
+HOST_NAME = 'uspy.in'
 
 AUTH_USER_MODEL = 'backend.User'
 
@@ -228,9 +228,9 @@ INTERNAL_IPS = [
 
 # setup email
 EMAIL_HOST = 'smtpout.secureserver.net'
-EMAIL_PORT = 587
+# EMAIL_PORT = 587
 # port for production
-# EMAIL_PORT = 465
+EMAIL_PORT = 465
 EMAIL_HOST_USER = 'admin@uspy.in'
 EMAIL_HOST_PASSWORD = 'Uspy@123!'
 EMAIL_USE_TLS = True
