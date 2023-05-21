@@ -310,11 +310,8 @@ class ContactUsView(APIView):
         data = request.data
         data['to_email'] = 'support@uspy.in'
         data['subject'] = 'Support Mail'
-        send_message(sender_email=data['sender_email'],
-                     name=data['name'],
-                     to=[data['to_email']],
-                     subject=data['subject'],
-                     message=data['message']
+        send_message(subject=data['subject'],
+                     message=f"{data['name']}  {data['sender_email']} {data['message']}"
                      )
         serializer = ContactUsSerializer(data=request.data)
         if serializer.is_valid():

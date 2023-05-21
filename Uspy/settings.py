@@ -224,11 +224,14 @@ INTERNAL_IPS = [
 
 # setup email
 EMAIL_HOST = 'smtpout.secureserver.net'
-EMAIL_HOST_PASSWORD = 'Salonirani15.'
-EMAIL_HOST_USER = 'support@uspy.in'
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = False
-EMAIL_SSL_CERTFILE = None
-EMAIL_TIMEOUT = None
+EMAIL_PORT = 587
+# port for production
+# EMAIL_PORT = 465
+EMAIL_HOST_USER = 'admin@uspy.in'
+EMAIL_HOST_PASSWORD = 'Uspy@123!'
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+# EMAIL_SSL_CERTFILE = None
+# EMAIL_TIMEOUT = None
 
 APPEND_SLASH = False

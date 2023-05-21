@@ -44,6 +44,9 @@ class ContactUsPage extends Component {
     ],
     is_nav_icon: true,
     title: CONTACT_US_PAGE,
+    name: "",
+    email: "",
+    message: "",
   };
 
   handleSubmit = async (event) => {
@@ -64,6 +67,7 @@ class ContactUsPage extends Component {
       .then(
         (json) => {
           console.log("json", json);
+          this.setState({ name: "", email: "", message: "" });
           toast("Message Successfully Sent", {
             position: toast.POSITION.TOP_RIGHT,
           });
@@ -72,6 +76,21 @@ class ContactUsPage extends Component {
           console.log("error", error.message);
         }
       );
+  };
+
+  changeValue = (label) => (event) => {
+    console.log("label", label, event);
+    switch (label) {
+      case "name":
+        this.setState({ name: event.target.value });
+        break;
+      case "email":
+        this.setState({ email: event.target.value });
+        break;
+      case "message":
+        this.setState({ message: event.target.value });
+        break;
+    }
   };
 
   onMenuItemClick = (item) => {
@@ -94,7 +113,19 @@ class ContactUsPage extends Component {
 
   render() {
     return (
-      <Box sx={{ display: "flex" }}>
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          backgroundImage:
+            "url(https://storage.googleapis.com/uspy/public/contact_us.jpg)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "brightness(0.9)",
+          bgcolor: COLORS.defaultBackground,
+        }}
+      >
         <CssBaseline />
         <NavBar
           is_nav_icon={this.state.is_nav_icon}
@@ -106,27 +137,13 @@ class ContactUsPage extends Component {
           onItemClick={(item) => this.onNavItemClick(item)}
           onMenuItemClick={(item) => this.onMenuItemClick(item)}
         />
-        <Grid
-          container
-          component="main"
-          sx={{
-            height: "100vh",
-            backgroundImage:
-              "url(https://storage.googleapis.com/uspy/public/contact_us.jpg)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            filter: "brightness(0.9)",
-            bgcolor: COLORS.defaultBackground,
-          }}
-        >
+        <Grid container component="main">
           <Grid
             container
             fullWidth
             sm={12}
             md={12}
             sx={{
-              height: "15vh",
               flex: 1,
               display: "block",
             }}
@@ -176,11 +193,11 @@ class ContactUsPage extends Component {
               </Box>
             </Box>
           </Grid>
-          <Grid container sx={{ height: "85vh" }}>
+          <Grid container>
             <Grid
               item
               xs={false}
-              sm={6}
+              sm={0}
               md={6}
               sx={{
                 flex: 1,
@@ -304,7 +321,7 @@ class ContactUsPage extends Component {
             <Grid
               item
               xs={false}
-              sm={6}
+              sm={12}
               md={6}
               elevation={1}
               square
@@ -350,6 +367,8 @@ class ContactUsPage extends Component {
                     name="name"
                     autoComplete="name"
                     autoFocus
+                    value={this.state.name}
+                    onChange={this.changeValue("name")}
                   />
                   <TextField
                     margin="normal"
@@ -359,6 +378,8 @@ class ContactUsPage extends Component {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    value={this.state.email}
+                    onChange={this.changeValue("email")}
                   />
                   <TextField
                     required
@@ -369,6 +390,8 @@ class ContactUsPage extends Component {
                     label="Message"
                     name="message"
                     placeholder="Type your message.."
+                    value={this.state.message}
+                    onChange={this.changeValue("message")}
                   />
                   <Button type="send" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Send
