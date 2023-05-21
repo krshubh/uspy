@@ -49,6 +49,8 @@ class PrivacyPolicyPage extends Component {
     ],
     is_nav_icon: true,
     title: PRIVACY_POLICY_PAGE,
+    introduction_expanded: true,
+    information_collected_expanded: true,
   };
 
   onMenuItemClick = (item) => {
@@ -66,6 +68,22 @@ class PrivacyPolicyPage extends Component {
         this.props.navigation(CONTACT_US_URL);
         break;
       }
+    }
+  };
+
+  handleChange = (panel) => (event, expanded) => {
+    console.log("panel", panel, this.state.introduction_expanded);
+    switch (panel) {
+      case "introduction":
+        this.state.introduction_expanded
+          ? this.setState({ introduction_expanded: false })
+          : this.setState({ introduction_expanded: true });
+        break;
+      case "information_collected":
+        this.state.information_collected_expanded
+          ? this.setState({ information_collected_expanded: false })
+          : this.setState({ information_collected_expanded: true });
+        break;
     }
   };
 
@@ -95,7 +113,10 @@ class PrivacyPolicyPage extends Component {
           md={8}
           sx={{ mt: 10, display: "block" }}
         >
-          <Accordion expanded="true">
+          <Accordion
+            expanded={this.state.introduction_expanded}
+            onChange={this.handleChange("introduction")}
+          >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -113,7 +134,10 @@ class PrivacyPolicyPage extends Component {
               />
             </AccordionDetails>
           </Accordion>
-          <Accordion expanded="true">
+          <Accordion
+            expanded={this.state.information_collected_expanded}
+            onChange={this.handleChange("information_collected")}
+          >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
