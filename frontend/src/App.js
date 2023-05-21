@@ -9,6 +9,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import ProfilePage from "./pages/ProfilePage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ContactUsPage from "./pages/ContactUsPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 const themeLight = createTheme({
   palette: {
@@ -45,6 +47,8 @@ class App extends React.Component {
               <Route element={<LoginPage />} path="/login" />
               <Route element={<SignupPage />} path="/signup" />
               <Route element={<ProfilePage />} path="/profile" />
+              <Route element={<ContactUsPage />} path="/contact-us" />
+              <Route element={<PrivacyPolicyPage />} path="/privacy-policy" />
             </Routes>
           </AuthProvider>
         </Router>

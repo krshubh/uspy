@@ -13,7 +13,8 @@ from .views import AddParentRequest, AddChildrenRequest, \
     DeleteParentRequested, DeleteChildrenRequested, \
     ConfirmParentRequest, ConfirmChildrenRequest, \
     DeleteParentRequests, DeleteChildrenRequests, \
-    DeleteParentConfirmed, DeleteChildrenConfirmed
+    DeleteParentConfirmed, DeleteChildrenConfirmed,\
+    ContactUsView
 # from .views import get_parent_using_user_id, get_children_using_user_id
 
 urlpatterns = [
@@ -60,5 +61,8 @@ urlpatterns = [
          name="message log children"),
 
     # create contact
-    path('contact/', ContactView.as_view(), name="contact")
+    path('contact/', ContactView.as_view(), name="contact"),
+
+    # mail us or contact us
+    path('contact-us/', ContactUsView.as_view(), name="contact-us")
 ]

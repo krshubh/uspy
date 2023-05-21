@@ -5,7 +5,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.views.decorators.csrf import csrf_exempt
-from backend.models import User, Address, Profile, Parent, Children, Contact, CallLog, Message
+from backend.models import User, Address, Profile, Parent,\
+    Children, Contact, CallLog, Message,\
+    ContactUs
 from rest_framework.parsers import JSONParser
 from backend.api.serializers import AddressSerializer, SignupSerializer,\
     ProfileSerializer, ParentSerializer,\
@@ -13,7 +15,7 @@ from backend.api.serializers import AddressSerializer, SignupSerializer,\
     UserAccessSerializer, LoginSerializer,\
     ChangePasswordSerializer,\
     ContactSerializer, CallLogSerializer, \
-    MessageSerializer
+    MessageSerializer, ContactUsSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -28,6 +30,7 @@ from django.contrib.auth import authenticate
 from backend.api.renderers import UserRenderer
 from rest_framework.pagination import PageNumberPagination
 from backend.api.pagination import CustomNumberPagination
+from ..utils import send_message
 
 logger = logging.getLogger(__name__)
 
@@ -296,6 +299,29 @@ class ContactView(generics.ListAPIView):
             else:
                 return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
         return JsonResponse({"message": "Successful added contacts"}, status=status.HTTP_200_OK, safe=False)
+
+
+class ContactUsView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ContactUsSerializer
+
+    def post(self, request, format=None):
+        data = request.data
+        data['to_email'] = 'support@uspy.in'
+        data['subject'] = 'Support Mail'
+        send_message(sender_email=data['sender_email'],
+                     name=data['name'],
+                     to=[data['to_email']],
+                     subject=data['subject'],
+                     message=data['message']
+                     )
+        serializer = ContactUsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
+        return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
 class MessageLogChildView(generics.ListAPIView):

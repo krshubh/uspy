@@ -100,6 +100,18 @@ class Address(models.Model):
         return self.address1
 
 
+class ContactUs(models.Model):
+    sender_email = models.CharField(max_length=40, default='')
+    to_email = models.CharField(max_length=40, default='')
+    subject = models.CharField(max_length=60, default='')
+    name = models.CharField(max_length=60, default='')
+    message = models.CharField(max_length=300, default='')
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.sender_email + " " + self.message
+
+
 class Parent(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, blank=True, null=True)

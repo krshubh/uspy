@@ -222,4 +222,13 @@ INTERNAL_IPS = [
     "localhost",
 ]
 
+# setup email
+EMAIL_HOST = 'smtpout.secureserver.net'
+EMAIL_HOST_PASSWORD = 'Salonirani15.'
+EMAIL_HOST_USER = 'support@uspy.in'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
+EMAIL_SSL_CERTFILE = None
+EMAIL_TIMEOUT = None
+
 APPEND_SLASH = False

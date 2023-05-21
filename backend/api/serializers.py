@@ -1,7 +1,7 @@
 import imp
 from rest_framework import serializers
 from backend.models import Address, User, Profile, Parent, Children, \
-    Contact, CallLog, Message
+    Contact, CallLog, Message, ContactUs
 from backend.models import GENDER_CHOICES
 import datetime
 import logging
@@ -206,6 +206,13 @@ class ContactSerializer(serializers.ModelSerializer):
         )
         contact.save()
         return contact
+
+
+class ContactUsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ContactUs
+        fields = ['sender_email', 'to_email', 'name', 'subject', 'message']
 
 
 class CallLogSerializer(serializers.ModelSerializer):
