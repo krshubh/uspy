@@ -64,5 +64,5 @@ urlpatterns = [
     path('contact/', ContactView.as_view(), name="contact"),
 
     # mail us or contact us
-    path('contact-us/', ContactUsView.as_view(), name="contact-us")
+    path('contact-us/', ContactUsView.as_view(), name="contact-us"),
 ]
