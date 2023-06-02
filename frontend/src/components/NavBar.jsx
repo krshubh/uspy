@@ -103,40 +103,45 @@ class NavBar extends Component {
                   ml: 1,
                 }}
               >
-                {this.props.user.firstname}
+                {this.props.user ? this.props.user.firstname : ""}
               </Typography>
-              {Boolean(this.state.menuAnchor) ? (
+              {this.props.user && Boolean(this.state.menuAnchor) ? (
+                <ArrowDropUpIcon />
+              ) : this.props.user && !Boolean(this.state.menuAnchor) ? (
                 <ArrowDropUpIcon />
               ) : (
-                <ArrowDropDownIcon />
+                <Box />
               )}
-
-              <Menu
-                sx={{ mt: "40px" }}
-                id="menu-appbar"
-                anchorEl={this.state.menuAnchor}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                autoFocus={false}
-                open={Boolean(this.state.menuAnchor)}
-                onClose={() => this.handleMenuAnchor(null)}
-              >
-                {this.props.menu_items.map((menu) => (
-                  <MenuItem
-                    key={menu.id}
-                    onClick={() => this.handleMenuItemClicked(menu)}
-                  >
-                    <Typography textAlign="center">{menu.value}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+              {this.props.user ? (
+                <Menu
+                  sx={{ mt: "40px" }}
+                  id="menu-appbar"
+                  anchorEl={this.state.menuAnchor}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  autoFocus={false}
+                  open={Boolean(this.state.menuAnchor)}
+                  onClose={() => this.handleMenuAnchor(null)}
+                >
+                  {this.props.menu_items.map((menu) => (
+                    <MenuItem
+                      key={menu.id}
+                      onClick={() => this.handleMenuItemClicked(menu)}
+                    >
+                      <Typography textAlign="center">{menu.value}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              ) : (
+                <Box />
+              )}
             </Box>
           </Toolbar>
         </Container>
