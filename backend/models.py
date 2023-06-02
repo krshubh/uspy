@@ -188,7 +188,7 @@ class Message(models.Model):
     message_type = models.CharField(
         max_length=20, choices=MESSAGE_TYPE_CHOICES, blank=True, null=True)
     message = models.CharField(
-        max_length=500, blank=True, default='', null=True)
+        max_length=1000, blank=True, default='', null=True)
     date = models.DateTimeField()
 
     def __str__(self):
