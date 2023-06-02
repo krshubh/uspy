@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import re
 from pathlib import Path
 from datetime import timedelta
 
@@ -53,6 +54,7 @@ INSTALLED_APPS = CUSTOM_APPS + SYSTEM_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.common.BrokenLinkEmailsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -223,6 +225,7 @@ INTERNAL_IPS = [
 ]
 
 # setup email
+SERVER_EMAIL = 'support@uspy.in'
 EMAIL_HOST = 'smtpout.secureserver.net'
 EMAIL_PORT = 587
 # port for production
@@ -233,5 +236,14 @@ EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 # EMAIL_SSL_CERTFILE = None
 # EMAIL_TIMEOUT = None
+# Email report for 500
+ADMINS = [("Admin", "admin@uspy.in"), ("Support", "support@uspy.in")]
+# Email report for 404
+MANAGERS = [("Admin", "admin@uspy.in"), ("Support", "support@uspy.in")]
 
 APPEND_SLASH = False
+
+IGNORABLE_404_URLS = [
+    re.compile(r"\.(php|cgi)$"),
+    re.compile(r"^/phpmyadmin/"),
+]
