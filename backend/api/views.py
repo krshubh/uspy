@@ -302,17 +302,17 @@ class ContactView(generics.ListAPIView):
 
 
 class ContactUsView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
     serializer_class = ContactUsSerializer
 
     def post(self, request, format=None):
         data = request.data
         data['to_email'] = 'support@uspy.in'
         data['subject'] = 'Support Mail'
-        # send_message(subject=data['subject'],
-        #              message=f"{data['name']}  {data['sender_email']} {data['message']}"
-        #              )
+        send_message(subject=data['subject'],
+                     message=f"{data['name']}  {data['sender_email']} {data['message']}"
+                     )
         serializer = ContactUsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

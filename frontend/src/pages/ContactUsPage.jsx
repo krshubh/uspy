@@ -55,7 +55,7 @@ class ContactUsPage extends Component {
     console.log("data", data, data.get("email"));
     callAPI({
       url: CONTACT_US_API,
-      access_token: this.props.authTokens.access,
+      // access_token: this.props.authTokens.access,
       method: "POST",
       body: {
         sender_email: data.get("email"),

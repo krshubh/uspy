@@ -36,40 +36,41 @@ class PrivacyPolicyPage extends Component {
   state = {
     drawerWidth: 240,
     open: false,
-    menu_items: [
-      {
-        id: 1,
-        value: PROFILE_MENU,
-      },
-      { id: 3, value: CONTACT_US_MENU },
-      {
-        id: 2,
-        value: LOGOUT_MENU,
-      },
-    ],
+    // menu_items: [
+    //   {
+    //     id: 1,
+    //     value: PROFILE_MENU,
+    //   },
+    //   { id: 3, value: CONTACT_US_MENU },
+    //   {
+    //     id: 2,
+    //     value: LOGOUT_MENU,
+    //   },
+    // ],
+    menu_items: [],
     is_nav_icon: true,
     title: PRIVACY_POLICY_PAGE,
     introduction_expanded: true,
     information_collected_expanded: true,
   };
 
-  onMenuItemClick = (item) => {
-    console.log("ContactUsPage", "menu item clicked", item);
-    switch (item.value) {
-      case PROFILE_MENU: {
-        this.props.navigation(PROFILE_URL);
-        break;
-      }
-      case LOGOUT_MENU: {
-        this.props.logoutUser();
-        break;
-      }
-      case CONTACT_US_MENU: {
-        this.props.navigation(CONTACT_US_URL);
-        break;
-      }
-    }
-  };
+  // onMenuItemClick = (item) => {
+  //   console.log("ContactUsPage", "menu item clicked", item);
+  //   switch (item.value) {
+  //     case PROFILE_MENU: {
+  //       this.props.navigation(PROFILE_URL);
+  //       break;
+  //     }
+  //     case LOGOUT_MENU: {
+  //       this.props.logoutUser();
+  //       break;
+  //     }
+  //     case CONTACT_US_MENU: {
+  //       this.props.navigation(CONTACT_US_URL);
+  //       break;
+  //     }
+  //   }
+  // };
 
   handleChange = (panel) => (event, expanded) => {
     console.log("panel", panel, this.state.introduction_expanded);
@@ -326,15 +327,15 @@ class PrivacyPolicyPage extends Component {
 export default function (props) {
   const navigation = useNavigate();
   const defaultTheme = createTheme();
-  const { logoutUser, authTokens } = useContext(AuthContext);
+  // const { logoutUser, authTokens } = useContext(AuthContext);
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <PrivacyPolicyPage
         {...props}
         navigation={navigation}
-        logoutUser={logoutUser}
-        authTokens={authTokens}
+        // logoutUser={logoutUser}
+        // authTokens={authTokens}
       />
     </ThemeProvider>
   );
