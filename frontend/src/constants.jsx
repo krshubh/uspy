@@ -14,24 +14,22 @@ export const CHANGE_PASSWORD_API = "http://" + HOST_NAME + "/change_password/";
 export const USER_SEARCH = "http://" + HOST_NAME + "/user?search=";
 
 // PARENT
-export const GET_PARENT_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/";
+export const GET_PARENT_API = "http://" + HOST_NAME + "/user/parent/";
 export const PARENT_REQUEST_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/request/";
+  "http://" + HOST_NAME + "/user/parent/request/";
 export const PARENT_PENDING_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/pending/";
+  "http://" + HOST_NAME + "/user/parent/pending/";
 export const PARENT_CONFIRMED_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/confirmed/";
+  "http://" + HOST_NAME + "/user/parent/confirmed/";
 
 // CHILDREN
-export const GET_CHILDREN_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/";
+export const GET_CHILDREN_API = "http://" + HOST_NAME + "/user/children/";
 export const CHILDREN_REQUEST_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/request/";
+  "http://" + HOST_NAME + "/user/children/request/";
 export const CHILDREN_PENDING_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/pending/";
+  "http://" + HOST_NAME + "/user/children/pending/";
 export const CHILDREN_CONFIRMED_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/confirmed/";
+  "http://" + HOST_NAME + "/user/children/confirmed/";
 
 export const CALL_LOG_API = "http://" + HOST_NAME + "/call_log/";
 export const CALL_LOG_CHILD_API = "http://" + HOST_NAME + "/call_log/children/";
