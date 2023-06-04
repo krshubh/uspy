@@ -10,18 +10,14 @@ import NavHeader from "../NavHeader";
 import ManageChildren from "./ManageChildren";
 import ManageParents from "./ManageParents";
 import {
-  GET_PARENTS,
-  ADD_PARENTS_REQUEST,
-  REMOVE_REQUESTED_PARENT,
-  REMOVE_PARENT_REQUEST,
-  REMOVE_CONFIRMED_PARENT,
-  ACCEPT_PARENT_REQUEST,
-  GET_CHILDREN,
-  ADD_CHILDREN_REQUEST,
-  REMOVE_REQUESTED_CHILDREN,
-  REMOVE_CHILDREN_REQUEST,
-  REMOVE_CONFIRMED_CHILDREN,
-  ACCEPT_CHILDREN_REQUEST,
+  GET_PARENT_API,
+  PARENT_REQUEST_API,
+  PARENT_PENDING_API,
+  PARENT_CONFIRMED_API,
+  GET_CHILDREN_API,
+  CHILDREN_REQUEST_API,
+  CHILDREN_PENDING_API,
+  CHILDREN_CONFIRMED_API,
 } from "../../constants";
 import { callAPI } from "../../callApi";
 import { useNavigate } from "react-router-dom";
@@ -45,7 +41,7 @@ class AccountSettings extends Component {
   removeRequestedParent = (item) => {
     console.log("removeRequestedParent", item);
     callAPI({
-      url: REMOVE_REQUESTED_PARENT,
+      url: PARENT_REQUEST_API,
       access_token: this.props.authTokens.access,
       method: "DELETE",
       body: item,
@@ -67,7 +63,7 @@ class AccountSettings extends Component {
   removeParentRequest = (item) => {
     console.log("removeParentRequest", item);
     callAPI({
-      url: REMOVE_PARENT_REQUEST,
+      url: PARENT_PENDING_API,
       access_token: this.props.authTokens.access,
       method: "DELETE",
       body: item,
@@ -89,7 +85,7 @@ class AccountSettings extends Component {
   removeConfirmedParent = (item) => {
     console.log("removeConfirmedParent", item);
     callAPI({
-      url: REMOVE_CONFIRMED_PARENT,
+      url: PARENT_CONFIRMED_API,
       access_token: this.props.authTokens.access,
       method: "DELETE",
       body: item,
@@ -110,7 +106,7 @@ class AccountSettings extends Component {
 
   addParentRequest = (parents) => {
     callAPI({
-      url: ADD_PARENTS_REQUEST,
+      url: PARENT_REQUEST_API,
       access_token: this.props.authTokens.access,
       method: "POST",
       body: parents,
@@ -131,7 +127,7 @@ class AccountSettings extends Component {
 
   acceptParentRequest = (item) => {
     callAPI({
-      url: ACCEPT_PARENT_REQUEST,
+      url: PARENT_PENDING_API,
       access_token: this.props.authTokens.access,
       method: "POST",
       body: item,
@@ -154,7 +150,7 @@ class AccountSettings extends Component {
   removeRequestedChildren = (item) => {
     console.log("removeRequestedChildren", item);
     callAPI({
-      url: REMOVE_REQUESTED_CHILDREN,
+      url: CHILDREN_REQUEST_API,
       access_token: this.props.authTokens.access,
       method: "DELETE",
       body: item,
@@ -176,7 +172,7 @@ class AccountSettings extends Component {
   removeChildrenRequest = (item) => {
     console.log("removeChildrenRequest", item);
     callAPI({
-      url: REMOVE_CHILDREN_REQUEST,
+      url: CHILDREN_PENDING_API,
       access_token: this.props.authTokens.access,
       method: "DELETE",
       body: item,
@@ -198,7 +194,7 @@ class AccountSettings extends Component {
   removeConfirmedChildren = (item) => {
     console.log("removeConfirmedParent", item);
     callAPI({
-      url: REMOVE_CONFIRMED_CHILDREN,
+      url: CHILDREN_CONFIRMED_API,
       access_token: this.props.authTokens.access,
       method: "DELETE",
       body: item,
@@ -219,7 +215,7 @@ class AccountSettings extends Component {
 
   addChildrenRequest = (children) => {
     callAPI({
-      url: ADD_CHILDREN_REQUEST,
+      url: CHILDREN_REQUEST_API,
       access_token: this.props.authTokens.access,
       method: "POST",
       body: children,
@@ -240,7 +236,7 @@ class AccountSettings extends Component {
 
   acceptChildrenRequest = (item) => {
     callAPI({
-      url: ACCEPT_CHILDREN_REQUEST,
+      url: CHILDREN_PENDING_API,
       access_token: this.props.authTokens.access,
       method: "POST",
       body: item,
@@ -262,7 +258,7 @@ class AccountSettings extends Component {
   componentDidMount() {
     // get parents
     callAPI({
-      url: GET_PARENTS,
+      url: GET_PARENT_API,
       access_token: this.props.authTokens.access,
       method: "GET",
     })
@@ -280,7 +276,7 @@ class AccountSettings extends Component {
       );
     // get children
     callAPI({
-      url: GET_CHILDREN,
+      url: GET_CHILDREN_API,
       access_token: this.props.authTokens.access,
       method: "GET",
     })

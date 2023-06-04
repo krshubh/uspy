@@ -13,8 +13,8 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Collapse } from "@mui/material";
 import {
-  CHILDREN_REQUESTS,
-  CHILDREN_REQUESTED,
+  CHILDREN_REQUEST,
+  CHILDREN_PENDING,
   CHILDREN_CONFIRMED,
 } from "../../constants";
 
@@ -27,8 +27,8 @@ class ManageChildren extends Component {
   state = {
     children: [],
     addMode: false,
-    CHILDREN_REQUESTS: false,
-    CHILDREN_REQUESTED: false,
+    CHILDREN_REQUEST: false,
+    CHILDREN_PENDING: false,
     CHILDREN_CONFIRMED: false,
     selected_users: [],
   };
@@ -64,11 +64,11 @@ class ManageChildren extends Component {
   };
 
   handleCollapse = (enent, value) => {
-    if (value == CHILDREN_REQUESTS) {
-      this.setState({ CHILDREN_REQUESTS: !this.state.CHILDREN_REQUESTS });
+    if (value == CHILDREN_PENDING) {
+      this.setState({ CHILDREN_PENDING: !this.state.CHILDREN_PENDING });
     }
-    if (value == CHILDREN_REQUESTED) {
-      this.setState({ CHILDREN_REQUESTED: !this.state.CHILDREN_REQUESTED });
+    if (value == CHILDREN_REQUEST) {
+      this.setState({ CHILDREN_REQUEST: !this.state.CHILDREN_REQUEST });
     }
     if (value == CHILDREN_CONFIRMED) {
       this.setState({ CHILDREN_CONFIRMED: !this.state.CHILDREN_CONFIRMED });
@@ -88,18 +88,14 @@ class ManageChildren extends Component {
           <ListItemButton
             divider={true}
             onClick={(event, value) =>
-              this.handleCollapse(event, CHILDREN_REQUESTED)
+              this.handleCollapse(event, CHILDREN_REQUEST)
             }
           >
             <ListItemText primary="Requested" />
-            {this.state.CHILDREN_REQUESTED ? <ExpandLess /> : <ExpandMore />}
+            {this.state.CHILDREN_REQUEST ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
         </Card>
-        <Collapse
-          in={this.state.CHILDREN_REQUESTED}
-          timeout="auto"
-          unmountOnExit
-        >
+        <Collapse in={this.state.CHILDREN_REQUEST} timeout="auto" unmountOnExit>
           <AddFamilyListItem
             text="+ Add Children"
             search_label="Search Child"
@@ -113,7 +109,7 @@ class ManageChildren extends Component {
             <List key={item.id} sx={{ display: "block" }} disablePadding>
               <FamiltyListItem
                 item={item}
-                type={CHILDREN_REQUESTED}
+                type={CHILDREN_REQUEST}
                 remove={this.props.removeRequestedChildren}
               />
             </List>
@@ -125,23 +121,19 @@ class ManageChildren extends Component {
           <ListItemButton
             divider={true}
             onClick={(event, value) =>
-              this.handleCollapse(event, CHILDREN_REQUESTS)
+              this.handleCollapse(event, CHILDREN_PENDING)
             }
           >
             <ListItemText primary="Requests" />
-            {this.state.CHILDREN_REQUESTS ? <ExpandLess /> : <ExpandMore />}
+            {this.state.CHILDREN_PENDING ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
         </Card>
-        <Collapse
-          in={this.state.CHILDREN_REQUESTS}
-          timeout="auto"
-          unmountOnExit
-        >
+        <Collapse in={this.state.CHILDREN_PENDING} timeout="auto" unmountOnExit>
           {this.props.children.requests.map((item) => (
             <List key={item.id} sx={{ display: "block" }} disablePadding>
               <FamiltyListItem
                 item={item}
-                type={CHILDREN_REQUESTS}
+                type={CHILDREN_PENDING}
                 remove={this.props.removeChildrenRequest}
                 accept={this.props.acceptChildrenRequest}
               />
@@ -171,7 +163,7 @@ class ManageChildren extends Component {
               <FamiltyListItem
                 item={item}
                 type={CHILDREN_CONFIRMED}
-                remove={this.props.removeConfirmedParent}
+                remove={this.props.removeConfirmedChildren}
               />
             </List>
           ))}

@@ -15,8 +15,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Collapse } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import {
-  PARENT_REQUESTS,
-  PARENT_REQUESTED,
+  PARENT_REQUEST,
+  PARENT_PENDING,
   PARENT_CONFIRMED,
 } from "../../constants";
 import { callAPI } from "../../callApi";
@@ -26,8 +26,8 @@ class ManageParents extends Component {
   state = {
     parents: [],
     addMode: false,
-    PARENT_REQUESTS: false,
-    PARENT_REQUESTED: false,
+    PARENT_REQUEST: false,
+    PARENT_PENDING: false,
     PARENT_CONFIRMED: false,
     selected_users: [],
   };
@@ -63,11 +63,11 @@ class ManageParents extends Component {
   };
 
   handleCollapse = (enent, value) => {
-    if (value == PARENT_REQUESTS) {
-      this.setState({ PARENT_REQUESTS: !this.state.PARENT_REQUESTS });
+    if (value == PARENT_PENDING) {
+      this.setState({ PARENT_PENDING: !this.state.PARENT_PENDING });
     }
-    if (value == PARENT_REQUESTED) {
-      this.setState({ PARENT_REQUESTED: !this.state.PARENT_REQUESTED });
+    if (value == PARENT_REQUEST) {
+      this.setState({ PARENT_REQUEST: !this.state.PARENT_REQUEST });
     }
     if (value == PARENT_CONFIRMED) {
       this.setState({ PARENT_CONFIRMED: !this.state.PARENT_CONFIRMED });
@@ -87,14 +87,14 @@ class ManageParents extends Component {
           <ListItemButton
             divider={true}
             onClick={(event, value) =>
-              this.handleCollapse(event, PARENT_REQUESTED)
+              this.handleCollapse(event, PARENT_REQUEST)
             }
           >
             <ListItemText primary="Requested" />
-            {this.state.PARENT_REQUESTED ? <ExpandLess /> : <ExpandMore />}
+            {this.state.PARENT_REQUEST ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
         </Card>
-        <Collapse in={this.state.PARENT_REQUESTED} timeout="auto" unmountOnExit>
+        <Collapse in={this.state.PARENT_REQUEST} timeout="auto" unmountOnExit>
           <AddFamilyListItem
             text="+ Add Parent"
             search_label="Search Parent"
@@ -109,7 +109,7 @@ class ManageParents extends Component {
               <FamiltyListItem
                 item={item}
                 remove={this.props.removeRequestedParent}
-                type={PARENT_REQUESTED}
+                type={PARENT_REQUEST}
               />
             </List>
           ))}
@@ -120,21 +120,21 @@ class ManageParents extends Component {
           <ListItemButton
             divider={true}
             onClick={(event, value) =>
-              this.handleCollapse(event, PARENT_REQUESTS)
+              this.handleCollapse(event, PARENT_PENDING)
             }
           >
             <ListItemText primary="Requests" />
-            {this.state.PARENT_REQUESTS ? <ExpandLess /> : <ExpandMore />}
+            {this.state.PARENT_PENDING ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
         </Card>
-        <Collapse in={this.state.PARENT_REQUESTS} timeout="auto" unmountOnExit>
+        <Collapse in={this.state.PARENT_PENDING} timeout="auto" unmountOnExit>
           {this.props.parents.requests.map((item) => (
             <List key={item.id} sx={{ display: "block" }} disablePadding>
               <FamiltyListItem
                 item={item}
                 remove={this.props.removeParentRequest}
                 accept={this.props.acceptParentRequest}
-                type={PARENT_REQUESTS}
+                type={PARENT_PENDING}
               />
             </List>
           ))}

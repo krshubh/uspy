@@ -358,7 +358,7 @@ class ParentView(APIView):
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
-class AddParentRequest(APIView):
+class ParentRequest(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -385,11 +385,6 @@ class AddParentRequest(APIView):
         parent_serializer = ParentSerializer(parent)
         return JsonResponse(parent_serializer.data, status=status.HTTP_200_OK, safe=False)
 
-
-class DeleteParentRequested(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def delete(self, request, format=None):
         try:
             user = User.objects.get(email=request.user.email)
@@ -410,31 +405,31 @@ class DeleteParentRequested(APIView):
         return JsonResponse(parent_serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
-class DeleteParentRequests(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+# class DeleteParentRequested(APIView):
+#     authentication_classes = [JWTAuthentication]
+#     permission_classes = [IsAuthenticated]
+#
+    # def delete(self, request, format=None):
+    #     try:
+    #         user = User.objects.get(email=request.user.email)
+    #     except:
+    #         print(logger.error("User object does not exist with given email"))
+    #     parent = Parent.objects.get(user=user)
+    #     if User.objects.filter(email=request.data['email']).exists():
+    #         user_requested = User.objects.get(email=request.data['email'])
+    #         children_user_requests = Children.objects.get(user=user_requested)
+    #         children_user_requests.requests.remove(user)
+    #         children_user_requests.save()
+    #     else:
+    #         return JsonResponse({"error": {"message": "user with email " + user['email'] + " doesn't exist"}},
+    #                             status=status.HTTP_400_BAD_REQUEST, safe=False)
+    #     parent.requested.remove(user_requested)
+    #     parent.save()
+    #     parent_serializer = ParentSerializer(parent)
+    #     return JsonResponse(parent_serializer.data, status=status.HTTP_200_OK, safe=False)
 
-    def delete(self, request, format=None):
-        try:
-            user = User.objects.get(email=request.user.email)
-        except:
-            print(logger.error("User object does not exist with given email"))
-        parent = Parent.objects.get(user=user)
-        if User.objects.filter(email=request.data['email']).exists():
-            user_requested = User.objects.get(email=request.data['email'])
-            children_user_requested = Children.objects.get(user=user_requested)
-            children_user_requested.requested.remove(user)
-            children_user_requested.save()
-        else:
-            return JsonResponse({"error": {"message": "user with email " + user['email'] + " doesn't exist"}},
-                                status=status.HTTP_400_BAD_REQUEST, safe=False)
-        parent.requests.remove(user_requested)
-        parent.save()
-        parent_serializer = ParentSerializer(parent)
-        return JsonResponse(parent_serializer.data, status=status.HTTP_200_OK, safe=False)
 
-
-class ConfirmParentRequest(APIView):
+class ParentPending(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -459,8 +454,53 @@ class ConfirmParentRequest(APIView):
         parent_serializer = ParentSerializer(parent)
         return JsonResponse(parent_serializer.data, status=status.HTTP_200_OK, safe=False)
 
+    def delete(self, request, format=None):
+        try:
+            user = User.objects.get(email=request.user.email)
+        except:
+            print(logger.error("User object does not exist with given email"))
+        parent = Parent.objects.get(user=user)
+        if User.objects.filter(email=request.data['email']).exists():
+            user_requested = User.objects.get(email=request.data['email'])
+            children_user_requested = Children.objects.get(user=user_requested)
+            children_user_requested.requested.remove(user)
+            children_user_requested.save()
+        else:
+            return JsonResponse({"error": {"message": "user with email " + user['email'] + " doesn't exist"}},
+                                status=status.HTTP_400_BAD_REQUEST, safe=False)
+        parent.requests.remove(user_requested)
+        parent.save()
+        parent_serializer = ParentSerializer(parent)
+        return JsonResponse(parent_serializer.data, status=status.HTTP_200_OK, safe=False)
 
-class DeleteParentConfirmed(APIView):
+
+# class ConfirmParentRequest(APIView):
+#     authentication_classes = [JWTAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request, format=None):
+#         try:
+#             user = User.objects.get(email=request.user.email)
+#         except:
+#             print(logger.error("User object does not exist with given email"))
+#         parent = Parent.objects.get(user=user)
+#         if User.objects.filter(email=request.data['email']).exists():
+#             user_requested = User.objects.get(email=request.data['email'])
+#             children_user_requests = Children.objects.get(user=user_requested)
+#             children_user_requests.requested.remove(user)
+#             children_user_requests.confirmed.add(user)
+#             children_user_requests.save()
+#         else:
+#             return JsonResponse({"error": {"message": "user with email " + user['email'] + " doesn't exist"}},
+#                                 status=status.HTTP_400_BAD_REQUEST, safe=False)
+#         parent.requests.remove(user_requested)
+#         parent.confirmed.add(user_requested)
+#         parent.save()
+#         parent_serializer = ParentSerializer(parent)
+#         return JsonResponse(parent_serializer.data, status=status.HTTP_200_OK, safe=False)
+
+
+class ParentConfirmed(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -496,7 +536,7 @@ class ChildrenView(APIView):
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
-class AddChildrenRequest(APIView):
+class ChildrenRequest(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -522,11 +562,6 @@ class AddChildrenRequest(APIView):
         children_serializer = ChildrenSerializer(children)
         return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
 
-
-class DeleteChildrenRequested(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def delete(self, request, format=None):
         try:
             user = User.objects.get(email=request.user.email)
@@ -547,31 +582,55 @@ class DeleteChildrenRequested(APIView):
         return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
-class DeleteChildrenRequests(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+# class DeleteChildrenRequested(APIView):
+#     authentication_classes = [JWTAuthentication]
+#     permission_classes = [IsAuthenticated]
 
-    def delete(self, request, format=None):
-        try:
-            user = User.objects.get(email=request.user.email)
-        except:
-            print(logger.error("User object does not exist with given email"))
-        children = Children.objects.get(user=user)
-        if User.objects.filter(email=request.data['email']).exists():
-            user_requested = User.objects.get(email=request.data['email'])
-            parent_user_requested = Parent.objects.get(user=user_requested)
-            parent_user_requested.requested.remove(user)
-            parent_user_requested.save()
-        else:
-            return JsonResponse({"error": {"message": "user with email " + user['email'] + " doesn't exist"}},
-                                status=status.HTTP_400_BAD_REQUEST, safe=False)
-        children.requests.remove(user_requested)
-        children.save()
-        children_serializer = ChildrenSerializer(children)
-        return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
+#     def delete(self, request, format=None):
+#         try:
+#             user = User.objects.get(email=request.user.email)
+#         except:
+#             print(logger.error("User object does not exist with given email"))
+#         children = Children.objects.get(user=user)
+#         if User.objects.filter(email=request.data['email']).exists():
+#             user_requested = User.objects.get(email=request.data['email'])
+#             parent_user_requests = Parent.objects.get(user=user_requested)
+#             parent_user_requests.requests.remove(user)
+#             parent_user_requests.save()
+#         else:
+#             return JsonResponse({"error": {"message": "user with email " + user['email'] + " doesn't exist"}},
+#                                 status=status.HTTP_400_BAD_REQUEST, safe=False)
+#         children.requested.remove(user_requested)
+#         children.save()
+#         children_serializer = ChildrenSerializer(children)
+#         return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
-class ConfirmChildrenRequest(APIView):
+# class DeleteChildrenRequests(APIView):
+#     authentication_classes = [JWTAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     def delete(self, request, format=None):
+#         try:
+#             user = User.objects.get(email=request.user.email)
+#         except:
+#             print(logger.error("User object does not exist with given email"))
+#         children = Children.objects.get(user=user)
+#         if User.objects.filter(email=request.data['email']).exists():
+#             user_requested = User.objects.get(email=request.data['email'])
+#             parent_user_requested = Parent.objects.get(user=user_requested)
+#             parent_user_requested.requested.remove(user)
+#             parent_user_requested.save()
+#         else:
+#             return JsonResponse({"error": {"message": "user with email " + user['email'] + " doesn't exist"}},
+#                                 status=status.HTTP_400_BAD_REQUEST, safe=False)
+#         children.requests.remove(user_requested)
+#         children.save()
+#         children_serializer = ChildrenSerializer(children)
+#         return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
+
+
+class ChildrenPending(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -596,8 +655,27 @@ class ConfirmChildrenRequest(APIView):
         children_serializer = ParentSerializer(children)
         return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
 
+    def delete(self, request, format=None):
+        try:
+            user = User.objects.get(email=request.user.email)
+        except:
+            print(logger.error("User object does not exist with given email"))
+        children = Children.objects.get(user=user)
+        if User.objects.filter(email=request.data['email']).exists():
+            user_requested = User.objects.get(email=request.data['email'])
+            parent_user_requested = Parent.objects.get(user=user_requested)
+            parent_user_requested.requested.remove(user)
+            parent_user_requested.save()
+        else:
+            return JsonResponse({"error": {"message": "user with email " + user['email'] + " doesn't exist"}},
+                                status=status.HTTP_400_BAD_REQUEST, safe=False)
+        children.requests.remove(user_requested)
+        children.save()
+        children_serializer = ChildrenSerializer(children)
+        return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
 
-class DeleteChildrenConfirmed(APIView):
+
+class ChildrenConfirmed(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 

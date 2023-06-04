@@ -6,11 +6,11 @@ import { SvgIcon } from "@mui/material";
 import { Card } from "@mui/material";
 import { Paper } from "@mui/material";
 import {
-  PARENT_REQUESTS,
-  PARENT_REQUESTED,
+  PARENT_REQUEST,
+  PARENT_PENDING,
   PARENT_CONFIRMED,
-  CHILDREN_REQUESTS,
-  CHILDREN_REQUESTED,
+  CHILDREN_REQUEST,
+  CHILDREN_PENDING,
   CHILDREN_CONFIRMED,
 } from "../../constants";
 
@@ -25,8 +25,8 @@ class FamiltyListItem extends Component {
       >
         <ListItemButton divider={true} dense={true}>
           <ListItemText>{this.props.item.firstname}</ListItemText>
-          {(this.props.type == PARENT_REQUESTS ||
-            this.props.type == CHILDREN_REQUESTS) && (
+          {(this.props.type == PARENT_PENDING ||
+            this.props.type == CHILDREN_PENDING) && (
             <IconButton onClick={() => this.props.accept(this.props.item)}>
               <SvgIcon color="primary">
                 <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
