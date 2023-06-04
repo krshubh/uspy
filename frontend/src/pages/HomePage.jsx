@@ -15,7 +15,6 @@ import { fabClasses } from "@mui/material";
 import {
   CALL_LOG_API,
   MESSAGE_API,
-  GET_CHILDREN,
   CALL_LOG_CHILD_API,
   MESSAGE_CHILD_API,
   PROFILE_MENU,
@@ -25,6 +24,7 @@ import {
   CONTACT_US_URL,
   PRIVACY_POLICY_MENU,
   PRIVACY_POLICY_URL,
+  GET_CHILDREN_API,
 } from "../constants";
 import { callAPI } from "../callApi";
 
@@ -201,7 +201,7 @@ class HomePage extends Component {
 
   getChildren() {
     callAPI({
-      url: GET_CHILDREN,
+      url: GET_CHILDREN_API,
       access_token: this.props.authTokens.access,
       method: "GET",
     })

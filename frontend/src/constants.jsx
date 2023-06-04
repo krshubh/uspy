@@ -14,30 +14,24 @@ export const CHANGE_PASSWORD_API = "http://" + HOST_NAME + "/change_password/";
 export const USER_SEARCH = "http://" + HOST_NAME + "/user?search=";
 
 // PARENT
-export const GET_PARENTS = "http://" + HOST_NAME + "/user/parent/";
-export const ADD_PARENTS_REQUEST =
-  "http://" + HOST_NAME + "/user/parent/add_request/";
-export const REMOVE_REQUESTED_PARENT =
-  "http://" + HOST_NAME + "/user/parent/delete_requested/";
-export const REMOVE_PARENT_REQUEST =
-  "http://" + HOST_NAME + "/user/parent/delete_request/";
-export const REMOVE_CONFIRMED_PARENT =
-  "http://" + HOST_NAME + "/user/parent/delete_confirmed/";
-export const ACCEPT_PARENT_REQUEST =
-  "http://" + HOST_NAME + "/user/parent/confirm_request/";
+export const GET_PARENT_API =
+  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/";
+export const PARENT_REQUEST_API =
+  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/request/";
+export const PARENT_PENDING_API =
+  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/pending/";
+export const PARENT_CONFIRMED_API =
+  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/confirmed/";
 
 // CHILDREN
-export const GET_CHILDREN = "http://" + HOST_NAME + "/user/children/";
-export const ADD_CHILDREN_REQUEST =
-  "http://" + HOST_NAME + "/user/children/add_request/";
-export const REMOVE_REQUESTED_CHILDREN =
-  "http://" + HOST_NAME + "/user/children/delete_requested/";
-export const REMOVE_CHILDREN_REQUEST =
-  "http://" + HOST_NAME + "/user/children/delete_request/";
-export const REMOVE_CONFIRMED_CHILDREN =
-  "http://" + HOST_NAME + "/user/children/delete_confirmed/";
-export const ACCEPT_CHILDREN_REQUEST =
-  "http://" + HOST_NAME + "/user/children/confirm_request/";
+export const GET_CHILDREN_API =
+  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/";
+export const CHILDREN_REQUEST_API =
+  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/request/";
+export const CHILDREN_PENDING_API =
+  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/pending/";
+export const CHILDREN_CONFIRMED_API =
+  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/confirmed/";
 
 export const CALL_LOG_API = "http://" + HOST_NAME + "/call_log/";
 export const CALL_LOG_CHILD_API = "http://" + HOST_NAME + "/call_log/children/";
@@ -48,12 +42,12 @@ export const MESSAGE_CHILD_API = "http://" + HOST_NAME + "/message/children/";
 export const CONTACT_US_API = "http://" + HOST_NAME + "/contact-us/";
 
 // Constants
-export const PARENT_REQUESTS = "requests";
-export const PARENT_REQUESTED = "requested";
-export const PARENT_CONFIRMED = "confirmed";
-export const CHILDREN_REQUESTS = "requests";
-export const CHILDREN_REQUESTED = "requested";
-export const CHILDREN_CONFIRMED = "confirmed";
+export const PARENT_REQUEST = "parent_request";
+export const PARENT_PENDING = "parent_pending";
+export const PARENT_CONFIRMED = "parent_confirmed";
+export const CHILDREN_REQUEST = "children_request";
+export const CHILDREN_PENDING = "children_pending";
+export const CHILDREN_CONFIRMED = "children_confirmed";
 
 // Pages
 export const PROFILE_PAGE = "Profile";
