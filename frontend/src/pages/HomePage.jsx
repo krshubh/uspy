@@ -19,10 +19,8 @@ import {
   MESSAGE_CHILD_API,
   PROFILE_MENU,
   LOGOUT_MENU,
-  CONTACT_US_MENU,
   PROFILE_URL,
   CONTACT_US_URL,
-  PRIVACY_POLICY_MENU,
   PRIVACY_POLICY_URL,
   GET_CHILDREN_API,
 } from "../constants";
@@ -57,11 +55,6 @@ class HomePage extends Component {
         id: 1,
         value: PROFILE_MENU,
       },
-      {
-        id: 3,
-        value: CONTACT_US_MENU,
-      },
-      { id: 4, value: PRIVACY_POLICY_MENU },
       {
         id: 2,
         value: LOGOUT_MENU,
@@ -106,16 +99,8 @@ class HomePage extends Component {
         this.props.navigation(PROFILE_URL);
         break;
       }
-      case CONTACT_US_MENU: {
-        this.props.navigation(CONTACT_US_URL);
-        break;
-      }
       case LOGOUT_MENU: {
         this.props.logoutUser();
-        break;
-      }
-      case PRIVACY_POLICY_MENU: {
-        this.props.navigation(PRIVACY_POLICY_URL);
         break;
       }
     }

@@ -89,60 +89,66 @@ class NavBar extends Component {
             <Typography variant="h6" noWrap component="div">
               {this.props.title}
             </Typography>
+            {/* If it's either contact-us or privacy policy page, don't show menu */}
             <Box sx={{ flexGrow: 1 }}></Box>
-            <Box
-              sx={{
-                flexGrow: 0,
-                display: "inline-flex",
-                alignItems: "center",
-              }}
-              onMouseEnter={(event) => this.handleMenuAnchor(event)}
-            >
-              <Typography
+            {this.props.title == CONTACT_US_PAGE ||
+            this.props.title == PRIVACY_POLICY_PAGE ? (
+              <Box />
+            ) : (
+              <Box
                 sx={{
-                  ml: 1,
+                  flexGrow: 0,
+                  display: "inline-flex",
+                  alignItems: "center",
                 }}
+                onMouseEnter={(event) => this.handleMenuAnchor(event)}
               >
-                {this.props.user ? this.props.user.firstname : ""}
-              </Typography>
-              {this.props.user && Boolean(this.state.menuAnchor) ? (
-                <ArrowDropUpIcon />
-              ) : this.props.user && !Boolean(this.state.menuAnchor) ? (
-                <ArrowDropUpIcon />
-              ) : (
-                <Box />
-              )}
-              {this.props.user ? (
-                <Menu
-                  sx={{ mt: "40px" }}
-                  id="menu-appbar"
-                  anchorEl={this.state.menuAnchor}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                <Typography
+                  sx={{
+                    ml: 1,
                   }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  autoFocus={false}
-                  open={Boolean(this.state.menuAnchor)}
-                  onClose={() => this.handleMenuAnchor(null)}
                 >
-                  {this.props.menu_items.map((menu) => (
-                    <MenuItem
-                      key={menu.id}
-                      onClick={() => this.handleMenuItemClicked(menu)}
-                    >
-                      <Typography textAlign="center">{menu.value}</Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              ) : (
-                <Box />
-              )}
-            </Box>
+                  {this.props.user ? this.props.user.firstname : ""}
+                </Typography>
+                {Boolean(this.state.menuAnchor) ? (
+                  <ArrowDropUpIcon />
+                ) : !Boolean(this.state.menuAnchor) ? (
+                  <ArrowDropDownIcon />
+                ) : (
+                  <Box />
+                )}
+                {this.props.user ? (
+                  <Menu
+                    sx={{ mt: "40px" }}
+                    id="menu-appbar"
+                    anchorEl={this.state.menuAnchor}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    autoFocus={false}
+                    open={Boolean(this.state.menuAnchor)}
+                    onClose={() => this.handleMenuAnchor(null)}
+                  >
+                    {this.props.menu_items.map((menu) => (
+                      <MenuItem
+                        key={menu.id}
+                        onClick={() => this.handleMenuItemClicked(menu)}
+                      >
+                        <Typography textAlign="center">{menu.value}</Typography>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                ) : (
+                  <Box />
+                )}
+              </Box>
+            )}
           </Toolbar>
         </Container>
       </this.NavBar>

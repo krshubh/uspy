@@ -127,11 +127,6 @@ class ProfilePage extends Component {
     ],
     menu_items: [
       {
-        id: 3,
-        value: CONTACT_US_MENU,
-      },
-      { id: 4, value: PRIVACY_POLICY_MENU },
-      {
         id: 2,
         value: LOGOUT_MENU,
       },
@@ -229,16 +224,8 @@ class ProfilePage extends Component {
   onMenuItemClick = (item) => {
     console.log("ProfilePage", "menu item clicked", item);
     switch (item.value) {
-      case CONTACT_US_MENU: {
-        this.props.navigation(CONTACT_US_URL);
-        break;
-      }
       case LOGOUT_MENU: {
         this.props.logoutUser();
-        break;
-      }
-      case PRIVACY_POLICY_MENU: {
-        this.props.navigation(PRIVACY_POLICY_URL);
         break;
       }
     }
