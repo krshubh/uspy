@@ -181,6 +181,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://uspy.in",
     "http://api.uspy.in",
+    "http://uspy.local",
+    "http://api.uspy.local",
     "http://uspy.in:3000",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
@@ -226,6 +228,7 @@ AUTH_USER_MODEL = 'backend.User'
 INTERNAL_IPS = [
     "127.0.0.1",
     "localhost",
+    "uspy.local"
 ]
 
 # setup email

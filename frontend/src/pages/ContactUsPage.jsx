@@ -36,7 +36,6 @@ class ContactUsPage extends Component {
         id: 1,
         value: PROFILE_MENU,
       },
-      { id: 4, value: PRIVACY_POLICY_MENU },
       {
         id: 2,
         value: LOGOUT_MENU,
@@ -102,10 +101,6 @@ class ContactUsPage extends Component {
       }
       case LOGOUT_MENU: {
         this.props.logoutUser();
-        break;
-      }
-      case PRIVACY_POLICY_MENU: {
-        this.props.navigation(PRIVACY_POLICY_URL);
         break;
       }
     }
