@@ -14,6 +14,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { HOME_URL } from "../constants";
 
 const SignupPage = (props) => {
   let { signUpUser, user } = useContext(AuthContext);
@@ -30,7 +31,7 @@ const SignupPage = (props) => {
     // If user is already logined then navigate to home page
     if (user) {
       console.log("redirect to home page");
-      navigate("/");
+      navigate(HOME_URL);
     }
   });
 

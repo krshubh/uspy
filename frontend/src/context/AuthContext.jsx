@@ -6,6 +6,7 @@ import {
   REFRESH_TOKEN_API,
   SIGN_UP_API,
   LOGIN_API,
+  HOME_URL,
 } from "../constants";
 
 const AuthContext = createContext();
@@ -47,7 +48,7 @@ export const AuthProvider = ({ children }) => {
       setAuthTokens(data.token);
       setUser(jwt_decode(data.token.access));
       localStorage.setItem("authTokens", JSON.stringify(data.token));
-      navigate("/");
+      navigate(HOME_URL);
     } else {
       alert("Something went wrong");
     }
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }) => {
       setAuthTokens(data.token);
       setUser(jwt_decode(data.token.access));
       localStorage.setItem("authTokens", JSON.stringify(data.token));
-      navigate("/");
+      navigate(HOME_URL);
     } else {
       alert("Something went wrong");
     }

@@ -29,7 +29,6 @@ ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
 #                 '0.0.0.0', 'uspy.in', '192.168.1.78']
 
-
 # Application definition
 
 CUSTOM_APPS = [
@@ -183,6 +182,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://uspy.local",
     "http://api.uspy.local",
     "http://uspy.in:3000",
+    "http://localhost:8080",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://192.168.1.78:3000",
