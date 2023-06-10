@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-oge1d!z&38^p-a@n1-43bv1yzqa*^-y3q5r7myq&41y7txmi_8
 DEBUG = True
 DEFAULT_FROM_EMAIL = 'support@upy.in'
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
-                 '0.0.0.0', 'uspy.in', '192.168.1.78']
+                 '0.0.0.0', 'uspy.in', '192.168.1.78', 'uspy.local']
 
 
 # Application definition
