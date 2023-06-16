@@ -188,7 +188,16 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://192.168.1.78:3000",
     "http://34.131.95.131:3000",
-    "https://34.131.95.131:3000"
+    "https://uspy.in",
+    "https://api.uspy.in",
+    "https://uspy.local",
+    "https://api.uspy.local",
+    "https://uspy.in:3000",
+    "https://localhost:8080",
+    "https://localhost:3000",
+    "https://127.0.0.1:3000",
+    "https://192.168.1.78:3000",
+    "https://34.131.95.131:3000",
 ]
 
 # CORS_ALLOWED_ORIGIN = ['*']

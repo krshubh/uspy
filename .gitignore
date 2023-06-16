@@ -98,3 +98,7 @@ frontend/html
 
 # database
 db.sqlite3
+=======
+
+# certificates
+certificates
