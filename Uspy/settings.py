@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import os
 from pathlib import Path
 from datetime import timedelta
 
@@ -20,14 +21,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-oge1d!z&38^p-a@n1-43bv1yzqa*^-y3q5r7myq&41y7txmi_8'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '"g0%H}]Us.g*y-ehlyv@b`mUV-DtQif3YTzHnna*1FYX7rf[k6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 DEFAULT_FROM_EMAIL = 'admin@uspy.in'
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
-#                 '0.0.0.0', 'uspy.in', '192.168.1.78']
+# ALLOWED_HOSTS = ['*']
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+# Set HSTS policy to be enforced for 1 year (recommended)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
+                '0.0.0.0', 'uspy.in', 'api.uspy.in', '192.168.1.78']
 
 # Application definition
 
