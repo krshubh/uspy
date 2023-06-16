@@ -13,7 +13,9 @@ frontend/build
 db.sqlite3
 
 # uspy
+certificates
 Uspy/__pycache__
 
 # others
 .DS_Store
+
