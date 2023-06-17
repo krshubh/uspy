@@ -15,6 +15,7 @@ from .views import ParentRequest, \
     ChildrenRequest, \
     ChildrenPending, ChildrenConfirmed,\
     ContactUsView
+from django.urls import path, include
 # from .views import get_parent_using_user_id, get_children_using_user_id
 
 urlpatterns = [
@@ -61,4 +62,10 @@ urlpatterns = [
 
     # mail us or contact us
     path('contact-us/', ContactUsView.as_view(), name="contact-us"),
+
+
+    # password reset
+    path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/password_reset/',
+    #      CustomPasswordResetView.as_view(), name='password_reset'),
 ]

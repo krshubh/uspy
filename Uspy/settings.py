@@ -21,7 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '"g0%H}]Us.g*y-ehlyv@b`mUV-DtQif3YTzHnna*1FYX7rf[k6')
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY', '"g0%H}]Us.g*y-ehlyv@b`mUV-DtQif3YTzHnna*1FYX7rf[k6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -34,8 +35,8 @@ SECURE_SSL_REDIRECT = True
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
-                '0.0.0.0', 'uspy.in', 'api.uspy.in', '192.168.1.78']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131', 'api.uspy.local',
+                 '0.0.0.0', 'uspy.in', 'api.uspy.in', '192.168.1.78']
 
 # Application definition
 
@@ -249,6 +250,7 @@ INTERNAL_IPS = [
 ]
 
 # setup email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtpout.secureserver.net'
 # EMAIL_PORT = 587
 # port for production
