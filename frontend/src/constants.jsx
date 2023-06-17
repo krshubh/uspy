@@ -38,6 +38,10 @@ export const MESSAGE_CHILD_API = HTTPS + HOST_NAME + "/message/children/";
 
 export const CONTACT_US_API = HTTPS + HOST_NAME + "/contact-us/";
 
+export const RESET_PASSWORD = HTTPS + HOST_NAME + "accounts/password_reset/";
+export const CONFIRM_RESET_PASSWORD =
+  HTTPS + HOST_NAME + "accounts/password_reset/confirm";
+
 // Constants
 export const PARENT_REQUEST = "parent_request";
 export const PARENT_PENDING = "parent_pending";

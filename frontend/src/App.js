@@ -13,6 +13,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ContactUsPage from "./pages/ContactUsPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import PageNotFound from "./pages/PageNotFound";
+import PasswordResetForm from "./pages/PasswordResetForm";
+import PasswordResetConfirmForm from "./pages/PasswordResetConfirmForm";
 
 const themeLight = createTheme({
   palette: {
@@ -52,6 +54,12 @@ class App extends React.Component {
               <Route
                 element={<PrivateRoute component={ProfilePage} redirect="/" />}
                 path="/profile"
+              />
+              {/* Password Reset */}
+              <Route path="/password-reset" element={<PasswordResetForm />} />
+              <Route
+                path="/password-reset/confirm"
+                component={<PasswordResetConfirmForm />}
               />
               <Route element={<PageNotFound />} path="*" />
             </Routes>
