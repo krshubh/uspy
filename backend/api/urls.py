@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -14,7 +14,9 @@ from .views import ParentRequest, \
     ParentConfirmed, \
     ChildrenRequest, \
     ChildrenPending, ChildrenConfirmed,\
-    ContactUsView
+    ContactUsView,\
+    ResetPasswordView,\
+    PasswordResetConfirmView
 from django.urls import path, include
 # from .views import get_parent_using_user_id, get_children_using_user_id
 
@@ -61,11 +63,17 @@ urlpatterns = [
     path('contact/', ContactView.as_view(), name="contact"),
 
     # mail us or contact us
+    path('contact-us', ContactUsView.as_view(), name="contact-us"),
     path('contact-us/', ContactUsView.as_view(), name="contact-us"),
 
 
     # password reset
-    path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/password_reset/',
-    #      CustomPasswordResetView.as_view(), name='password_reset'),
+    path('accounts/password_reset/',
+         ResetPasswordView.as_view(), name="reset-password"),
+    path('accounts/password_reset',
+         ResetPasswordView.as_view(), name="reset-password"),
+    path('accounts/password_reset/confirm/<str:token>/',
+         PasswordResetConfirmView.as_view(), name='reset-password-confirm'),
+    path('accounts/password_reset/confirm/<str:token>',
+         PasswordResetConfirmView.as_view(), name='reset-password-confirm'),
 ]

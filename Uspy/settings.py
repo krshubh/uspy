@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-import os
+import re
 from pathlib import Path
 from datetime import timedelta
 
@@ -25,18 +25,10 @@ SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY', '"g0%H}]Us.g*y-ehlyv@b`mUV-DtQif3YTzHnna*1FYX7rf[k6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-DEFAULT_FROM_EMAIL = 'admin@uspy.in'
-# ALLOWED_HOSTS = ['*']
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-# Set HSTS policy to be enforced for 1 year (recommended)
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131', 'api.uspy.local',
-                 '0.0.0.0', 'uspy.in', 'api.uspy.in', '192.168.1.78']
+DEBUG = True
+DEFAULT_FROM_EMAIL = 'support@upy.in'
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
+                 '0.0.0.0', 'uspy.in', '192.168.1.78', 'uspy.local']
 
 # Application definition
 
@@ -118,7 +110,7 @@ ROOT_URLCONF = 'Uspy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -196,17 +188,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://192.168.1.78:3000",
+    "http://192.168.1.78:8000",
     "http://34.131.95.131:3000",
-    "https://uspy.in",
-    "https://api.uspy.in",
-    "https://uspy.local",
-    "https://api.uspy.local",
-    "https://uspy.in:3000",
-    "https://localhost:8080",
-    "https://localhost:3000",
-    "https://127.0.0.1:3000",
-    "https://192.168.1.78:3000",
-    "https://34.131.95.131:3000",
+    "https://34.131.95.131:3000"
 ]
 
 # CORS_ALLOWED_ORIGIN = ['*']
@@ -250,15 +234,16 @@ INTERNAL_IPS = [
 ]
 
 # setup email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtpout.secureserver.net'
 # EMAIL_PORT = 587
 # port for production
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'admin@uspy.in'
 EMAIL_HOST_PASSWORD = 'Uspy@123!'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
+EMAIL_USE_SSL = False
 # EMAIL_SSL_CERTFILE = None
 # EMAIL_TIMEOUT = None
 

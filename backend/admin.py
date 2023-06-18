@@ -10,17 +10,18 @@ class UserAdminConfig(UserAdmin):
     list_filter = ('email', 'firstname', 'lastname', 'is_admin',
                    'is_active', 'is_staff', 'is_superuser')
     ordering = ('-updated_at',)
-    list_display = ('email', 'password', 'firstname', 'lastname',
+    list_display = ('email', 'password', 'firstname', 'lastname', 'forget_password_token',
                     'is_admin', 'is_active', 'is_staff', 'is_superuser')
     fieldsets = (
         ('User Credentials', {'fields': ("email", "password")}),
         ('Personal info', {'fields': ('firstname', 'lastname')}),
+        ('Reset password info', {'fields': ('forget_password_token',)}),
         ('Permissions', {'fields': ('is_admin',
          'is_active', 'is_staff', 'is_superuser')}),
     )
     add_fieldsets = (
         (None, {
-            'fields': ('email', 'firstname', 'lastname', 'password1', 'password2', 'is_admin', 'is_active', 'is_staff', 'is_superuser')}
+            'fields': ('email', 'firstname', 'lastname', 'forget_password_token', 'password1', 'password2', 'is_admin', 'is_active', 'is_staff', 'is_superuser')}
          ),
     )
 

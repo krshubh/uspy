@@ -59,6 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name='email_address', max_length=150, unique=True)
     firstname = models.CharField(max_length=150, blank=True)
     lastname = models.CharField(max_length=150, blank=True)
+    forget_password_token = models.CharField(max_length=150, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_admin = models.BooleanField(default=False)

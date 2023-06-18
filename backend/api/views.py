@@ -1,3 +1,6 @@
+import uuid
+import json
+import logging
 from django.http import JsonResponse, HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -20,8 +23,6 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.views import APIView
-import logging
-import json
 from json import JSONEncoder
 from rest_framework import status
 from rest_framework import filters
@@ -31,6 +32,7 @@ from backend.api.renderers import UserRenderer
 from rest_framework.pagination import PageNumberPagination
 from backend.api.pagination import CustomNumberPagination
 from ..utils import send_message
+from .helpers import send_forgot_password_mail
 
 logger = logging.getLogger(__name__)
 
@@ -697,3 +699,69 @@ class ChildrenConfirmed(APIView):
         children.save()
         children_serializer = ChildrenSerializer(children)
         return JsonResponse(children_serializer.data, status=status.HTTP_200_OK, safe=False)
+
+
+class ResetPasswordView(APIView):
+
+    def post(self, request, format=None):
+        token = str(uuid.uuid4())
+        if 'email' in request.data and request.data['email'] is not None and len(request.data['email']) != 0:
+            email = request.data['email']
+        else:
+            return JsonResponse({"message": "Enter valid email."},
+                                status=status.HTTP_200_OK)
+        try:
+            user = User.objects.get(email=email)
+        except:
+            return JsonResponse({"message": "Email not found"},
+                                status=status.HTTP_200_OK)
+        user.forget_password_token = token
+        user.save()
+        user_name = user.firstname
+        password_reset_link = str(request.scheme) + "://" + \
+            '.'.join(str(request.get_host()).split('.')[1:]) + \
+            "/password-reset/confirm/" + token
+        email_sent = send_forgot_password_mail(
+            user_name=user_name, email=email, password_reset_link=password_reset_link)
+        if email_sent:
+            return JsonResponse({"message": "Thanks! If there's an account associated with this email, we'll\
+              send the password reset instructions immediately."},
+                                status=status.HTTP_200_OK, safe=False)
+        else:
+            return JsonResponse({"message": "Some Error occured"},
+                                status=status.HTTP_304_NOT_MODIFIED, safe=False)
+
+
+class PasswordResetConfirmView(APIView):
+
+    def get(self, request, token, format=None):
+        # token = request.GET['token']
+        print("token", token)
+        try:
+            user = User.objects.get(forget_password_token=token)
+        except:
+            return JsonResponse({"message": "Invalid token"},
+                                status=status.HTTP_403_FORBIDDEN)
+        print("user", user)
+        return JsonResponse({"message": "Reset password link has been sent on email"},
+                            status=status.HTTP_200_OK, safe=False)
+
+    def post(self, request, token, format=None):
+        # token = request.GET['token']
+        print("token", token)
+        try:
+            user = User.objects.get(forget_password_token=token)
+        except:
+            return JsonResponse({"message": "Invalid token"},
+                                status=status.HTTP_403_FORBIDDEN)
+
+        if 'password' in request.data and request.data['password'] is not None and len(request.data['password']) != 0:
+            new_password = request.data['password']
+        else:
+            return JsonResponse({"message": "Enter valid Password"},
+                                status=status.HTTP_200_OK)
+        user.set_password(new_password)
+        user.save()
+        print("user", user)
+        return JsonResponse({"message": "Your password has been reset. Please login"},
+                            status=status.HTTP_200_OK, safe=False)

@@ -1,46 +1,46 @@
 // export const HOST_NAME = "192.168.1.78";
-// export const HOST_NAME = "localhost:8000";
-export const HOST_NAME = "api.uspy.in";
+export const PORT = "8000";
+// export const HOST_NAME = "localhost";
+// export const HOST_NAME = "34.131.95.131";
 // export const HOST_NAME = "34.126.219.211";
-// export const PORT = "8000";
-// Api
-const HTTPS = "https://";
-export const TOKEN_API = HTTPS + HOST_NAME + "/token/";
-export const REFRESH_TOKEN_API = HTTPS + HOST_NAME + "/token/refresh/";
-export const SIGN_UP_API = HTTPS + HOST_NAME + "/signup/";
-export const LOGIN_API = HTTPS + HOST_NAME + "/login/";
-export const PROFILE_API = HTTPS + HOST_NAME + "/profile/";
 
-export const CHANGE_PASSWORD_API = HTTPS + HOST_NAME + "/change_password/";
-export const USER_SEARCH = HTTPS + HOST_NAME + "/user?search=";
+// Api
+const HTTP_PROTOCOL = "https://";
+const HOST_NAME = "api.uspy.in";
+export const BASE_URL = HTTP_PROTOCOL + HOST_NAME;
+
+export const TOKEN_API = BASE_URL + "/token/";
+export const REFRESH_TOKEN_API = BASE_URL + "/token/refresh/";
+export const SIGN_UP_API = BASE_URL + "/signup/";
+export const LOGIN_API = BASE_URL + "/login/";
+export const PROFILE_API = BASE_URL + "/profile/";
+
+export const CHANGE_PASSWORD_API = BASE_URL + "/change_password/";
+export const USER_SEARCH = BASE_URL + "/user?search=";
 
 // PARENT
-export const GET_PARENT_API = HTTPS + HOST_NAME + "/user/parent/";
-export const PARENT_REQUEST_API = HTTPS + HOST_NAME + "/user/parent/request/";
-export const PARENT_PENDING_API = HTTPS + HOST_NAME + "/user/parent/pending/";
-export const PARENT_CONFIRMED_API =
-  HTTPS + HOST_NAME + "/user/parent/confirmed/";
+export const GET_PARENT_API = BASE_URL + "/user/parent/";
+export const PARENT_REQUEST_API = BASE_URL + "/user/parent/request/";
+export const PARENT_PENDING_API = BASE_URL + "/user/parent/pending/";
+export const PARENT_CONFIRMED_API = BASE_URL + "/user/parent/confirmed/";
 
 // CHILDREN
-export const GET_CHILDREN_API = HTTPS + HOST_NAME + "/user/children/";
-export const CHILDREN_REQUEST_API =
-  HTTPS + HOST_NAME + "/user/children/request/";
-export const CHILDREN_PENDING_API =
-  HTTPS + HOST_NAME + "/user/children/pending/";
-export const CHILDREN_CONFIRMED_API =
-  HTTPS + HOST_NAME + "/user/children/confirmed/";
+export const GET_CHILDREN_API = BASE_URL + "/user/children/";
+export const CHILDREN_REQUEST_API = BASE_URL + "/user/children/request/";
+export const CHILDREN_PENDING_API = BASE_URL + "/user/children/pending/";
+export const CHILDREN_CONFIRMED_API = BASE_URL + "/user/children/confirmed/";
 
-export const CALL_LOG_API = HTTPS + HOST_NAME + "/call_log/";
-export const CALL_LOG_CHILD_API = HTTPS + HOST_NAME + "/call_log/children/";
+export const CALL_LOG_API = BASE_URL + "/call_log/";
+export const CALL_LOG_CHILD_API = BASE_URL + "/call_log/children/";
 
-export const MESSAGE_API = HTTPS + HOST_NAME + "/message/";
-export const MESSAGE_CHILD_API = HTTPS + HOST_NAME + "/message/children/";
+export const MESSAGE_API = BASE_URL + "/message/";
+export const MESSAGE_CHILD_API = BASE_URL + "/message/children/";
 
-export const CONTACT_US_API = HTTPS + HOST_NAME + "/contact-us/";
+export const CONTACT_US_API = BASE_URL + "/contact-us/";
 
-export const RESET_PASSWORD = HTTPS + HOST_NAME + "accounts/password_reset/";
-export const CONFIRM_RESET_PASSWORD =
-  HTTPS + HOST_NAME + "accounts/password_reset/confirm";
+export const RESET_PASSWORD_API = BASE_URL + "/accounts/password_reset";
+export const CONFIRM_RESET_PASSWORD_API =
+  BASE_URL + "/accounts/password_reset/confirm/";
 
 // Constants
 export const PARENT_REQUEST = "parent_request";
@@ -68,4 +68,5 @@ export const PRIVACY_POLICY_URL = "/privacy-policy";
 export const MAIN_URL = "/";
 export const HOME_URL = "/dashboard";
 export const LOGIN_URL = "/login";
+export const RESET_PASSWORD = "/password-reset";
 export const SIGN_UP_URL = "/signup";
