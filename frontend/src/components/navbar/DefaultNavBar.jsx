@@ -48,7 +48,7 @@ class DefaultNavBar extends Component {
   };
 
   componentDidMount() {
-    console.log("user", this.props.user);
+    // console.log("user", this.props.user);
   }
 
   render() {

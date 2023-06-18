@@ -28,8 +28,9 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 DEFAULT_FROM_EMAIL = 'support@upy.in'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131',
-                 '0.0.0.0', 'uspy.in', '192.168.1.78', 'uspy.local']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131', 'api.uspy.local',
+                 '0.0.0.0', 'uspy.in', '192.168.1.78', 'uspy.local',
+                 'api.uspy.in',]
 
 # Application definition
 
