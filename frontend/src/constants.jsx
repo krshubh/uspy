@@ -1,52 +1,46 @@
-export const HOST_NAME = "192.168.1.78";
+// export const HOST_NAME = "192.168.1.78";
+export const PORT = "8000";
 // export const HOST_NAME = "localhost";
 // export const HOST_NAME = "34.131.95.131";
 // export const HOST_NAME = "34.126.219.211";
-export const PORT = "8000";
-// Api
-export const TOKEN_API = "http://" + HOST_NAME + ":" + PORT + "/api/token/";
-export const REFRESH_TOKEN_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/token/refresh/";
-export const SIGN_UP_API = "http://" + HOST_NAME + ":" + PORT + "/api/signup/";
-export const LOGIN_API = "http://" + HOST_NAME + ":" + PORT + "/api/login/";
-export const PROFILE_API = "http://" + HOST_NAME + ":" + PORT + "/api/profile/";
 
-export const CHANGE_PASSWORD_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/change_password/";
-export const USER_SEARCH =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user?search=";
+// Api
+const HTTP_PROTOCOL = "http://";
+const HOST_NAME = "api.uspy.local";
+export const BASE_URL = HTTP_PROTOCOL + HOST_NAME;
+
+export const TOKEN_API = BASE_URL + "/token/";
+export const REFRESH_TOKEN_API = BASE_URL + "/token/refresh/";
+export const SIGN_UP_API = BASE_URL + "/signup/";
+export const LOGIN_API = BASE_URL + "/login/";
+export const PROFILE_API = BASE_URL + "/profile/";
+
+export const CHANGE_PASSWORD_API = BASE_URL + "/change_password/";
+export const USER_SEARCH = BASE_URL + "/user?search=";
 
 // PARENT
-export const GET_PARENT_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/";
-export const PARENT_REQUEST_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/request/";
-export const PARENT_PENDING_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/pending/";
-export const PARENT_CONFIRMED_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/parent/confirmed/";
+export const GET_PARENT_API = BASE_URL + "/user/parent/";
+export const PARENT_REQUEST_API = BASE_URL + "/user/parent/request/";
+export const PARENT_PENDING_API = BASE_URL + "/user/parent/pending/";
+export const PARENT_CONFIRMED_API = BASE_URL + "/user/parent/confirmed/";
 
 // CHILDREN
-export const GET_CHILDREN_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/";
-export const CHILDREN_REQUEST_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/request/";
-export const CHILDREN_PENDING_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/pending/";
-export const CHILDREN_CONFIRMED_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/user/children/confirmed/";
+export const GET_CHILDREN_API = BASE_URL + "/user/children/";
+export const CHILDREN_REQUEST_API = BASE_URL + "/user/children/request/";
+export const CHILDREN_PENDING_API = BASE_URL + "/user/children/pending/";
+export const CHILDREN_CONFIRMED_API = BASE_URL + "/user/children/confirmed/";
 
-export const CALL_LOG_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/call_log/";
-export const CALL_LOG_CHILD_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/call_log/children/";
+export const CALL_LOG_API = BASE_URL + "/call_log/";
+export const CALL_LOG_CHILD_API = BASE_URL + "/call_log/children/";
 
-export const MESSAGE_API = "http://" + HOST_NAME + ":" + PORT + "/api/message/";
-export const MESSAGE_CHILD_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/message/children/";
+export const MESSAGE_API = BASE_URL + "/message/";
+export const MESSAGE_CHILD_API = BASE_URL + "/message/children/";
 
-export const CONTACT_US_API =
-  "http://" + HOST_NAME + ":" + PORT + "/api/contact-us/";
+export const CONTACT_US_API = BASE_URL + "/contact-us/";
+
+export const RESET_PASSWORD_API = BASE_URL + "/accounts/password_reset";
+export const CONFIRM_RESET_PASSWORD_API =
+  BASE_URL + "/accounts/password_reset/confirm/";
 
 // Constants
 export const PARENT_REQUEST = "parent_request";
@@ -74,4 +68,5 @@ export const PRIVACY_POLICY_URL = "/privacy-policy";
 export const MAIN_URL = "/";
 export const HOME_URL = "/dashboard";
 export const LOGIN_URL = "/login";
+export const RESET_PASSWORD = "/password-reset";
 export const SIGN_UP_URL = "/signup";
