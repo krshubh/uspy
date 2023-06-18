@@ -36,19 +36,6 @@ class App extends React.Component {
                 element={<PrivateRoute component={ProfilePage} redirect="/" />}
                 path="/profile"
               />
-              {/* Password Reset */}
-              <Route path="/password-reset" element={<PasswordResetForm />} />
-              <Route
-                path="/password-reset/confirm"
-                component={<PasswordResetConfirmForm />}
-              />
-              <Route element={<PageNotFound />} path="*" />
-              {/* Password Reset */}
-              <Route path="/password-reset" element={<PasswordResetPage />} />
-              <Route
-                path="/password-reset/confirm/:token"
-                element={<PasswordResetConfirmPage />}
-              />
               <Route element={<PageNotFound />} path="*" />
               {/* Password Reset */}
               <Route path="/password-reset" element={<PasswordResetPage />} />
@@ -66,11 +53,3 @@ class App extends React.Component {
 }
 
 export default App;
-// export default function (props) {
-//   const [light, setLight] = React.useState(true);
-//   return (
-//     <ThemeProvider theme={light ? themeLight : themeDark}>
-//       <CssBaseline /> <App />{" "}
-//     </ThemeProvider>
-//   );
-// }
