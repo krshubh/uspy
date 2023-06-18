@@ -257,8 +257,9 @@ EMAIL_HOST_USER = 'admin@uspy.in'
 EMAIL_HOST_PASSWORD = 'Uspy@123!'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-# EMAIL_SSL_CERTFILE = None
+EMAIL_USE_SSL = True
+EMAIL_SSL_CERTFILE = os.path.join(BASE_DIR, 'certificates', 'cert.pem')
+EMAIL_SSL_KEYFILE = os.path.join(BASE_DIR, 'certificates', 'key.pem')
 # EMAIL_TIMEOUT = None
 # Email report for 500
 ADMINS = [("Admin", "admin@uspy.in"), ("Support", "support@uspy.in")]
