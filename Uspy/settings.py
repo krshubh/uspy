@@ -248,6 +248,8 @@ INTERNAL_IPS = [
 # setup email
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtpout.secureserver.net'
+SERVER_EMAIL = 'support@uspy.in'
+DEFAULT_FROM_EMAIL = 'support@upy.in'
 # EMAIL_PORT = 587
 # port for production
 EMAIL_PORT = 465
@@ -258,5 +260,14 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 # EMAIL_SSL_CERTFILE = None
 # EMAIL_TIMEOUT = None
+# Email report for 500
+ADMINS = [("Admin", "admin@uspy.in"), ("Support", "support@uspy.in")]
+# Email report for 404
+MANAGERS = [("Admin", "admin@uspy.in"), ("Support", "support@uspy.in")]
 
 APPEND_SLASH = False
+
+IGNORABLE_404_URLS = [
+    re.compile(r"\.(php|cgi)$"),
+    re.compile(r"^/phpmyadmin/"),
+]
