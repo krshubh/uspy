@@ -133,8 +133,11 @@ WSGI_APPLICATION = 'Uspy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'uspy-mysql',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '34.131.164.252'
     }
 }
 
