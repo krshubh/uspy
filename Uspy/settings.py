@@ -22,27 +22,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY', '"g0%H}]Us.g*y-ehlyv@b`mUV-DtQif3YTzHnna*1FYX7rf[k6')
+SECRET_KEY = 'django-insecure-oge1d!z&38^p-a@n1-43bv1yzqa*^-y3q5r7myq&41y7txmi_8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+DEBUG = True
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
+# Set HSTS policy to be enforced for 1 year (recommended)
 SECURE_HSTS_SECONDS = 31536000  # 1 year
-DEFAULT_FROM_EMAIL = 'support@upy.in'
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131', 'api.uspy.local',
-#                  '0.0.0.0', 'uspy.in', '192.168.1.78', 'uspy.local',
-#                  'api.uspy.in',]
-ALLOWED_HOSTS = ['*']
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131', 'api.uspy.local',
+                 '0.0.0.0', 'uspy.in', '192.168.1.78', 'uspy.local',
+                 'api.uspy.in',]
+# ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 CUSTOM_APPS = [
-    'django_extensions',
     'corsheaders',
     'rest_framework',
     'backend.apps.BackendConfig',
@@ -64,6 +62,7 @@ INSTALLED_APPS = CUSTOM_APPS + SYSTEM_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.common.BrokenLinkEmailsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -241,7 +240,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # constants
-HOST_NAME = 'uspy.in'
+HOST_NAME = 'localhost'
 
 AUTH_USER_MODEL = 'backend.User'
 
@@ -260,15 +259,15 @@ INTERNAL_IPS = [
 EMAIL_HOST = 'smtpout.secureserver.net'
 SERVER_EMAIL = 'support@uspy.in'
 DEFAULT_FROM_EMAIL = 'support@upy.in'
-# EMAIL_PORT = 587
+EMAIL_PORT = 587
 # port for production
-EMAIL_PORT = 465
+# EMAIL_PORT = 465
 EMAIL_HOST_USER = 'admin@uspy.in'
 EMAIL_HOST_PASSWORD = 'Uspy@123!'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-EMAIL_USE_SSL = True
-EMAIL_SSL_CERTFILE = os.path.join(BASE_DIR, 'certificates', 'cert.pem')
-EMAIL_SSL_KEYFILE = os.path.join(BASE_DIR, 'certificates', 'key.pem')
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+# EMAIL_SSL_CERTFILE = None
 # EMAIL_TIMEOUT = None
 # Email report for 500
 ADMINS = [("Admin", "admin@uspy.in"), ("Support", "support@uspy.in")]
