@@ -5,7 +5,7 @@ export const PORT = "8000";
 // export const HOST_NAME = "34.126.219.211";
 
 // Api
-const HTTP_PROTOCOL = "https://";
+const HTTP_PROTOCOL = "http://";
 const HOST_NAME = "api.uspy.in";
 export const BASE_URL = HTTP_PROTOCOL + HOST_NAME;
 
