@@ -34,9 +34,10 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 DEFAULT_FROM_EMAIL = 'support@upy.in'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131', 'api.uspy.local',
-                 '0.0.0.0', 'uspy.in', '192.168.1.78', 'uspy.local',
-                 'api.uspy.in',]
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131', 'api.uspy.local',
+#                  '0.0.0.0', 'uspy.in', '192.168.1.78', 'uspy.local',
+#                  'api.uspy.in',]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
