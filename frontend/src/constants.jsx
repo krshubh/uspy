@@ -72,6 +72,6 @@ export const RESET_PASSWORD = "/password-reset";
 export const SIGN_UP_URL = "/signup";
 
 // HOTJAR
-HOTJAR_HJID = 3548272
-HOTJAR_HJSV = 6
+export const HOTJAR_HJID = 3548272
+export const HOTJAR_HJSV = 6
 

@@ -41,6 +41,9 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+# MixPanel
+MIXPANEL_API_TOKEN = 'e963326114997c2ab37f59babee4f22e'
+
 CUSTOM_APPS = [
     'django_extensions',
     'corsheaders',
