@@ -70,3 +70,8 @@ export const HOME_URL = "/dashboard";
 export const LOGIN_URL = "/login";
 export const RESET_PASSWORD = "/password-reset";
 export const SIGN_UP_URL = "/signup";
+
+// HOTJAR
+HOTJAR_HJID = 3548272
+HOTJAR_HJSV = 6
+
