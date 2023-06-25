@@ -51,6 +51,7 @@ CUSTOM_APPS = [
     'backend.apps.BackendConfig',
     'rest_framework_simplejwt.token_blacklist',
     "debug_toolbar",
+    "analytical",
 ]
 
 SYSTEM_APPS = [
