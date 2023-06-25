@@ -18,6 +18,8 @@ import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import { CONTACT_US_URL, LOGIN_URL, PRIVACY_POLICY_URL } from "../constants";
 
+
+
 function Copyright(props) {
   return (
     <Typography
@@ -299,3 +301,5 @@ export default function MainPage() {
     </ThemeProvider>
   );
 }
+
+
