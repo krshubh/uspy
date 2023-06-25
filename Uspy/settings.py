@@ -38,6 +38,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '34.131.95.131', 'api.uspy.local',
 
 # Application definition
 
+# MixPanel
+MIXPANEL_API_TOKEN = 'e963326114997c2ab37f59babee4f22e'
+
 CUSTOM_APPS = [
     'corsheaders',
     'rest_framework',

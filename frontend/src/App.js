@@ -56,11 +56,9 @@ class App extends React.Component {
 }
 
 export default function (props) {
-  const navigation = useNavigate();
-
   useEffect(() => {
     hotjar.initialize(HOTJAR_HJID, HOTJAR_HJSV);
   }, []);
 
-  return <App {...props} navigation={navigation} />;
+  return <App {...props} />;
 }
