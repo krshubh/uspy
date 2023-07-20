@@ -200,6 +200,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://uspy.in",
+    "http://api.uspy.in",
+    "https://uspy.in",
+    "https://api.uspy.in",
+]
+
 CORS_ALLOWED_ORIGINS = [
     "http://uspy.in",
     "http://api.uspy.in",
