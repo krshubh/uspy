@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY', '"g0%H}]Us.g*y-ehlyv@b`mUV-DtQif3YTzHnna*1FYX7rf[k6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
